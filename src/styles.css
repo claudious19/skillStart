@@ -1,8 +1,31 @@
 :root {
   color-scheme: light;
   font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #f4f7fb;
-  color: #14213d;
+  --color-primary: #4f46e5;
+  --color-secondary: #14b8a6;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-border: #cbd5e1;
+  --color-muted: #e2e8f0;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 *,
@@ -19,9 +42,17 @@ body {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at top, rgba(20, 52, 164, 0.08), transparent 30%),
-    #f4f7fb;
+    linear-gradient(180deg, rgba(79, 70, 229, 0.04), transparent 18rem),
+    var(--color-background);
   color: inherit;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }
 
 button,
@@ -33,4 +64,97 @@ select {
 
 a {
   color: inherit;
+}
+
+.ui-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ui-button--primary {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.ui-button--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.ui-input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.ui-badge,
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.status-badge--draft {
+  background: rgba(71, 85, 105, 0.1);
+  color: #475569;
+}
+
+.status-badge--pending,
+.status-badge--needs-changes {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+}
+
+.status-badge--approved {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.status-badge--rejected {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.role-accent--candidate {
+  border-color: rgba(20, 184, 166, 0.28);
+}
+
+.role-accent--company {
+  border-color: rgba(79, 70, 229, 0.28);
+}
+
+.role-accent--admin {
+  border-color: rgba(71, 85, 105, 0.28);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(79, 70, 229, 0.45);
+  outline-offset: 2px;
 }
