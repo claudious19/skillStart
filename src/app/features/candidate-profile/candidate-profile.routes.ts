@@ -1,0 +1,45 @@
+import { Routes } from '@angular/router';
+
+const loadPlaceholder = () =>
+  import('../../shared/components/feature-placeholder-page/feature-placeholder-page.component').then(
+    (module) => module.FeaturePlaceholderPageComponent,
+  );
+
+export const CANDIDATE_DASHBOARD_ROUTES: Routes = [
+  {
+    path: '',
+    loadComponent: loadPlaceholder,
+    data: {
+      section: 'Candidate',
+      title: 'Kandidaten-Dashboard',
+      description:
+        'Die geschuetzte Route steht. Inhalte und Kennzahlen folgen erst, wenn Auth und Profil-Features implementiert werden.',
+    },
+  },
+];
+
+export const CANDIDATE_PROFILE_ROUTES: Routes = [
+  {
+    path: '',
+    loadComponent: loadPlaceholder,
+    data: {
+      section: 'Candidate Profile',
+      title: 'Kandidatenprofil',
+      description:
+        'Der Profilbereich ist strukturell angelegt. Formularfelder, Speicherung und Review-Status kommen in den spaeteren Profil-Prompts.',
+    },
+  },
+];
+
+export const CANDIDATE_APPLICATION_ROUTES: Routes = [
+  {
+    path: '',
+    loadComponent: loadPlaceholder,
+    data: {
+      section: 'Candidate',
+      title: 'Bewerbungen',
+      description:
+        'Die Bewerbungs-Route ist vorbereitet und kann spaeter an Firestore-Daten und Statuslogik angebunden werden.',
+    },
+  },
+];
