@@ -11,7 +11,7 @@ export const COMPANY_PROFILE_ROUTES: Routes = [
       section: 'Company Profile',
       title: 'Unternehmensprofil',
       description:
-        'Die Profilroute fuer Unternehmen ist vorbereitet. Eingabefelder, Review-Workflow und Firestore-Anbindung folgen spaeter.',
+        'Die Profilroute fuer Unternehmen ist vorbereitet. Eingabefelder, Review-Workflow und die temporaere Demo-Datenhaltung folgen spaeter.',
     },
   },
 ];

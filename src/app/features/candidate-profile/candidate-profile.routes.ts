@@ -39,7 +39,7 @@ export const CANDIDATE_APPLICATION_ROUTES: Routes = [
       section: 'Candidate',
       title: 'Bewerbungen',
       description:
-        'Die Bewerbungs-Route ist vorbereitet und kann spaeter an Firestore-Daten und Statuslogik angebunden werden.',
+        'Die Bewerbungs-Route ist vorbereitet und kann spaeter an die temporaere Demo-Datenhaltung und Statuslogik angebunden werden.',
     },
   },
 ];

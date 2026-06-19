@@ -1,5 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
-
+import { AppTimestamp } from './app-timestamp.type';
 import { ReviewStatus } from './review-status.type';
 
 export interface CompanyProfile {
@@ -12,6 +11,6 @@ export interface CompanyProfile {
   description: string;
   reviewStatus: ReviewStatus;
   reviewComment?: string;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: AppTimestamp;
+  updatedAt: AppTimestamp;
 }

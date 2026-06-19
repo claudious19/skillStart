@@ -1,51 +1,36 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  browserLocalPersistence,
-  sendPasswordResetEmail,
-  setPersistence,
-  signInWithEmailAndPassword,
-  signOut,
-  User,
-  onAuthStateChanged,
-} from 'firebase/auth';
-import { Observable, firstValueFrom, shareReplay } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
-import { FIREBASE_AUTH } from '../../firebase/firebase.tokens';
+import { MockDatabaseService } from './mock-database.service';
+
+export interface AuthSessionUser {
+  uid: string;
+  email: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly auth = inject(FIREBASE_AUTH);
-  private readonly persistenceReady = setPersistence(this.auth, browserLocalPersistence);
+  private readonly mockDatabase = inject(MockDatabaseService);
 
-  readonly authState$: Observable<User | null> = new Observable<User | null>((subscriber) => {
-    const unsubscribe = onAuthStateChanged(
-      this.auth,
-      (user) => subscriber.next(user),
-      (error) => subscriber.error(error),
-    );
+  readonly authState$: Observable<AuthSessionUser | null> = this.mockDatabase.authState$;
 
-    return unsubscribe;
-  }).pipe(shareReplay({ bufferSize: 1, refCount: true }));
-
-  get currentUser(): User | null {
-    return this.auth.currentUser;
+  get currentUser(): AuthSessionUser | null {
+    return this.mockDatabase.currentSession;
   }
 
-  waitForAuthState(): Promise<User | null> {
+  waitForAuthState(): Promise<AuthSessionUser | null> {
     return firstValueFrom(this.authState$);
   }
 
-  async login(email: string, password: string): Promise<User> {
-    await this.persistenceReady;
-    const credential = await signInWithEmailAndPassword(this.auth, email, password);
-    return credential.user;
+  async login(email: string, password: string): Promise<AuthSessionUser> {
+    return this.mockDatabase.login(email, password);
   }
 
   async logout(): Promise<void> {
-    await signOut(this.auth);
+    await this.mockDatabase.logout();
   }
 
   async resetPassword(email: string): Promise<void> {
-    await sendPasswordResetEmail(this.auth, email);
+    await this.mockDatabase.resetPassword(email);
   }
 }

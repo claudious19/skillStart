@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FirebaseError } from 'firebase/app';
 
 import { AuthFlowService } from '../../../../core/services/auth-flow.service';
+import { MockAuthError } from '../../../../core/services/mock-auth.error';
 
 @Component({
   selector: 'app-company-register-page',
@@ -47,7 +47,7 @@ export class CompanyRegisterPageComponent {
   }
 
   private getErrorMessage(error: unknown): string {
-    if (error instanceof FirebaseError) {
+    if (error instanceof MockAuthError) {
       switch (error.code) {
         case 'auth/email-already-in-use':
           return 'Mit dieser E-Mail existiert bereits ein Konto.';

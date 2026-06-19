@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { AppTimestamp } from './app-timestamp.type';
 
 export interface JobApplication {
   candidateId: string;
@@ -6,6 +6,6 @@ export interface JobApplication {
   jobPostId: string;
   status: 'submitted' | 'viewed' | 'rejected' | 'invited' | 'withdrawn';
   message?: string;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: AppTimestamp;
+  updatedAt: AppTimestamp;
 }

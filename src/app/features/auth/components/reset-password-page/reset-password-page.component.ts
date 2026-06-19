@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { FirebaseError } from 'firebase/app';
 
 import { AuthFlowService } from '../../../../core/services/auth-flow.service';
+import { MockAuthError } from '../../../../core/services/mock-auth.error';
 
 @Component({
   selector: 'app-reset-password-page',
@@ -35,7 +35,7 @@ export class ResetPasswordPageComponent {
 
     try {
       await this.authFlowService.resetPassword(this.form.getRawValue().email);
-      this.successMessage.set('Wenn ein Konto mit dieser E-Mail existiert, wurde eine Reset-Mail gesendet.');
+      this.successMessage.set('Die Adresse wurde geprueft. Im Demo-Modus werden keine echten Reset-Mails versendet.');
     } catch (error) {
       this.errorMessage.set(this.getErrorMessage(error));
     } finally {
@@ -44,7 +44,7 @@ export class ResetPasswordPageComponent {
   }
 
   private getErrorMessage(error: unknown): string {
-    if (error instanceof FirebaseError && error.code === 'auth/invalid-email') {
+    if (error instanceof MockAuthError && error.code === 'auth/invalid-email') {
       return 'Bitte gib eine gueltige E-Mail-Adresse ein.';
     }
 
