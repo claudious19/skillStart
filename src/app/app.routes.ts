@@ -17,6 +17,13 @@ export const routes: Routes = [
       import('./features/auth/auth.routes').then((module) => module.AUTH_ROUTES),
   },
   {
+    path: 'account-error',
+    loadComponent: () =>
+      import('./features/auth/components/account-error-page/account-error-page.component').then(
+        (module) => module.AccountErrorPageComponent,
+      ),
+  },
+  {
     path: 'candidate',
     canActivate: [authGuard, roleGuard(['candidate'])],
     children: [

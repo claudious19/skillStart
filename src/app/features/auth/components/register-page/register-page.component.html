@@ -1,0 +1,37 @@
+<section class="auth-page">
+  <div class="auth-layout">
+    <aside class="auth-panel auth-panel--aside">
+      <div class="auth-brand">
+        <span class="auth-brand__mark">S</span>
+        <span>SkillStart</span>
+      </div>
+      <h1>Waehl deinen Einstieg.</h1>
+      <p>Registriere dich als Kandidat oder als Unternehmen. Beide Flows legen direkt die noetigen Firestore-Dokumente an.</p>
+    </aside>
+
+    <div class="auth-panel auth-panel--form">
+      <div class="auth-heading">
+        <h2>Registrierung</h2>
+        <p>Die Auswahl bestimmt Rolle, Startprofil und spaetere Weiterleitung.</p>
+      </div>
+
+      <div class="auth-choice-grid">
+        <a class="auth-choice-card auth-choice-card--candidate" routerLink="/auth/register/candidate">
+          <span>Kandidat</span>
+          <h3>Ich suche meine erste echte Chance.</h3>
+          <p>Lege Konto, Benutzerdokument und Kandidatenprofil an.</p>
+        </a>
+
+        <a class="auth-choice-card auth-choice-card--company" routerLink="/auth/register/company">
+          <span>Unternehmen</span>
+          <h3>Ich moechte Junior-Talente finden.</h3>
+          <p>Lege Konto, Benutzerdokument und Unternehmensprofil an.</p>
+        </a>
+      </div>
+
+      <div class="auth-links">
+        <a routerLink="/auth/login">Ich habe bereits ein Konto</a>
+      </div>
+    </div>
+  </div>
+</section>

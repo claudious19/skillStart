@@ -1,0 +1,32 @@
+<section class="auth-page">
+  <div class="auth-layout">
+    <aside class="auth-panel auth-panel--aside">
+      <div class="auth-brand">
+        <span class="auth-brand__mark">S</span>
+        <span>SkillStart</span>
+      </div>
+      <h1>Account kann nicht zugeordnet werden.</h1>
+      <p>Dein Firebase-Login ist vorhanden, aber das Benutzerdokument fehlt oder enthaelt keine gueltige Rolle.</p>
+    </aside>
+
+    <div class="auth-panel auth-panel--form">
+      <div class="auth-heading">
+        <h2>Account-Fehler</h2>
+        <p>Der Zugriff bleibt blockiert, bis dein Benutzer-Dokument korrekt vorhanden ist.</p>
+      </div>
+
+      <p class="auth-message auth-message--error">
+        Bitte melde dich ab und pruefe die Registrierung erneut. Wenn das Problem bleibt, muss das
+        das Benutzerdokument in Firestore kontrolliert werden.
+      </p>
+
+      <div class="auth-actions">
+        <button class="ui-button ui-button--primary" type="button" (click)="logout()">Abmelden</button>
+      </div>
+
+      <div class="auth-links">
+        <a routerLink="/">Zur Startseite</a>
+      </div>
+    </div>
+  </div>
+</section>

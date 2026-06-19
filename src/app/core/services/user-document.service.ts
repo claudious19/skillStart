@@ -2,9 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { DocumentData, DocumentSnapshot, getDoc, onSnapshot } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
+import { AccountStatus } from '../../models/account-status.type';
 import { FIRESTORE_COLLECTIONS } from '../../firebase/firestore.collections';
 import { FirestoreCollectionService } from './firestore-collection.service';
 import { AppUser } from '../../models/app-user.model';
+import { UserRole } from '../../models/user-role.type';
+
+const VALID_USER_ROLES: UserRole[] = ['candidate', 'company', 'admin'];
+const VALID_ACCOUNT_STATUSES: AccountStatus[] = ['active', 'blocked', 'pending'];
 
 @Injectable({ providedIn: 'root' })
 export class UserDocumentService {
@@ -34,9 +39,25 @@ export class UserDocumentService {
       return null;
     }
 
+    const data = snapshot.data();
+
+    if (!this.isValidAppUserData(data)) {
+      return null;
+    }
+
     return {
       uid: snapshot.id,
-      ...(snapshot.data() as Omit<AppUser, 'uid'>),
+      ...data,
     };
+  }
+
+  private isValidAppUserData(data: DocumentData): data is Omit<AppUser, 'uid'> {
+    return (
+      typeof data['email'] === 'string' &&
+      VALID_USER_ROLES.includes(data['role'] as UserRole) &&
+      VALID_ACCOUNT_STATUSES.includes(data['accountStatus'] as AccountStatus) &&
+      typeof data['createdAt'] === 'object' &&
+      typeof data['updatedAt'] === 'object'
+    );
   }
 }
