@@ -52,7 +52,7 @@
               "outputHashing": "all"
             },
             "github-pages": {
-              "baseHref": "/SkillStart/"
+              "baseHref": "/skillStart/"
             },
             "development": {
               "optimization": false,
