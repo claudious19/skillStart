@@ -3,8 +3,10 @@ import { FirebaseOptions } from '../app/firebase/firebase.options';
 export const environment = {
   production: false,
   appName: 'SkillStart',
-  githubPagesBaseHref: '/SkillStart/',
+  githubPagesBaseHref: '/skillStart/',
   useHashRouting: true,
+  // Firebase web config values are public client configuration.
+  // Do not commit private admin credentials or server secrets.
   firebase: {
     apiKey: 'YOUR_FIREBASE_API_KEY',
     authDomain: 'YOUR_FIREBASE_AUTH_DOMAIN',
