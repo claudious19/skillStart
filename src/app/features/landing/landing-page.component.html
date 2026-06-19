@@ -1,221 +1,148 @@
 <main class="landing">
   <header class="site-header">
-    <a routerLink="/" class="brand" aria-label="SkillStart home">
+    <a routerLink="/" class="brand" aria-label="SkillStart Startseite">
       <span class="brand__mark">S</span>
       <span class="brand__name">SkillStart</span>
     </a>
 
-    <nav class="site-nav" aria-label="Landing sections">
-      <a href="#why">Warum SkillStart</a>
-      <a href="#candidates">Für Kandidaten</a>
-      <a href="#companies">Für Unternehmen</a>
+    <nav class="site-nav" aria-label="Landingpage Bereiche">
+      <a href="#proof">Nachweise</a>
+      <a href="#steps">Ablauf</a>
+      <a href="#roles">Zielgruppen</a>
     </nav>
 
     <div class="site-header__actions">
-      <a routerLink="/auth/login" class="button button--quiet">Login</a>
-      <a routerLink="/auth/register/candidate" class="button button--primary">Registrieren</a>
+      <a routerLink="/auth/login" class="ui-button ui-button--secondary">Login</a>
+      <a routerLink="/auth/register/candidate" class="ui-button ui-button--primary">Starten</a>
     </div>
   </header>
 
-  <section class="hero">
+  <section class="hero" aria-labelledby="hero-title">
     <div class="hero__content">
-      <h1>Deine erste echte Chance nach der Lehre.</h1>
+      <p class="hero__context">Für den ersten echten Schritt nach der Lehre.</p>
+      <h1 id="hero-title">SkillStart</h1>
+      <p class="hero__promise">Deine erste echte Chance nach der Lehre.</p>
       <p class="hero__lead">
-        SkillStart macht sichtbar, was Berufseinsteiger nach der Lehre schon können: Projekte,
-        IPA-Arbeiten, GitHub, Zertifikate und klare Entwicklungsziele.
+        Zeig Projekte, IPA-Arbeit, Zertifikate und Ziele an einem Ort. Unternehmen erkennen schneller,
+        wo dein Potenzial liegt.
       </p>
-      <div class="hero__actions">
-        <a routerLink="/auth/register/candidate" class="button button--primary">Als Kandidat registrieren</a>
-        <a routerLink="/auth/register/company" class="button button--secondary">Als Unternehmen registrieren</a>
-      </div>
-      <div class="hero__proof">
-        <span>IPA</span>
-        <span>Projekte</span>
-        <span>GitHub</span>
-        <span>Zertifikate</span>
+      <div class="hero__actions" aria-label="Registrierung">
+        <a routerLink="/auth/register/candidate" class="ui-button ui-button--primary">Als Kandidat starten</a>
+        <a routerLink="/auth/register/company" class="ui-button ui-button--secondary">Als Unternehmen starten</a>
       </div>
     </div>
 
-    <div class="profile-panel" aria-label="Beispiel für ein SkillStart Profil">
-      <div class="profile-panel__header">
-        <div>
-          <p class="meta">Kandidatenprofil</p>
-          <strong>Applikationsentwicklerin EFZ</strong>
-        </div>
-        <span class="status-tag">Potenzial sichtbar</span>
+    <aside class="profile-panel" aria-label="Beispielprofil">
+      <div class="profile-panel__topline">
+        <span class="profile-panel__role">Applikationsentwicklerin EFZ</span>
+        <span class="status-tag">Profil im Aufbau</span>
       </div>
-
-      <dl class="profile-panel__grid">
+      <h2>Portfolio mit sichtbaren Belegen.</h2>
+      <dl class="proof-list">
         <div>
-          <dt>Belege</dt>
-          <dd>IPA, 3 Projekte, GitHub, 2 Zertifikate</dd>
+          <dt>IPA</dt>
+          <dd>Web-App für interne Prozesse</dd>
         </div>
         <div>
-          <dt>Fokus</dt>
-          <dd>Webentwicklung und saubere Produktarbeit</dd>
+          <dt>Skills</dt>
+          <dd>Angular, TypeScript, Firebase</dd>
         </div>
         <div>
-          <dt>Nächster Schritt</dt>
-          <dd>Rolle mit Mentoring, Verantwortung und Lernkurve</dd>
+          <dt>Ziel</dt>
+          <dd>Junior-Rolle mit Mentoring und Produktarbeit</dd>
         </div>
       </dl>
+    </aside>
+  </section>
+
+  <section id="proof" class="proof-band" aria-label="Nachweise auf SkillStart">
+    <span>IPA</span>
+    <span>Projekte</span>
+    <span>GitHub</span>
+    <span>Zertifikate</span>
+    <span>Karriereziele</span>
+  </section>
+
+  <section class="section section--problem">
+    <div class="section__heading">
+      <p class="section__label">Warum</p>
+      <h2>Erfahrung allein erzählt zu wenig.</h2>
+    </div>
+    <div class="section__copy">
+      <p>
+        SkillStart zeigt, was Berufseinsteiger bereits gebaut, gelernt und bewusst gewählt haben.
+      </p>
+      <p>
+        So wird aus einem Junior-Profil ein konkreter Eindruck von Arbeitsweise, Motivation und Entwicklung.
+      </p>
     </div>
   </section>
 
-  <section class="trust-strip" aria-label="Skill proof categories">
-    <div class="trust-strip__item trust-strip__item--serif">IPA work</div>
-    <div class="trust-strip__item trust-strip__item--mono">github://portfolio</div>
-    <div class="trust-strip__item trust-strip__item--accent">Zertifikate</div>
-    <div class="trust-strip__item trust-strip__item--tight">Persönliche Projekte</div>
+  <section id="steps" class="section section--steps" aria-labelledby="steps-title">
+    <div class="section__heading">
+      <p class="section__label">Ablauf</p>
+      <h2 id="steps-title">In drei Schritten zu besseren Erstgesprächen.</h2>
+    </div>
+
+    <ol class="step-list">
+      <li>
+        <span>01</span>
+        <strong>Profil aufbauen</strong>
+        <p>Ausbildung, Skills, IPA und Projekte erfassen.</p>
+      </li>
+      <li>
+        <span>02</span>
+        <strong>Potenzial zeigen</strong>
+        <p>Belege und Ziele machen deine Richtung klar.</p>
+      </li>
+      <li>
+        <span>03</span>
+        <strong>Passende Rolle finden</strong>
+        <p>Unternehmen sehen schneller, ob der Einstieg passt.</p>
+      </li>
+    </ol>
   </section>
 
-  <section id="why" class="section">
-    <div class="section__shell">
-      <div class="section__heading">
-        <p class="section__label">Warum SkillStart</p>
-        <h2>Generic job boards zeigen zu wenig vom eigentlichen Können.</h2>
-        <p class="section__intro">
-          Wenn nur Jahre Erfahrung verglichen werden, gehen starke Junior-Profile unter. SkillStart
-          dreht die Blickrichtung auf sichtbare Arbeit und Entwicklungspotenzial.
-        </p>
-      </div>
-      <div class="story-grid">
-        <article class="card card--plain">
-          <h3>Was oft fehlt</h3>
-          <p>
-            Klassische Plattformen machen Berufseinsteiger schnell austauschbar. Projekte, IPA und
-            fachliche Interessen verschwinden hinter Standardfeldern.
-          </p>
-        </article>
-        <article class="card card--feature">
-          <h3>Was hier sichtbar wird</h3>
-          <p>
-            SkillStart verbindet berufliche Ausgangslage mit echten Arbeitsproben, Profilbelegen
-            und einem klaren Wunsch nach Wachstum.
-          </p>
-        </article>
-      </div>
+  <section id="roles" class="section section--roles" aria-labelledby="roles-title">
+    <div class="section__heading">
+      <p class="section__label">Für wen</p>
+      <h2 id="roles-title">Eine Plattform für beide Seiten.</h2>
+    </div>
+
+    <div class="role-grid">
+      <article class="role-card role-card--candidate">
+        <span class="role-card__label">Kandidaten</span>
+        <h3>Zeig, was du kannst.</h3>
+        <p>Dein Profil verbindet Ausbildung, Projekte und Ziele zu einem klaren Bild.</p>
+        <a routerLink="/auth/register/candidate" class="text-link">Kandidatenprofil erstellen</a>
+      </article>
+
+      <article class="role-card role-card--company">
+        <span class="role-card__label">Unternehmen</span>
+        <h3>Finde Junior-Talente mit Substanz.</h3>
+        <p>Bewerte nicht nur Titel, sondern sichtbare Arbeit und Entwicklungspotenzial.</p>
+        <a routerLink="/auth/register/company" class="text-link">Unternehmen registrieren</a>
+      </article>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section__shell">
-      <div class="section__heading">
-        <p class="section__label">Wie die Plattform denkt</p>
-        <h2>Proof first statt Behauptung first.</h2>
-        <p class="section__intro">
-          Profile beantworten nicht nur, wer jemand ist, sondern warum ein Unternehmen dieser
-          Person jetzt eine Chance geben sollte.
-        </p>
-      </div>
-      <div class="grid grid--three">
-        <article class="card">
-          <h3>Sichtbare Arbeit</h3>
-          <p>
-            Projekte, IPA-Arbeiten, GitHub und Zertifikate geben Firmen eine bessere Grundlage als
-            reine Erfahrungsjahre.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Klare Richtung</h3>
-          <p>
-            Kandidaten zeigen, in welche Felder sie wachsen wollen. Unternehmen sehen schneller,
-            wo Entwicklung und Rolle zusammenpassen.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Mehr Verantwortung</h3>
-          <p>
-            Der Fokus liegt auf Chancen mit Lernpotenzial, Mentoring und echter fachlicher
-            Entwicklung statt auf austauschbaren Einstiegsrollen.
-          </p>
-        </article>
-      </div>
+  <section class="final-cta" aria-labelledby="final-title">
+    <div>
+      <p class="section__label">Start</p>
+      <h2 id="final-title">Zeig, was du kannst. Finde, wo du wachsen kannst.</h2>
     </div>
-  </section>
-
-  <section id="candidates" class="section">
-    <div class="section__shell">
-      <div class="section__heading">
-        <p class="section__label">Für Kandidaten</p>
-        <h2>Mach deine Stärken greifbar.</h2>
-        <p class="section__intro">
-          Du wirst nicht nur als Berufseinsteiger gezeigt, sondern über das, was du schon gebaut,
-          gelernt und bewusst ausgewählt hast.
-        </p>
-      </div>
-      <div class="grid grid--three">
-        <article class="card card--candidate">
-          <h3>Skills sichtbar machen</h3>
-          <p>Zeig Ausbildung, Spezialisierung und die Fähigkeiten, die du bereits praktisch eingesetzt hast.</p>
-        </article>
-        <article class="card card--candidate">
-          <h3>Projekte als Beleg</h3>
-          <p>IPA, persönliche Projekte und GitHub geben Unternehmen einen echten Eindruck von deinem Potenzial.</p>
-        </article>
-        <article class="card card--candidate">
-          <h3>Wachstum statt Schublade</h3>
-          <p>Beschreibe deine Ziele und die Felder, in denen du wachsen willst, statt nur als Junior einsortiert zu werden.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="companies" class="section">
-    <div class="section__shell">
-      <div class="section__heading">
-        <p class="section__label">Für Unternehmen</p>
-        <h2>Finde Talente mit echter Substanz.</h2>
-        <p class="section__intro">
-          SkillStart hilft dabei, Junior-Talente nicht nur nach Titel oder Jahren, sondern nach
-          sichtbaren Nachweisen und Entwicklungspotenzial einzuordnen.
-        </p>
-      </div>
-      <div class="grid grid--two">
-        <article class="card">
-          <h3>Mehr als Noten und Titel</h3>
-          <p>
-            Sieh auf einen Blick, was Kandidaten bereits umgesetzt haben und wo sie ihr Potenzial
-            am besten entfalten können.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Stärkerer Erstkontakt</h3>
-          <p>
-            Unternehmen bekommen eine klarere Grundlage für Gespräche, weil die wichtigsten
-            Belege und Wachstumsfelder direkt sichtbar sind.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--cta">
-    <div class="cta">
-      <div>
-        <p class="section__label">Nächster Schritt</p>
-        <h2>Wähle deinen Einstieg und starte mit SkillStart.</h2>
-        <p class="section__intro">
-          Egal ob du nach der Lehre deine erste Chance suchst oder frische Talente mit echtem
-          Entwicklungspotenzial finden willst.
-        </p>
-      </div>
-      <div class="cta__actions">
-        <a routerLink="/auth/register/candidate" class="button button--primary">Kandidat werden</a>
-        <a routerLink="/auth/register/company" class="button button--quiet button--wide">Unternehmen registrieren</a>
-      </div>
-    </div>
+    <a routerLink="/auth/register/candidate" class="ui-button ui-button--primary">Jetzt starten</a>
   </section>
 
   <footer class="site-footer">
     <div>
       <strong>SkillStart</strong>
-      <p>Potenzial sichtbar machen. Entwicklung möglich machen.</p>
+      <p>Potenzial sichtbar machen. Chancen besser einschätzen.</p>
     </div>
     <div class="site-footer__links">
-      <a href="#why">Warum SkillStart</a>
-      <a href="#candidates">Kandidaten</a>
-      <a href="#companies">Unternehmen</a>
+      <a href="#proof">Nachweise</a>
+      <a href="#steps">Ablauf</a>
+      <a href="#roles">Zielgruppen</a>
     </div>
   </footer>
 </main>
