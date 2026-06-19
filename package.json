@@ -11,16 +11,6 @@
   },
   "private": true,
   "packageManager": "pnpm@11.0.7",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@firebase/util",
-      "@parcel/watcher",
-      "esbuild",
-      "lmdb",
-      "msgpackr-extract",
-      "protobufjs"
-    ]
-  },
   "dependencies": {
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
