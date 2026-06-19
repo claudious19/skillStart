@@ -45,14 +45,14 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
                 }
               ],
               "outputHashing": "all"
             },
             "github-pages": {
-              "baseHref": "/SkillStart/"
+              "baseHref": "/skillStart/"
             },
             "development": {
               "optimization": false,
@@ -98,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "3582cd9a-fd68-4740-bb58-612f0d7bf3ef"
   }
 }

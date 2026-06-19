@@ -1,0 +1,153 @@
+<main class="landing">
+  <header class="site-header">
+    <a routerLink="/" class="brand" aria-label="SkillStart Startseite">
+      <span class="brand__mark">S</span>
+      <span class="brand__name">SkillStart</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Landingpage Bereiche">
+      <a href="#proof">Nachweise</a>
+      <a href="#steps">Ablauf</a>
+      <a href="#roles">Zielgruppen</a>
+    </nav>
+
+    <div class="site-header__actions">
+      <a routerLink="/auth/login" class="ui-button ui-button--secondary">Login</a>
+      <a routerLink="/auth/register/candidate" class="ui-button ui-button--primary">Starten</a>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__content">
+      <p class="hero__context">Für den ersten echten Schritt nach der Lehre.</p>
+      <h1 id="hero-title">SkillStart</h1>
+      <p class="hero__promise">Deine erste echte Chance nach der Lehre.</p>
+      <p class="hero__lead">
+        Zeig Projekte, IPA-Arbeit, Zertifikate und Ziele an einem Ort. Unternehmen erkennen schneller,
+        wo dein Potenzial liegt.
+      </p>
+      <div class="hero__actions" aria-label="Registrierung">
+        <a routerLink="/auth/register/candidate" class="ui-button ui-button--primary">Als Kandidat starten</a>
+        <a routerLink="/auth/register/company" class="ui-button ui-button--secondary">Als Unternehmen starten</a>
+      </div>
+    </div>
+
+    <aside class="profile-panel" aria-label="Beispielprofil">
+      <div class="profile-panel__topline">
+        <span class="profile-panel__role">Applikationsentwicklerin EFZ</span>
+        <span class="status-tag">Profil im Aufbau</span>
+      </div>
+      <h2>Portfolio mit sichtbaren Belegen.</h2>
+      <dl class="proof-list">
+        <div>
+          <dt>IPA</dt>
+          <dd>Web-App für interne Prozesse</dd>
+        </div>
+        <div>
+          <dt>Skills</dt>
+          <dd>Angular, TypeScript, Firebase</dd>
+        </div>
+        <div>
+          <dt>Ziel</dt>
+          <dd>Junior-Rolle mit Mentoring und Produktarbeit</dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
+
+  <section id="proof" class="proof-band" aria-label="Nachweise auf SkillStart">
+    <span>IPA</span>
+    <span>Projekte</span>
+    <span>GitHub</span>
+    <span>Zertifikate</span>
+    <span>Karriereziele</span>
+  </section>
+
+  <section class="section section--problem">
+    <div class="section__heading">
+      <p class="section__label">Warum</p>
+      <h2>Erfahrung allein erzählt zu wenig.</h2>
+    </div>
+    <div class="problem-grid">
+      <article class="role-card role-card--neutral">
+        <span class="role-card__label">Was oft fehlt</span>
+        <h3>Reine Jahre sagen zu wenig.</h3>
+        <p>Standardprofile lassen Projekte, IPA und fachliche Interessen schnell verschwinden.</p>
+      </article>
+
+      <article class="role-card role-card--neutral">
+        <span class="role-card__label">Was sichtbar wird</span>
+        <h3>Arbeit, Ziele und Potenzial.</h3>
+        <p>SkillStart zeigt, was Berufseinsteiger bereits gebaut, gelernt und bewusst gewählt haben.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="steps" class="section section--steps" aria-labelledby="steps-title">
+    <div class="section__heading">
+      <p class="section__label">Ablauf</p>
+      <h2 id="steps-title">In drei Schritten zu besseren Erstgesprächen.</h2>
+    </div>
+
+    <ol class="step-list">
+      <li>
+        <span>01</span>
+        <strong>Profil aufbauen</strong>
+        <p>Ausbildung, Skills, IPA und Projekte erfassen.</p>
+      </li>
+      <li>
+        <span>02</span>
+        <strong>Potenzial zeigen</strong>
+        <p>Belege und Ziele machen deine Richtung klar.</p>
+      </li>
+      <li>
+        <span>03</span>
+        <strong>Passende Rolle finden</strong>
+        <p>Unternehmen sehen schneller, ob der Einstieg passt.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="roles" class="section section--roles" aria-labelledby="roles-title">
+    <div class="section__heading">
+      <p class="section__label">Für wen</p>
+      <h2 id="roles-title">Eine Plattform für beide Seiten.</h2>
+    </div>
+
+    <div class="role-grid">
+      <article class="role-card role-card--candidate">
+        <span class="role-card__label">Kandidaten</span>
+        <h3>Zeig, was du kannst.</h3>
+        <p>Dein Profil verbindet Ausbildung, Projekte und Ziele zu einem klaren Bild.</p>
+        <a routerLink="/auth/register/candidate" class="text-link">Kandidatenprofil erstellen</a>
+      </article>
+
+      <article class="role-card role-card--company">
+        <span class="role-card__label">Unternehmen</span>
+        <h3>Finde Junior-Talente mit Substanz.</h3>
+        <p>Bewerte nicht nur Titel, sondern sichtbare Arbeit und Entwicklungspotenzial.</p>
+        <a routerLink="/auth/register/company" class="text-link">Unternehmen registrieren</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="final-cta" aria-labelledby="final-title">
+    <div>
+      <p class="section__label">Start</p>
+      <h2 id="final-title">Zeig, was du kannst. Finde, wo du wachsen kannst.</h2>
+    </div>
+    <a routerLink="/auth/register/candidate" class="ui-button ui-button--primary">Jetzt starten</a>
+  </section>
+
+  <footer class="site-footer">
+    <div>
+      <strong>SkillStart</strong>
+      <p>Potenzial sichtbar machen. Chancen besser einschätzen.</p>
+    </div>
+    <div class="site-footer__links">
+      <a href="#proof">Nachweise</a>
+      <a href="#steps">Ablauf</a>
+      <a href="#roles">Zielgruppen</a>
+    </div>
+  </footer>
+</main>

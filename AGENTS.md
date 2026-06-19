@@ -31,42 +31,6 @@ Use the following stack:
 - Mobile-first UI
 - PWA-ready architecture
 
----
-
-## Command Compatibility
-
-This workspace may support a Linux-style command layer inside PowerShell.
-
-Before using a PowerShell-native alternative for common file, text or shell inspection tasks, first check whether a compatible Linux-style command is available and suitable.
-
-Examples include commands such as:
-
-- `ls`
-- `cat`
-- `pwd`
-- `find`
-- `grep`
-- `head`
-- `tail`
-- `sort`
-- `wc`
-- `cp`
-- `mv`
-- `mkdir`
-- `rm`
-
-Rules:
-
-- Prefer `rg` for text search and file discovery when it is suitable.
-- If a Linux-style command is available and fits the task clearly, it may be used directly.
-- If compatibility is unclear, verify first before relying on a PowerShell-only command.
-- For destructive commands such as `rm`, `mv`, `cp` or `mkdir`, still follow the normal safety rules and keep changes minimal.
-- Keep commands readable and predictable for later contributors.
-
-Reference:
-
-- See `docs/linux-compatible-commands.md` for the currently known Linux-style commands that work in this PowerShell environment.
-
 Do not use:
 
 - PostgreSQL
@@ -74,6 +38,50 @@ Do not use:
 - Next.js
 - Express backend unless explicitly requested
 - Server-side rendering unless explicitly requested
+
+---
+
+## Skill Mapping
+
+When a task matches one of the skill categories below, use that skill first and follow its instructions before editing files.
+
+### UI and frontend work
+
+Use these skills for any visual, layout, responsive, or interface task:
+
+- `cleanui` for professional, non-generic UI decisions and frontend quality control.
+- `ui-ux-pro-max` for deeper UI/UX design choices, layout systems, visual direction, and interface refinement.
+- `build-web-apps:frontend-app-builder` for landing pages, marketing pages, dashboards, and full frontend builds.
+- `build-web-apps:frontend-testing-debugging` for browser QA, responsive checks, console issues, and visual regressions.
+- `Browser` for opening local pages, inspecting rendered UI, clicking through flows, and taking screenshots.
+
+Priority for UI work:
+
+1. Read `cleanui` first.
+2. Use `ui-ux-pro-max` when the task needs stronger design direction or a more polished product feel.
+3. Use `build-web-apps:frontend-app-builder` when implementing or redesigning a full frontend experience.
+4. Use `build-web-apps:frontend-testing-debugging` and `Browser` to verify the result in the browser.
+
+### Product and implementation work
+
+Use these skills when the task is about product structure, implementation, or platform-specific features:
+
+- `skill-creator` for creating or updating Codex skills.
+- `skill-installer` for installing new Codex skills from curated sources or repositories.
+- `better-auth-best-practices` for Firebase authentication alternatives or auth patterns outside the core MVP rules.
+- `build-web-apps:react-best-practices` only for React or Next.js work in repositories that actually use those stacks.
+- `build-web-apps:shadcn` only when the project uses shadcn/ui.
+- `build-web-apps:stripe-best-practices` only for Stripe payment work.
+- `build-web-apps:supabase-postgres-best-practices` only for Supabase or Postgres work.
+- `Documents`, `PDF`, `Presentations`, or `Spreadsheets` only when the requested artifact is a document, PDF, slide deck, or spreadsheet.
+- `GitHub` for repository, PR, issue, review, or CI work.
+
+### Skill selection rules
+
+- Prefer the smallest skill set that fully covers the task.
+- If a UI task is involved, always check whether `cleanui` applies before using a broader skill.
+- Do not use a skill just because it exists; use it only when the task clearly matches its scope.
+- If multiple skills apply, announce the order you will use them in before editing files.
 
 ---
 
@@ -827,6 +835,173 @@ The MVP must focus on:
 
 ---
 
+## Git Workflow Rules
+
+Use normal Git commands for all repository operations.
+
+Allowed standard Git commands include:
+
+```bash
+git status
+git branch
+git checkout
+git switch
+git add
+git commit
+git pull
+git push
+git fetch
+git log
+git diff
+```
+
+Do not use GitHub CLI (`gh`) for normal Git operations.
+
+Forbidden for normal workflow:
+
+```bash
+gh pr create
+gh pr merge
+gh repo clone
+gh repo fork
+gh api
+```
+
+Exception:
+
+GitHub CLI may only be used to create a new GitHub repository when the user explicitly requests repository creation.
+
+Example allowed exception:
+
+```bash
+gh repo create
+```
+
+### Branch Rules
+
+Every implemented prompt must be done on a new branch.
+
+Before implementing a prompt:
+
+1. Check the current branch.
+2. Check working tree status.
+3. Create a new branch for the active prompt.
+4. Implement only the active prompt.
+5. Commit the result to that branch.
+6. Push the branch with normal Git commands.
+
+Example:
+
+```bash
+git status
+git switch -c prompt-05-auth-and-roles
+git add .
+git commit -m "feat(prompt-05): implement auth and roles"
+git push -u origin prompt-05-auth-and-roles
+```
+
+Branch naming format:
+
+```text
+prompt-XX-short-description
+```
+
+Examples:
+
+```text
+prompt-01-project-setup
+prompt-04-firebase-setup
+prompt-05-auth-and-roles
+prompt-10-job-post-quality-form
+```
+
+### Merge Rules
+
+The agent must not merge branches.
+
+Forbidden:
+
+```bash
+git merge
+git rebase
+git cherry-pick
+gh pr merge
+```
+
+Rules:
+
+- Do not merge feature branches into `main`.
+- Do not merge feature branches into each other.
+- Do not rebase branches unless explicitly requested.
+- Do not delete branches unless explicitly requested.
+- Leave merge decisions to the user.
+
+### Pull and Push Rules
+
+Use normal Git commands for pull and push.
+
+Allowed:
+
+```bash
+git pull
+git push
+git fetch
+```
+
+Rules:
+
+- Pull only when needed to update the current branch.
+- Push only the branch created for the active prompt.
+- Do not force-push unless explicitly requested.
+- Do not push directly to `main` unless explicitly requested.
+- Do not change Git remotes unless explicitly requested.
+
+### Commit Rules
+
+Commit after every completed prompt.
+
+Commit message format:
+
+```text
+feat(prompt-XX): short description
+```
+
+Examples:
+
+```text
+feat(prompt-01): initialise Angular project
+feat(prompt-04): add Firebase services
+feat(prompt-05): implement authentication and roles
+```
+
+If the task is a fix:
+
+```text
+fix(prompt-XX): short description
+```
+
+If the task only changes documentation:
+
+```text
+docs(prompt-XX): short description
+```
+
+### Prompt Execution Rule
+
+For each prompt implementation:
+
+1. Read `AGENTS.md`.
+2. Read the active prompt file.
+3. Create a new branch.
+4. Implement only the active prompt.
+5. Commit changes.
+6. Push the branch.
+7. Stop.
+
+Do not continue with the next prompt unless explicitly instructed.
+
+---
+
 ## Development Behaviour
 
 Before changing code:
@@ -836,7 +1011,6 @@ Before changing code:
 - Identify impacted files.
 - Keep the implementation minimal.
 - Avoid unrelated refactoring.
-- When using shell commands, first check whether a suitable Linux-style command from `docs/linux-compatible-commands.md` can be used in this PowerShell environment.
 
 After changing code:
 
