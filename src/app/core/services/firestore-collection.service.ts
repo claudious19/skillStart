@@ -6,7 +6,7 @@ import { FIREBASE_FIRESTORE } from '../../firebase/firebase.tokens';
 
 @Injectable({ providedIn: 'root' })
 export class FirestoreCollectionService {
-  private readonly firestore = inject(FIREBASE_FIRESTORE);
+  readonly firestore = inject(FIREBASE_FIRESTORE);
 
   collection<T extends DocumentData>(collectionName: FirestoreCollectionName): CollectionReference<T> {
     return collection(this.firestore, collectionName) as CollectionReference<T>;

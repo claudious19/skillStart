@@ -21,8 +21,7 @@ export function roleGuard(allowedRoles: UserRole[]): CanActivateFn {
     const appUser = await userDocumentService.getUserDocument(user.uid);
 
     if (!appUser) {
-      // TODO: Replace this redirect with a dedicated invalid-account error state in Prompt 5.
-      return router.createUrlTree(['/']);
+      return router.createUrlTree(['/account-error']);
     }
 
     if (allowedRoles.includes(appUser.role)) {
