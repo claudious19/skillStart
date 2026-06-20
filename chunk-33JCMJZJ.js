@@ -1,0 +1,1 @@
+import"./chunk-ECBXVGWK.js";var o=[{path:"",loadComponent:()=>import("./chunk-5K6EIP3K.js").then(e=>e.FeaturePlaceholderPageComponent),data:{section:"Company Profile",title:"Unternehmensprofil",description:"Die Profilroute fuer Unternehmen ist vorbereitet. Eingabefelder, Review-Workflow und die temporaere Demo-Datenhaltung folgen spaeter."}}];export{o as COMPANY_PROFILE_ROUTES};
