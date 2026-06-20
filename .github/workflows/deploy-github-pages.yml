@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CUSTOM_DOMAIN: skillstarter.alfalock.ch
+  CUSTOM_DOMAIN: skillstart.alfalock.ch
   PUBLISH_DIR: dist/skillStart
   BUILD_DIR: dist/.angular-build
 
@@ -86,5 +86,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./dist/skillStart
-          cname: skillstarter.alfalock.ch
+          cname: skillstart.alfalock.ch
           force_orphan: true

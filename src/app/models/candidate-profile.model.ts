@@ -1,5 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
-
+import { AppTimestamp } from './app-timestamp.type';
 import { ReviewStatus } from './review-status.type';
 
 export interface CandidateProfile {
@@ -20,6 +19,6 @@ export interface CandidateProfile {
   desiredProfessionalFields: string[];
   reviewStatus: ReviewStatus;
   reviewComment?: string;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: AppTimestamp;
+  updatedAt: AppTimestamp;
 }

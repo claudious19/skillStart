@@ -13,7 +13,7 @@ export const CANDIDATE_JOB_POST_ROUTES: Routes = [
       section: 'Job Posts',
       title: 'Offene Stellen',
       description:
-        'Die Kandidatenansicht fuer freigegebene Stellen ist vorbereitet. Filter, Cards und Firestore-Abfragen folgen spaeter.',
+        'Die Kandidatenansicht fuer freigegebene Stellen ist vorbereitet. Filter, Cards und lokale Demo-Abfragen folgen spaeter.',
     },
   },
 ];

@@ -35,7 +35,7 @@ export class ResetPasswordPageComponent {
 
     try {
       await this.authFlowService.resetPassword(this.form.getRawValue().email);
-      this.successMessage.set('Wenn ein Konto mit dieser E-Mail existiert, wurde eine Reset-Mail gesendet.');
+      this.successMessage.set('Die Adresse wurde geprueft. Im Demo-Modus werden keine echten Reset-Mails versendet.');
     } catch (error) {
       this.errorMessage.set(this.getErrorMessage(error));
     } finally {

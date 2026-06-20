@@ -1,6 +1,5 @@
-import { Timestamp } from 'firebase/firestore';
-
 import { AccountStatus } from './account-status.type';
+import { AppTimestamp } from './app-timestamp.type';
 import { UserRole } from './user-role.type';
 
 export interface AppUser {
@@ -8,6 +7,6 @@ export interface AppUser {
   email: string;
   role: UserRole;
   accountStatus: AccountStatus;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: AppTimestamp;
+  updatedAt: AppTimestamp;
 }

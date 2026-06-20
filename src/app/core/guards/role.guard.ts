@@ -14,7 +14,7 @@ export function roleGuard(allowedRoles: UserRole[]): CanActivateFn {
     const userDocumentService = inject(UserDocumentService);
     const user = await authService.waitForAuthState();
 
-    if (!user || user.isAnonymous) {
+    if (!user) {
       return router.createUrlTree(['/auth/login']);
     }
 

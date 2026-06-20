@@ -19,10 +19,6 @@ export const publicOnlyGuard: CanMatchFn = async (
     return true;
   }
 
-  if (user.isAnonymous) {
-    return true;
-  }
-
   const appUser = await userDocumentService.getUserDocument(user.uid);
 
   if (!appUser) {
