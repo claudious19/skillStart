@@ -1,9 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { createUserWithEmailAndPassword, deleteUser } from 'firebase/auth';
+import { EmailAuthProvider, User, deleteUser, linkWithCredential } from 'firebase/auth';
 import { Timestamp, writeBatch } from 'firebase/firestore';
 
 import { AccountStatus, AppUser, CandidateProfile, CompanyProfile, ReviewStatus, UserRole } from '../../models';
-import { FIREBASE_AUTH } from '../../firebase/firebase.tokens';
 import { FIRESTORE_COLLECTIONS } from '../../firebase/firestore.collections';
 import { FirestoreCollectionService } from './firestore-collection.service';
 import { RoleRedirectService } from './role-redirect.service';
@@ -33,7 +32,6 @@ export class InvalidAccountError extends Error {
 
 @Injectable({ providedIn: 'root' })
 export class AuthFlowService {
-  private readonly auth = inject(FIREBASE_AUTH);
   private readonly authService = inject(AuthService);
   private readonly firestoreCollections = inject(FirestoreCollectionService);
   private readonly userDocumentService = inject(UserDocumentService);
@@ -44,22 +42,22 @@ export class AuthFlowService {
   }
 
   async registerCandidate(input: CandidateRegistrationInput): Promise<void> {
-    const credential = await createUserWithEmailAndPassword(this.auth, input.email, input.password);
+    const anonymousUser = await this.requireAnonymousUser();
 
     try {
       const now = Timestamp.now();
       const reviewStatus: ReviewStatus = 'draft';
       const accountStatus: AccountStatus = 'active';
       const userDocument: AppUser = {
-        uid: credential.user.uid,
-        email: credential.user.email ?? input.email,
+        uid: anonymousUser.uid,
+        email: input.email,
         role: 'candidate',
         accountStatus,
         createdAt: now,
         updatedAt: now,
       };
       const candidateProfile: CandidateProfile = {
-        ownerId: credential.user.uid,
+        ownerId: anonymousUser.uid,
         firstName: input.firstName,
         lastName: input.lastName,
         apprenticeshipProfession: '',
@@ -78,40 +76,40 @@ export class AuthFlowService {
 
       const batch = writeBatch(this.firestoreCollections.firestore);
       batch.set(
-        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, credential.user.uid),
+        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, anonymousUser.uid),
         userDocument,
       );
       batch.set(
         this.firestoreCollections.doc<CandidateProfile>(
           FIRESTORE_COLLECTIONS.candidateProfiles,
-          credential.user.uid,
+          anonymousUser.uid,
         ),
         candidateProfile,
       );
       await batch.commit();
+      await linkWithCredential(anonymousUser, EmailAuthProvider.credential(input.email, input.password));
     } catch (error) {
-      await deleteUser(credential.user);
-      throw error;
+      await this.cleanupFailedRegistration(anonymousUser, error);
     }
   }
 
   async registerCompany(input: CompanyRegistrationInput): Promise<void> {
-    const credential = await createUserWithEmailAndPassword(this.auth, input.email, input.password);
+    const anonymousUser = await this.requireAnonymousUser();
 
     try {
       const now = Timestamp.now();
       const reviewStatus: ReviewStatus = 'draft';
       const accountStatus: AccountStatus = 'active';
       const userDocument: AppUser = {
-        uid: credential.user.uid,
-        email: credential.user.email ?? input.email,
+        uid: anonymousUser.uid,
+        email: input.email,
         role: 'company',
         accountStatus,
         createdAt: now,
         updatedAt: now,
       };
       const companyProfile: CompanyProfile = {
-        ownerId: credential.user.uid,
+        ownerId: anonymousUser.uid,
         companyName: input.companyName,
         contactPersonFirstName: input.contactPersonFirstName,
         contactPersonLastName: input.contactPersonLastName,
@@ -124,21 +122,45 @@ export class AuthFlowService {
 
       const batch = writeBatch(this.firestoreCollections.firestore);
       batch.set(
-        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, credential.user.uid),
+        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, anonymousUser.uid),
         userDocument,
       );
       batch.set(
         this.firestoreCollections.doc<CompanyProfile>(
           FIRESTORE_COLLECTIONS.companyProfiles,
-          credential.user.uid,
+          anonymousUser.uid,
         ),
         companyProfile,
       );
       await batch.commit();
+      await linkWithCredential(anonymousUser, EmailAuthProvider.credential(input.email, input.password));
     } catch (error) {
-      await deleteUser(credential.user);
-      throw error;
+      await this.cleanupFailedRegistration(anonymousUser, error);
     }
+  }
+
+  private async requireAnonymousUser(): Promise<User> {
+    const user = await this.authService.ensureAnonymousSession();
+
+    if (!user.isAnonymous) {
+      throw new Error('Registration requires an anonymous session.');
+    }
+
+    return user;
+  }
+
+  private async cleanupFailedRegistration(user: User, error: unknown): Promise<never> {
+    try {
+      await this.deleteOwnedRegistrationDocuments(user.uid);
+    } finally {
+      try {
+        await deleteUser(user);
+      } catch {
+        // Ignore cleanup failures and preserve the original registration error.
+      }
+    }
+
+    throw error;
   }
 
   async loginAndResolveRedirect(
@@ -166,6 +188,14 @@ export class AuthFlowService {
 
   async resetPassword(email: string): Promise<void> {
     await this.authService.resetPassword(email);
+  }
+
+  private async deleteOwnedRegistrationDocuments(uid: string): Promise<void> {
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.users, uid));
+    batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.candidateProfiles, uid));
+    batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.companyProfiles, uid));
+    await batch.commit();
   }
 
   private async requireValidAppUser(uid: string): Promise<AppUser> {
