@@ -50,6 +50,8 @@ export class UserDocumentService {
       email: data['email'],
       role: data['role'],
       companyId: typeof data['companyId'] === 'string' ? data['companyId'] : null,
+      CompanyDisplayname:
+        typeof data['CompanyDisplayname'] === 'string' ? data['CompanyDisplayname'] : null,
       displayName: typeof data['displayName'] === 'string' ? data['displayName'] : data['email'],
       firstName: typeof data['firstName'] === 'string' ? data['firstName'] : undefined,
       lastName: typeof data['lastName'] === 'string' ? data['lastName'] : undefined,

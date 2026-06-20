@@ -7,6 +7,7 @@ export interface AppUser {
   email: string;
   role: UserRole;
   companyId: string | null;
+  CompanyDisplayname: string | null;
   displayName: string;
   firstName?: string;
   lastName?: string;
