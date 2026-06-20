@@ -8,13 +8,10 @@ const loadPlaceholder = () =>
 export const CANDIDATE_DASHBOARD_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: loadPlaceholder,
-    data: {
-      section: 'Candidate',
-      title: 'Kandidaten-Dashboard',
-      description:
-        'Die geschuetzte Route steht. Inhalte und Kennzahlen folgen erst, wenn Auth und Profil-Features implementiert werden.',
-    },
+    loadComponent: () =>
+      import('./candidate-profile-page.component').then(
+        (module) => module.CandidateProfilePageComponent,
+      ),
   },
 ];
 

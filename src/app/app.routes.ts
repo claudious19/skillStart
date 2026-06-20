@@ -69,7 +69,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () =>
-          import('./features/employer-view/employer-view.routes').then(
+          import('./features/company-profile/company-profile.routes').then(
             (module) => module.COMPANY_DASHBOARD_ROUTES,
           ),
       },
