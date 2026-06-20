@@ -9,7 +9,13 @@ export const CANDIDATE_DASHBOARD_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
+<<<<<<< HEAD
       import('./candidate-profile-page.component').then((module) => module.CandidateProfilePageComponent),
+=======
+      import('./candidate-profile-page.component').then(
+        (module) => module.CandidateProfilePageComponent,
+      ),
+>>>>>>> 57582642ea4c8b9f9155c08f24ab5aa638fae960
   },
 ];
 
