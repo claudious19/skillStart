@@ -1,0 +1,45 @@
+<main class="profile-page profile-page--company">
+  <header class="profile-header">
+    <div>
+      <p class="profile-kicker">Unternehmensprofil</p>
+      <h1>Zeig, wofür dein Team steht.</h1>
+      <p>
+        Diese Basisdaten helfen Kandidaten, Standort, Arbeitsumfeld und Einstiegschancen besser einzuschätzen.
+      </p>
+    </div>
+
+    <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Logout</button>
+  </header>
+
+  @if (isLoading()) {
+    <section class="profile-panel" aria-live="polite">
+      <p>Profil wird geladen...</p>
+    </section>
+  } @else {
+    <form class="profile-panel profile-form profile-form--compact" [formGroup]="form" (ngSubmit)="save()">
+      @if (errorMessage()) {
+        <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
+      }
+
+      <label class="profile-field">
+        <span>Standort</span>
+        <input class="ui-input" type="text" formControlName="location" autocomplete="address-level2" />
+      </label>
+
+      <label class="profile-field profile-field--wide">
+        <span>Beschreibung</span>
+        <textarea class="ui-input" rows="6" formControlName="description"></textarea>
+      </label>
+
+      <div class="profile-actions">
+        <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Speichern...' : 'Profil speichern' }}
+        </button>
+      </div>
+    </form>
+  }
+</main>

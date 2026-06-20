@@ -1,0 +1,61 @@
+<main class="profile-page profile-page--candidate">
+  <header class="profile-header">
+    <div>
+      <p class="profile-kicker">Kandidatenprofil</p>
+      <h1>Mach dein Potenzial greifbar.</h1>
+      <p>
+        Ergänze die wichtigsten Informationen, damit Unternehmen deine Richtung und Stärken schneller verstehen.
+      </p>
+    </div>
+
+    <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Logout</button>
+  </header>
+
+  @if (isLoading()) {
+    <section class="profile-panel" aria-live="polite">
+      <p>Profil wird geladen...</p>
+    </section>
+  } @else {
+    <form class="profile-panel profile-form" [formGroup]="form" (ngSubmit)="save()">
+      @if (errorMessage()) {
+        <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
+      }
+
+      <label class="profile-field">
+        <span>Lehrberuf</span>
+        <input class="ui-input" type="text" formControlName="apprenticeshipProfession" autocomplete="organization-title" />
+      </label>
+
+      <label class="profile-field">
+        <span>Spezialisierung</span>
+        <input class="ui-input" type="text" formControlName="specialisation" />
+      </label>
+
+      <label class="profile-field profile-field--wide">
+        <span>Skills</span>
+        <input class="ui-input" type="text" formControlName="skills" placeholder="Angular, TypeScript, Firebase" />
+        <small>Trenne mehrere Skills mit Kommas.</small>
+      </label>
+
+      <label class="profile-field">
+        <span>Standort</span>
+        <input class="ui-input" type="text" formControlName="location" autocomplete="address-level2" />
+      </label>
+
+      <label class="profile-field profile-field--wide">
+        <span>Karriereziele</span>
+        <textarea class="ui-input" rows="5" formControlName="careerGoals"></textarea>
+      </label>
+
+      <div class="profile-actions">
+        <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Speichern...' : 'Profil speichern' }}
+        </button>
+      </div>
+    </form>
+  }
+</main>
