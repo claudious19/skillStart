@@ -3,6 +3,7 @@ import {
   browserLocalPersistence,
   sendPasswordResetEmail,
   setPersistence,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signOut,
   User,
@@ -38,6 +39,17 @@ export class AuthService {
   async login(email: string, password: string): Promise<User> {
     await this.persistenceReady;
     const credential = await signInWithEmailAndPassword(this.auth, email, password);
+    return credential.user;
+  }
+
+  async ensureAnonymousSession(): Promise<User> {
+    await this.persistenceReady;
+
+    if (this.auth.currentUser?.isAnonymous) {
+      return this.auth.currentUser;
+    }
+
+    const credential = await signInAnonymously(this.auth);
     return credential.user;
   }
 

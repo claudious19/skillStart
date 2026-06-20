@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FirebaseError } from 'firebase/app';
@@ -11,7 +11,7 @@ import { AuthFlowService } from '../../../../core/services/auth-flow.service';
   templateUrl: './company-register-page.component.html',
   styleUrl: '../auth-page.shared.css',
 })
-export class CompanyRegisterPageComponent {
+export class CompanyRegisterPageComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authFlowService = inject(AuthFlowService);
   private readonly router = inject(Router);
@@ -26,6 +26,14 @@ export class CompanyRegisterPageComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
+
+  async ngOnInit(): Promise<void> {
+    try {
+      await this.authFlowService.prepareRegistrationSession();
+    } catch (error) {
+      this.errorMessage.set(this.getErrorMessage(error));
+    }
+  }
 
   async submit(): Promise<void> {
     if (this.form.invalid || this.isSubmitting()) {
@@ -50,9 +58,12 @@ export class CompanyRegisterPageComponent {
     if (error instanceof FirebaseError) {
       switch (error.code) {
         case 'auth/email-already-in-use':
+        case 'auth/credential-already-in-use':
           return 'Mit dieser E-Mail existiert bereits ein Konto.';
         case 'auth/invalid-email':
           return 'Bitte gib eine gueltige E-Mail-Adresse ein.';
+        case 'auth/operation-not-allowed':
+          return 'Anonymous Auth und Email/Password muessen in Firebase aktiviert sein.';
         case 'auth/weak-password':
           return 'Das Passwort ist zu schwach. Bitte verwende mindestens 8 Zeichen.';
       }

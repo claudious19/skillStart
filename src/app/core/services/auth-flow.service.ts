@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { createUserWithEmailAndPassword, deleteUser } from 'firebase/auth';
+import { EmailAuthProvider, User, deleteUser, linkWithCredential } from 'firebase/auth';
 import { Timestamp, writeBatch } from 'firebase/firestore';
 
 import { AccountStatus, AppUser, CandidateProfile, CompanyProfile, ReviewStatus, UserRole } from '../../models';
@@ -31,6 +31,8 @@ export class InvalidAccountError extends Error {
   }
 }
 
+type RegistrationRole = 'candidate' | 'company';
+
 @Injectable({ providedIn: 'root' })
 export class AuthFlowService {
   private readonly auth = inject(FIREBASE_AUTH);
@@ -39,100 +41,32 @@ export class AuthFlowService {
   private readonly userDocumentService = inject(UserDocumentService);
   private readonly roleRedirectService = inject(RoleRedirectService);
 
+  async prepareRegistrationSession(): Promise<void> {
+    await this.authService.ensureAnonymousSession();
+  }
+
   async registerCandidate(input: CandidateRegistrationInput): Promise<void> {
-    const credential = await createUserWithEmailAndPassword(this.auth, input.email, input.password);
+    const anonymousUser = await this.authService.ensureAnonymousSession();
 
     try {
-      const now = Timestamp.now();
-      const reviewStatus: ReviewStatus = 'draft';
-      const accountStatus: AccountStatus = 'active';
-      const userDocument: AppUser = {
-        uid: credential.user.uid,
-        email: credential.user.email ?? input.email,
-        role: 'candidate',
-        accountStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-      const candidateProfile: CandidateProfile = {
-        ownerId: credential.user.uid,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        apprenticeshipProfession: '',
-        specialisation: '',
-        graduationYear: new Date().getFullYear(),
-        skills: [],
-        personalProjects: [],
-        certificates: [],
-        location: '',
-        careerGoals: '',
-        desiredProfessionalFields: [],
-        reviewStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      const batch = writeBatch(this.firestoreCollections.firestore);
-      batch.set(
-        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, credential.user.uid),
-        userDocument,
-      );
-      batch.set(
-        this.firestoreCollections.doc<CandidateProfile>(
-          FIRESTORE_COLLECTIONS.candidateProfiles,
-          credential.user.uid,
-        ),
-        candidateProfile,
-      );
-      await batch.commit();
+      await this.createCandidateDraft(anonymousUser.uid, input);
+      await this.linkAnonymousUserWithEmail(anonymousUser, input.email, input.password);
+      await this.activateUserDocument(anonymousUser.uid, input.email);
     } catch (error) {
-      await deleteUser(credential.user);
+      await this.cleanupRegistrationDraft(anonymousUser, 'candidate');
       throw error;
     }
   }
 
   async registerCompany(input: CompanyRegistrationInput): Promise<void> {
-    const credential = await createUserWithEmailAndPassword(this.auth, input.email, input.password);
+    const anonymousUser = await this.authService.ensureAnonymousSession();
 
     try {
-      const now = Timestamp.now();
-      const reviewStatus: ReviewStatus = 'draft';
-      const accountStatus: AccountStatus = 'active';
-      const userDocument: AppUser = {
-        uid: credential.user.uid,
-        email: credential.user.email ?? input.email,
-        role: 'company',
-        accountStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-      const companyProfile: CompanyProfile = {
-        ownerId: credential.user.uid,
-        companyName: input.companyName,
-        contactPersonFirstName: input.contactPersonFirstName,
-        contactPersonLastName: input.contactPersonLastName,
-        location: '',
-        description: '',
-        reviewStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      const batch = writeBatch(this.firestoreCollections.firestore);
-      batch.set(
-        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, credential.user.uid),
-        userDocument,
-      );
-      batch.set(
-        this.firestoreCollections.doc<CompanyProfile>(
-          FIRESTORE_COLLECTIONS.companyProfiles,
-          credential.user.uid,
-        ),
-        companyProfile,
-      );
-      await batch.commit();
+      await this.createCompanyDraft(anonymousUser.uid, input);
+      await this.linkAnonymousUserWithEmail(anonymousUser, input.email, input.password);
+      await this.activateUserDocument(anonymousUser.uid, input.email);
     } catch (error) {
-      await deleteUser(credential.user);
+      await this.cleanupRegistrationDraft(anonymousUser, 'company');
       throw error;
     }
   }
@@ -177,5 +111,120 @@ export class AuthFlowService {
   private isAllowedRedirect(redirectTo: string, role: UserRole): boolean {
     const normalized = redirectTo.startsWith('/') ? redirectTo : `/${redirectTo}`;
     return normalized.startsWith(`/${role}/`);
+  }
+
+  private async createCandidateDraft(uid: string, input: CandidateRegistrationInput): Promise<void> {
+    const now = Timestamp.now();
+    const reviewStatus: ReviewStatus = 'draft';
+    const userDocument = this.createPendingUserDocument(uid, input.email, 'candidate', now);
+    const candidateProfile: CandidateProfile = {
+      ownerId: uid,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      apprenticeshipProfession: '',
+      specialisation: '',
+      graduationYear: new Date().getFullYear(),
+      skills: [],
+      personalProjects: [],
+      certificates: [],
+      location: '',
+      careerGoals: '',
+      desiredProfessionalFields: [],
+      reviewStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.set(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, uid), userDocument);
+    batch.set(
+      this.firestoreCollections.doc<CandidateProfile>(FIRESTORE_COLLECTIONS.candidateProfiles, uid),
+      candidateProfile,
+    );
+    await batch.commit();
+  }
+
+  private async createCompanyDraft(uid: string, input: CompanyRegistrationInput): Promise<void> {
+    const now = Timestamp.now();
+    const reviewStatus: ReviewStatus = 'draft';
+    const userDocument = this.createPendingUserDocument(uid, input.email, 'company', now);
+    const companyProfile: CompanyProfile = {
+      ownerId: uid,
+      companyName: input.companyName,
+      contactPersonFirstName: input.contactPersonFirstName,
+      contactPersonLastName: input.contactPersonLastName,
+      location: '',
+      description: '',
+      reviewStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.set(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, uid), userDocument);
+    batch.set(
+      this.firestoreCollections.doc<CompanyProfile>(FIRESTORE_COLLECTIONS.companyProfiles, uid),
+      companyProfile,
+    );
+    await batch.commit();
+  }
+
+  private createPendingUserDocument(
+    uid: string,
+    email: string,
+    role: RegistrationRole,
+    now: Timestamp,
+  ): AppUser {
+    const accountStatus: AccountStatus = 'pending';
+
+    return {
+      uid,
+      email,
+      role,
+      accountStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+  }
+
+  private async linkAnonymousUserWithEmail(user: User, email: string, password: string): Promise<void> {
+    const credential = EmailAuthProvider.credential(email, password);
+    await linkWithCredential(user, credential);
+  }
+
+  private async activateUserDocument(uid: string, email: string): Promise<void> {
+    const now = Timestamp.now();
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.update(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, uid), {
+      email,
+      accountStatus: 'active',
+      updatedAt: now,
+    } satisfies Pick<AppUser, 'accountStatus' | 'email' | 'updatedAt'>);
+    await batch.commit();
+  }
+
+  private async cleanupRegistrationDraft(user: User, role: RegistrationRole): Promise<void> {
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.delete(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, user.uid));
+    batch.delete(
+      this.firestoreCollections.doc(
+        role === 'candidate' ? FIRESTORE_COLLECTIONS.candidateProfiles : FIRESTORE_COLLECTIONS.companyProfiles,
+        user.uid,
+      ),
+    );
+
+    try {
+      await batch.commit();
+    } catch {
+      // Keep the original registration error visible to the caller.
+    }
+
+    if (user.isAnonymous) {
+      try {
+        await deleteUser(user);
+      } catch {
+        // The next registration attempt can create a fresh anonymous user.
+      }
+    }
   }
 }
