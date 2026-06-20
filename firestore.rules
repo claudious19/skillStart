@@ -16,20 +16,15 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    function isValidRole(role) {
-      return role in ['candidate', 'company', 'admin'];
-    }
-
-    function isValidReviewStatus(status) {
-      return status in ['draft', 'pending', 'approved', 'rejected', 'needs_changes'];
-    }
-
     function isAnonymousProvider() {
-      return request.auth.token.firebase.sign_in_provider == 'anonymous';
+      return isSignedIn()
+        && request.auth.token.firebase.sign_in_provider == 'anonymous';
     }
 
-    function isPasswordProvider() {
-      return request.auth.token.firebase.sign_in_provider == 'password';
+    function hasLinkedEmail(email) {
+      return isSignedIn()
+        && request.auth.token.email is string
+        && request.auth.token.email == email;
     }
 
     match /users/{uid} {
@@ -45,17 +40,16 @@ service cloud.firestore {
         && request.resource.data.updatedAt is timestamp;
 
       allow update: if isOwner(uid)
-        && isPasswordProvider()
         && resource.data.uid == uid
         && resource.data.role == request.resource.data.role
         && resource.data.accountStatus == 'pending'
         && request.resource.data.accountStatus == 'active'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email', 'accountStatus', 'updatedAt'])
         && request.resource.data.email is string
+        && hasLinkedEmail(request.resource.data.email)
         && request.resource.data.updatedAt is timestamp;
 
       allow delete: if isOwner(uid)
-        && isAnonymousProvider()
         && resource.data.accountStatus == 'pending';
     }
 
@@ -72,10 +66,9 @@ service cloud.firestore {
       allow update: if isOwner(uid)
         && resource.data.ownerId == uid
         && request.resource.data.ownerId == uid
-        && isValidReviewStatus(request.resource.data.reviewStatus);
+        && request.resource.data.reviewStatus == resource.data.reviewStatus;
 
       allow delete: if isOwner(uid)
-        && isAnonymousProvider()
         && resource.data.ownerId == uid
         && resource.data.reviewStatus == 'draft';
     }
@@ -93,10 +86,9 @@ service cloud.firestore {
       allow update: if isOwner(uid)
         && resource.data.ownerId == uid
         && request.resource.data.ownerId == uid
-        && isValidReviewStatus(request.resource.data.reviewStatus);
+        && request.resource.data.reviewStatus == resource.data.reviewStatus;
 
       allow delete: if isOwner(uid)
-        && isAnonymousProvider()
         && resource.data.ownerId == uid
         && resource.data.reviewStatus == 'draft';
     }
