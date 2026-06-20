@@ -30,6 +30,12 @@ export class InvalidAccountError extends Error {
   }
 }
 
+export class InactiveAccountError extends Error {
+  constructor() {
+    super('The authenticated account is not active yet.');
+  }
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthFlowService {
   private readonly authService = inject(AuthService);
@@ -75,7 +81,7 @@ export class AuthFlowService {
   }
 
   async resolveRedirectForUser(uid: string, redirectTo?: string | null): Promise<string> {
-    const appUser = await this.requireValidAppUser(uid);
+    const appUser = await this.requireActiveAppUser(uid);
 
     if (redirectTo && this.isAllowedRedirect(redirectTo, appUser.role)) {
       return redirectTo;
@@ -227,6 +233,16 @@ export class AuthFlowService {
 
     if (!appUser) {
       throw new InvalidAccountError();
+    }
+
+    return appUser;
+  }
+
+  private async requireActiveAppUser(uid: string): Promise<AppUser> {
+    const appUser = await this.requireValidAppUser(uid);
+
+    if (appUser.accountStatus !== 'active') {
+      throw new InactiveAccountError();
     }
 
     return appUser;
