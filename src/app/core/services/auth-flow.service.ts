@@ -45,49 +45,9 @@ export class AuthFlowService {
     const anonymousUser = await this.requireAnonymousUser();
 
     try {
-      const now = Timestamp.now();
-      const reviewStatus: ReviewStatus = 'draft';
-      const accountStatus: AccountStatus = 'active';
-      const userDocument: AppUser = {
-        uid: anonymousUser.uid,
-        email: input.email,
-        role: 'candidate',
-        accountStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-      const candidateProfile: CandidateProfile = {
-        ownerId: anonymousUser.uid,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        apprenticeshipProfession: '',
-        specialisation: '',
-        graduationYear: new Date().getFullYear(),
-        skills: [],
-        personalProjects: [],
-        certificates: [],
-        location: '',
-        careerGoals: '',
-        desiredProfessionalFields: [],
-        reviewStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      const batch = writeBatch(this.firestoreCollections.firestore);
-      batch.set(
-        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, anonymousUser.uid),
-        userDocument,
-      );
-      batch.set(
-        this.firestoreCollections.doc<CandidateProfile>(
-          FIRESTORE_COLLECTIONS.candidateProfiles,
-          anonymousUser.uid,
-        ),
-        candidateProfile,
-      );
-      await batch.commit();
-      await linkWithCredential(anonymousUser, EmailAuthProvider.credential(input.email, input.password));
+      await this.createCandidateDraft(anonymousUser, input);
+      await this.linkAnonymousUser(anonymousUser, input.email, input.password);
+      await this.activateUserDocument(anonymousUser.uid, input.email);
     } catch (error) {
       await this.cleanupFailedRegistration(anonymousUser, error);
     }
@@ -97,70 +57,12 @@ export class AuthFlowService {
     const anonymousUser = await this.requireAnonymousUser();
 
     try {
-      const now = Timestamp.now();
-      const reviewStatus: ReviewStatus = 'draft';
-      const accountStatus: AccountStatus = 'active';
-      const userDocument: AppUser = {
-        uid: anonymousUser.uid,
-        email: input.email,
-        role: 'company',
-        accountStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-      const companyProfile: CompanyProfile = {
-        ownerId: anonymousUser.uid,
-        companyName: input.companyName,
-        contactPersonFirstName: input.contactPersonFirstName,
-        contactPersonLastName: input.contactPersonLastName,
-        location: '',
-        description: '',
-        reviewStatus,
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      const batch = writeBatch(this.firestoreCollections.firestore);
-      batch.set(
-        this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, anonymousUser.uid),
-        userDocument,
-      );
-      batch.set(
-        this.firestoreCollections.doc<CompanyProfile>(
-          FIRESTORE_COLLECTIONS.companyProfiles,
-          anonymousUser.uid,
-        ),
-        companyProfile,
-      );
-      await batch.commit();
-      await linkWithCredential(anonymousUser, EmailAuthProvider.credential(input.email, input.password));
+      await this.createCompanyDraft(anonymousUser, input);
+      await this.linkAnonymousUser(anonymousUser, input.email, input.password);
+      await this.activateUserDocument(anonymousUser.uid, input.email);
     } catch (error) {
       await this.cleanupFailedRegistration(anonymousUser, error);
     }
-  }
-
-  private async requireAnonymousUser(): Promise<User> {
-    const user = await this.authService.ensureAnonymousSession();
-
-    if (!user.isAnonymous) {
-      throw new Error('Registration requires an anonymous session.');
-    }
-
-    return user;
-  }
-
-  private async cleanupFailedRegistration(user: User, error: unknown): Promise<never> {
-    try {
-      await this.deleteOwnedRegistrationDocuments(user.uid);
-    } finally {
-      try {
-        await deleteUser(user);
-      } catch {
-        // Ignore cleanup failures and preserve the original registration error.
-      }
-    }
-
-    throw error;
   }
 
   async loginAndResolveRedirect(
@@ -188,6 +90,128 @@ export class AuthFlowService {
 
   async resetPassword(email: string): Promise<void> {
     await this.authService.resetPassword(email);
+  }
+
+  private async requireAnonymousUser(): Promise<User> {
+    const user = await this.authService.ensureAnonymousSession();
+
+    if (!user.isAnonymous) {
+      throw new Error('Registration requires an anonymous session.');
+    }
+
+    return user;
+  }
+
+  private async createCandidateDraft(user: User, input: CandidateRegistrationInput): Promise<void> {
+    const now = Timestamp.now();
+    const accountStatus: AccountStatus = 'pending';
+    const reviewStatus: ReviewStatus = 'draft';
+
+    const userDocument: AppUser = {
+      uid: user.uid,
+      email: input.email,
+      role: 'candidate',
+      accountStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const candidateProfile: CandidateProfile = {
+      ownerId: user.uid,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      apprenticeshipProfession: '',
+      specialisation: '',
+      graduationYear: new Date().getFullYear(),
+      skills: [],
+      personalProjects: [],
+      certificates: [],
+      location: '',
+      careerGoals: '',
+      desiredProfessionalFields: [],
+      reviewStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.set(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, user.uid), userDocument);
+    batch.set(
+      this.firestoreCollections.doc<CandidateProfile>(FIRESTORE_COLLECTIONS.candidateProfiles, user.uid),
+      candidateProfile,
+    );
+
+    await batch.commit();
+  }
+
+  private async createCompanyDraft(user: User, input: CompanyRegistrationInput): Promise<void> {
+    const now = Timestamp.now();
+    const accountStatus: AccountStatus = 'pending';
+    const reviewStatus: ReviewStatus = 'draft';
+
+    const userDocument: AppUser = {
+      uid: user.uid,
+      email: input.email,
+      role: 'company',
+      accountStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const companyProfile: CompanyProfile = {
+      ownerId: user.uid,
+      companyName: input.companyName,
+      contactPersonFirstName: input.contactPersonFirstName,
+      contactPersonLastName: input.contactPersonLastName,
+      location: '',
+      description: '',
+      reviewStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.set(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, user.uid), userDocument);
+    batch.set(
+      this.firestoreCollections.doc<CompanyProfile>(FIRESTORE_COLLECTIONS.companyProfiles, user.uid),
+      companyProfile,
+    );
+
+    await batch.commit();
+  }
+
+  private async linkAnonymousUser(user: User, email: string, password: string): Promise<void> {
+    const credential = EmailAuthProvider.credential(email, password);
+    const linkedCredential = await linkWithCredential(user, credential);
+
+    await linkedCredential.user.getIdToken(true);
+  }
+
+  private async activateUserDocument(uid: string, email: string): Promise<void> {
+    const now = Timestamp.now();
+
+    const batch = writeBatch(this.firestoreCollections.firestore);
+    batch.update(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, uid), {
+      email,
+      accountStatus: 'active',
+      updatedAt: now,
+    } satisfies Pick<AppUser, 'email' | 'accountStatus' | 'updatedAt'>);
+
+    await batch.commit();
+  }
+
+  private async cleanupFailedRegistration(user: User, error: unknown): Promise<never> {
+    try {
+      await this.deleteOwnedRegistrationDocuments(user.uid);
+    } finally {
+      try {
+        await deleteUser(user);
+      } catch {
+        // Ignore cleanup failures and preserve the original registration error.
+      }
+    }
+
+    throw error;
   }
 
   private async deleteOwnedRegistrationDocuments(uid: string): Promise<void> {
