@@ -1,51 +1,42 @@
-<main class="profile-page profile-page--company">
-  <header class="profile-header">
-    <div>
-      <p class="profile-kicker">Unternehmensprofil</p>
-<<<<<<< HEAD
-      <h1>{{ companyName() || 'Deine Firma im Überblick.' }}</h1>
-      <p>
-        Pflege Standort und Beschreibung zentral auf der Firmenebene, damit alle zugeordneten Company-User mit denselben Daten arbeiten.
-=======
-      <h1>Zeig, wofür dein Team steht.</h1>
-      <p>
-        Diese Basisdaten helfen Kandidaten, Standort, Arbeitsumfeld und Einstiegschancen besser einzuschätzen.
->>>>>>> 57582642ea4c8b9f9155c08f24ab5aa638fae960
-      </p>
-    </div>
-
-    <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Logout</button>
-  </header>
+<section class="profile-shell">
+  <a routerLink="/company/dashboard" class="back-link">Zurück zum Dashboard</a>
 
   @if (isLoading()) {
-    <section class="profile-panel" aria-live="polite">
-      <p>Profil wird geladen...</p>
-    </section>
+    <p>Lade Firmenprofil ...</p>
   } @else {
-    <form class="profile-panel profile-form profile-form--compact" [formGroup]="form" (ngSubmit)="save()">
-      @if (errorMessage()) {
-        <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
-      }
+    <header class="profile-header">
+      <p class="eyebrow">Company Profil</p>
+      <h1>Firmenprofil bearbeiten</h1>
+      <p class="subtitle">Pflege hier die öffentlichen Basisdaten deiner Firma.</p>
+    </header>
 
-      @if (successMessage()) {
-        <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
-      }
+    @if (errorMessage()) {
+      <p class="form-message error">{{ errorMessage() }}</p>
+    }
 
-      <label class="profile-field">
-        <span>Standort</span>
-        <input class="ui-input" type="text" formControlName="location" autocomplete="address-level2" />
+    @if (successMessage()) {
+      <p class="form-message success">{{ successMessage() }}</p>
+    }
+
+    <form class="profile-form" [formGroup]="form" (ngSubmit)="save()">
+      <label>
+        <span>Beschreibung</span>
+        <textarea
+          formControlName="description"
+          rows="5"
+          placeholder="Beschreibe euer Unternehmen, Team und Fokus."
+        ></textarea>
       </label>
 
-      <label class="profile-field profile-field--wide">
-        <span>Beschreibung</span>
-        <textarea class="ui-input" rows="6" formControlName="description"></textarea>
+      <label>
+        <span>Ort</span>
+        <input type="text" formControlName="location" placeholder="Zürich" />
       </label>
 
       <div class="profile-actions">
-        <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
-          {{ isSaving() ? 'Speichern...' : 'Profil speichern' }}
-        </button>
+        <button type="submit" [disabled]="form.invalid">Speichern</button>
+        <button type="button" class="secondary" (click)="logout()">Logout</button>
       </div>
     </form>
   }
-</main>
+</section>
