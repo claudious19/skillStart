@@ -8,26 +8,16 @@ const loadPlaceholder = () =>
 export const CANDIDATE_DASHBOARD_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: loadPlaceholder,
-    data: {
-      section: 'Candidate',
-      title: 'Kandidaten-Dashboard',
-      description:
-        'Die geschuetzte Route steht. Inhalte und Kennzahlen folgen erst, wenn Auth und Profil-Features implementiert werden.',
-    },
+    loadComponent: () =>
+      import('./candidate-profile-page.component').then((module) => module.CandidateProfilePageComponent),
   },
 ];
 
 export const CANDIDATE_PROFILE_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: loadPlaceholder,
-    data: {
-      section: 'Candidate Profile',
-      title: 'Kandidatenprofil',
-      description:
-        'Der Profilbereich ist strukturell angelegt. Formularfelder, Speicherung und Review-Status kommen in den spaeteren Profil-Prompts.',
-    },
+    loadComponent: () =>
+      import('./candidate-profile-page.component').then((module) => module.CandidateProfilePageComponent),
   },
 ];
 

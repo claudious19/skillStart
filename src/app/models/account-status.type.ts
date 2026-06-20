@@ -1,1 +1,1 @@
-export type AccountStatus = 'active' | 'blocked' | 'pending';
+export type AccountStatus = 'active' | 'pending';

@@ -1,16 +1,13 @@
 import { AppTimestamp } from './app-timestamp.type';
 import { ReviewStatus } from './review-status.type';
 
-export interface CompanyProfile {
-  ownerId: string;
+export interface Company {
+  companyId: string;
   companyName: string;
-  contactPersonFirstName: string;
-  contactPersonLastName: string;
-  websiteUrl?: string;
-  location: string;
   description: string;
+  location: string;
   reviewStatus: ReviewStatus;
-  reviewComment?: string;
+  createdBy: string;
   createdAt: AppTimestamp;
   updatedAt: AppTimestamp;
 }

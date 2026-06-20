@@ -9,7 +9,7 @@ import { AppUser } from '../../models/app-user.model';
 import { UserRole } from '../../models/user-role.type';
 
 const VALID_USER_ROLES: UserRole[] = ['candidate', 'company', 'admin'];
-const VALID_ACCOUNT_STATUSES: AccountStatus[] = ['active', 'blocked', 'pending'];
+const VALID_ACCOUNT_STATUSES: AccountStatus[] = ['active', 'pending'];
 
 @Injectable({ providedIn: 'root' })
 export class UserDocumentService {
@@ -47,7 +47,15 @@ export class UserDocumentService {
 
     return {
       uid: snapshot.id,
-      ...data,
+      email: data['email'],
+      role: data['role'],
+      companyId: typeof data['companyId'] === 'string' ? data['companyId'] : null,
+      displayName: typeof data['displayName'] === 'string' ? data['displayName'] : data['email'],
+      firstName: typeof data['firstName'] === 'string' ? data['firstName'] : undefined,
+      lastName: typeof data['lastName'] === 'string' ? data['lastName'] : undefined,
+      accountStatus: data['accountStatus'],
+      createdAt: data['createdAt'],
+      updatedAt: data['updatedAt'],
     };
   }
 

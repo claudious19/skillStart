@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { EmailAuthProvider, User, deleteUser, linkWithCredential } from 'firebase/auth';
-import { Timestamp, writeBatch } from 'firebase/firestore';
+import { Timestamp, doc, writeBatch } from 'firebase/firestore';
 
-import { AccountStatus, AppUser, CandidateProfile, CompanyProfile, ReviewStatus, UserRole } from '../../models';
+import { AccountStatus, AppUser, CandidateProfile, Company, ReviewStatus, UserRole } from '../../models';
 import { FIRESTORE_COLLECTIONS } from '../../firebase/firestore.collections';
 import { FirestoreCollectionService } from './firestore-collection.service';
 import { RoleRedirectService } from './role-redirect.service';
@@ -61,13 +61,14 @@ export class AuthFlowService {
 
   async registerCompany(input: CompanyRegistrationInput): Promise<void> {
     const anonymousUser = await this.requireAnonymousUser();
+    const companyId = this.createCompanyId();
 
     try {
-      await this.createCompanyDraft(anonymousUser, input);
+      await this.createCompanyDraft(anonymousUser, companyId, input);
       await this.linkAnonymousUser(anonymousUser, input.email, input.password);
       await this.activateUserDocument(anonymousUser.uid, input.email);
     } catch (error) {
-      await this.cleanupFailedRegistration(anonymousUser, error);
+      await this.cleanupFailedRegistration(anonymousUser, error, companyId);
     }
   }
 
@@ -112,11 +113,16 @@ export class AuthFlowService {
     const now = Timestamp.now();
     const accountStatus: AccountStatus = 'pending';
     const reviewStatus: ReviewStatus = 'draft';
+    const displayName = `${input.firstName.trim()} ${input.lastName.trim()}`.trim();
 
     const userDocument: AppUser = {
       uid: user.uid,
       email: input.email,
       role: 'candidate',
+      companyId: null,
+      displayName,
+      firstName: input.firstName.trim(),
+      lastName: input.lastName.trim(),
       accountStatus,
       createdAt: now,
       updatedAt: now,
@@ -150,28 +156,36 @@ export class AuthFlowService {
     await batch.commit();
   }
 
-  private async createCompanyDraft(user: User, input: CompanyRegistrationInput): Promise<void> {
+  private async createCompanyDraft(
+    user: User,
+    companyId: string,
+    input: CompanyRegistrationInput,
+  ): Promise<void> {
     const now = Timestamp.now();
     const accountStatus: AccountStatus = 'pending';
     const reviewStatus: ReviewStatus = 'draft';
+    const displayName = `${input.contactPersonFirstName.trim()} ${input.contactPersonLastName.trim()}`.trim();
 
     const userDocument: AppUser = {
       uid: user.uid,
       email: input.email,
       role: 'company',
+      companyId,
+      displayName,
+      firstName: input.contactPersonFirstName.trim(),
+      lastName: input.contactPersonLastName.trim(),
       accountStatus,
       createdAt: now,
       updatedAt: now,
     };
 
-    const companyProfile: CompanyProfile = {
-      ownerId: user.uid,
+    const company: Company = {
+      companyId,
       companyName: input.companyName,
-      contactPersonFirstName: input.contactPersonFirstName,
-      contactPersonLastName: input.contactPersonLastName,
-      location: '',
       description: '',
+      location: '',
       reviewStatus,
+      createdBy: user.uid,
       createdAt: now,
       updatedAt: now,
     };
@@ -179,11 +193,15 @@ export class AuthFlowService {
     const batch = writeBatch(this.firestoreCollections.firestore);
     batch.set(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, user.uid), userDocument);
     batch.set(
-      this.firestoreCollections.doc<CompanyProfile>(FIRESTORE_COLLECTIONS.companyProfiles, user.uid),
-      companyProfile,
+      this.firestoreCollections.doc<Company>(FIRESTORE_COLLECTIONS.companies, companyId),
+      company,
     );
 
     await batch.commit();
+  }
+
+  private createCompanyId(): string {
+    return doc(this.firestoreCollections.collection<Company>(FIRESTORE_COLLECTIONS.companies)).id;
   }
 
   private async linkAnonymousUser(user: User, email: string, password: string): Promise<void> {
@@ -206,9 +224,9 @@ export class AuthFlowService {
     await batch.commit();
   }
 
-  private async cleanupFailedRegistration(user: User, error: unknown): Promise<never> {
+  private async cleanupFailedRegistration(user: User, error: unknown, companyId?: string): Promise<never> {
     try {
-      await this.deleteOwnedRegistrationDocuments(user.uid);
+      await this.deleteOwnedRegistrationDocuments(user.uid, companyId);
     } finally {
       try {
         await deleteUser(user);
@@ -220,11 +238,13 @@ export class AuthFlowService {
     throw error;
   }
 
-  private async deleteOwnedRegistrationDocuments(uid: string): Promise<void> {
+  private async deleteOwnedRegistrationDocuments(uid: string, companyId?: string): Promise<void> {
     const batch = writeBatch(this.firestoreCollections.firestore);
     batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.users, uid));
     batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.candidateProfiles, uid));
-    batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.companyProfiles, uid));
+    if (companyId) {
+      batch.delete(this.firestoreCollections.doc(FIRESTORE_COLLECTIONS.companies, companyId));
+    }
     await batch.commit();
   }
 

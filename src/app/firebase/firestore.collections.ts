@@ -1,7 +1,7 @@
 export const FIRESTORE_COLLECTIONS = {
   users: 'users',
+  companies: 'companies',
   candidateProfiles: 'candidateProfiles',
-  companyProfiles: 'companyProfiles',
   jobPosts: 'jobPosts',
   applications: 'applications',
   contactRequests: 'contactRequests',

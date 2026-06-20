@@ -6,6 +6,10 @@ export interface AppUser {
   uid: string;
   email: string;
   role: UserRole;
+  companyId: string | null;
+  displayName: string;
+  firstName?: string;
+  lastName?: string;
   accountStatus: AccountStatus;
   createdAt: AppTimestamp;
   updatedAt: AppTimestamp;

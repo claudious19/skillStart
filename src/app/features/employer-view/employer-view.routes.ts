@@ -8,13 +8,8 @@ const loadPlaceholder = () =>
 export const COMPANY_DASHBOARD_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: loadPlaceholder,
-    data: {
-      section: 'Company',
-      title: 'Unternehmens-Dashboard',
-      description:
-        'Der geschuetzte Arbeitgeberbereich ist eingerichtet. Daten, Aktionen und Metriken werden in spaeteren Prompts aufgebaut.',
-    },
+    loadComponent: () =>
+      import('../company-profile/company-profile-page.component').then((module) => module.CompanyProfilePageComponent),
   },
 ];
 
