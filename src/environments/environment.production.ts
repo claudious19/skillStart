@@ -1,6 +1,6 @@
+import { environment as developmentEnvironment } from './environment.development';
+
 export const environment = {
+  ...developmentEnvironment,
   production: true,
-  appName: 'SkillStart',
-  githubPagesBaseHref: '/skillStart/',
-  useHashRouting: true,
 };

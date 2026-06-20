@@ -1,36 +1,63 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import {
+  browserLocalPersistence,
+  sendPasswordResetEmail,
+  setPersistence,
+  signInAnonymously,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import { Observable, firstValueFrom, shareReplay } from 'rxjs';
 
-import { MockDatabaseService } from './mock-database.service';
-
-export interface AuthSessionUser {
-  uid: string;
-  email: string;
-}
+import { FIREBASE_AUTH } from '../../firebase/firebase.tokens';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly mockDatabase = inject(MockDatabaseService);
+  private readonly auth = inject(FIREBASE_AUTH);
+  private readonly persistenceReady = setPersistence(this.auth, browserLocalPersistence);
 
-  readonly authState$: Observable<AuthSessionUser | null> = this.mockDatabase.authState$;
+  readonly authState$: Observable<User | null> = new Observable<User | null>((subscriber) => {
+    const unsubscribe = onAuthStateChanged(
+      this.auth,
+      (user) => subscriber.next(user),
+      (error) => subscriber.error(error),
+    );
 
-  get currentUser(): AuthSessionUser | null {
-    return this.mockDatabase.currentSession;
+    return unsubscribe;
+  }).pipe(shareReplay({ bufferSize: 1, refCount: true }));
+
+  get currentUser(): User | null {
+    return this.auth.currentUser;
   }
 
-  waitForAuthState(): Promise<AuthSessionUser | null> {
+  waitForAuthState(): Promise<User | null> {
     return firstValueFrom(this.authState$);
   }
 
-  async login(email: string, password: string): Promise<AuthSessionUser> {
-    return this.mockDatabase.login(email, password);
+  async login(email: string, password: string): Promise<User> {
+    await this.persistenceReady;
+    const credential = await signInWithEmailAndPassword(this.auth, email, password);
+    return credential.user;
+  }
+
+  async ensureAnonymousSession(): Promise<User> {
+    await this.persistenceReady;
+
+    if (this.auth.currentUser?.isAnonymous) {
+      return this.auth.currentUser;
+    }
+
+    const credential = await signInAnonymously(this.auth);
+    return credential.user;
   }
 
   async logout(): Promise<void> {
-    await this.mockDatabase.logout();
+    await signOut(this.auth);
   }
 
   async resetPassword(email: string): Promise<void> {
-    await this.mockDatabase.resetPassword(email);
+    await sendPasswordResetEmail(this.auth, email);
   }
 }

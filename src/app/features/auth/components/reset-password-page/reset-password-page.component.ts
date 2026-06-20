@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { FirebaseError } from 'firebase/app';
 
 import { AuthFlowService } from '../../../../core/services/auth-flow.service';
-import { MockAuthError } from '../../../../core/services/mock-auth.error';
 
 @Component({
   selector: 'app-reset-password-page',
@@ -44,7 +44,7 @@ export class ResetPasswordPageComponent {
   }
 
   private getErrorMessage(error: unknown): string {
-    if (error instanceof MockAuthError && error.code === 'auth/invalid-email') {
+    if (error instanceof FirebaseError && error.code === 'auth/invalid-email') {
       return 'Bitte gib eine gueltige E-Mail-Adresse ein.';
     }
 

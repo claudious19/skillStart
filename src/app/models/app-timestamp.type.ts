@@ -1,1 +1,1 @@
-export type AppTimestamp = string;
+export type AppTimestamp = object;

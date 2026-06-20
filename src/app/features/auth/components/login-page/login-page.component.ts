@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FirebaseError } from 'firebase/app';
 
 import { AuthFlowService, InvalidAccountError } from '../../../../core/services/auth-flow.service';
-import { MockAuthError } from '../../../../core/services/mock-auth.error';
 
 @Component({
   selector: 'app-login-page',
@@ -55,7 +55,7 @@ export class LoginPageComponent {
   }
 
   private getErrorMessage(error: unknown): string {
-    if (error instanceof MockAuthError) {
+    if (error instanceof FirebaseError) {
       switch (error.code) {
         case 'auth/invalid-credential':
         case 'auth/invalid-email':
