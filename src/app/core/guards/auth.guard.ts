@@ -8,8 +8,12 @@ export const authGuard: CanActivateFn = async (_, state) => {
   const router = inject(Router);
   const user = await authService.waitForAuthState();
 
-  if (user) {
+  if (user && !user.isAnonymous) {
     return true;
+  }
+
+  if (user?.isAnonymous) {
+    return router.createUrlTree(['/auth/register']);
   }
 
   return router.createUrlTree(['/auth/login'], {

@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FirebaseError } from 'firebase/app';
 
-import { AuthFlowService, InvalidAccountError } from '../../../../core/services/auth-flow.service';
+import { AuthFlowService, InactiveAccountError, InvalidAccountError } from '../../../../core/services/auth-flow.service';
 
 @Component({
   selector: 'app-login-page',
@@ -43,7 +43,7 @@ export class LoginPageComponent {
       );
       await this.router.navigateByUrl(targetUrl);
     } catch (error) {
-      if (error instanceof InvalidAccountError) {
+      if (error instanceof InvalidAccountError || error instanceof InactiveAccountError) {
         await this.router.navigate(['/account-error']);
         return;
       }

@@ -18,9 +18,13 @@ export function roleGuard(allowedRoles: UserRole[]): CanActivateFn {
       return router.createUrlTree(['/auth/login']);
     }
 
+    if (user.isAnonymous) {
+      return router.createUrlTree(['/auth/register']);
+    }
+
     const appUser = await userDocumentService.getUserDocument(user.uid);
 
-    if (!appUser) {
+    if (!appUser || appUser.accountStatus !== 'active') {
       return router.createUrlTree(['/account-error']);
     }
 

@@ -15,13 +15,13 @@ export const publicOnlyGuard: CanMatchFn = async (
   const userDocumentService = inject(UserDocumentService);
   const user = await authService.waitForAuthState();
 
-  if (!user) {
+  if (!user || user.isAnonymous) {
     return true;
   }
 
   const appUser = await userDocumentService.getUserDocument(user.uid);
 
-  if (!appUser) {
+  if (!appUser || appUser.accountStatus !== 'active') {
     return router.createUrlTree(['/account-error']);
   }
 
