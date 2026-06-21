@@ -1,0 +1,106 @@
+# DESIGN_SYSTEM
+
+## Grundausrichtung
+
+Die aktuelle UI ist mobil zuerst gedacht und arbeitet mit hellen Flaechen, klaren Karten, violett-tuerkiser Markenfuehrung und grosszuegigen Abstaenden. Die Landingpage setzt staerker auf Marketingwirkung, waehrend Auth- und Profilseiten auf Klarheit und Formularfuehrung optimiert sind.
+
+## Design-Tokens
+
+Globale Tokens liegen in:
+
+- [`src/styles.css`](C:\Users\claudio\Documents\SkillStart\src\styles.css)
+
+Zentrale Farben:
+
+- `--color-primary: #4f46e5`
+- `--color-secondary: #14b8a6`
+- `--color-background: #f8fafc`
+- `--color-surface: #ffffff`
+- `--color-text: #0f172a`
+- `--color-text-secondary: #475569`
+- `--color-border: #cbd5e1`
+
+Zentrale Radiuswerte:
+
+- `--radius-sm: 0.5rem`
+- `--radius-md: 0.75rem`
+- `--radius-lg: 1rem`
+
+Zentrale Schatten:
+
+- `--shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05)`
+- `--shadow-md: 0 14px 34px rgba(15, 23, 42, 0.08)`
+
+Desktop-Anpassung ab `1024px`:
+
+- staerkere Border-Farbe
+- staerkere Karten- und Layout-Schatten
+
+## Typografie
+
+- Basisschrift: `"Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif`
+- Hero-Promise auf der Landingpage verwendet bewusst Serif-Kontrast ueber `Georgia, "Times New Roman", serif`
+
+## Wiederverwendete UI-Bausteine
+
+Globale Primitive:
+
+- `.ui-card`
+- `.ui-button`
+- `.ui-button--primary`
+- `.ui-button--secondary`
+- `.ui-input`
+- `.ui-badge`
+- `.status-badge`
+
+Gemeinsame Seitensysteme:
+
+- Auth-Seiten teilen `auth-page.shared.css`
+- Kandidaten- und Firmenprofil teilen `profile-page.shared.css`
+
+## Landingpage-System
+
+Eigene Landing-Struktur:
+
+- Header mit Brand, Anchor-Navigation und CTA
+- Hero mit Copy und Profil-Panel
+- Proof-Band
+- Problem-/Warum-Sektion
+- Drei-Schritte-Sektion
+- Rollen-Sektion
+- Final CTA
+- Footer
+
+Kennzeichen:
+
+- grosser Gradient-Hero
+- Karten fuer Rollen und Problemargumente
+- scrollbare Proof-Badges auf kleinen Screens
+
+## Formularsystem
+
+Auth- und Profilformulare verwenden:
+
+- klare Einspalten-Layouts auf Mobile
+- Zwei-Spalten-Layouts erst auf groesseren Screens
+- Inline-Fehlerfuehrung vor allem bei der Firmenprofilseite
+
+## Responsive Verhalten
+
+Mobile zuerst:
+
+- kompakte Karten
+- vertikale Formular- und CTA-Stapel
+- grosse Touch-Ziele
+
+Desktop:
+
+- breitere Grid-Layouts
+- sichtbarere Kartenkonturen und Schatten
+- Header- und Hero-Aufteilung in Spalten
+
+## Aktuelle UI-Grenzen
+
+- Kein eigenes Komponenten-Designsystem ausserhalb von CSS-Klassen
+- Keine dedizierte Navigationsstruktur innerhalb geschuetzter Dashboards
+- Platzhalterseiten nutzen noch eine einfachere, vom Kernsystem abweichende Kartenoptik
