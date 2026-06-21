@@ -158,3 +158,19 @@ select:focus-visible {
   outline: 2px solid rgba(79, 70, 229, 0.45);
   outline-offset: 2px;
 }
+
+@media (min-width: 1024px) {
+  :root {
+    --color-border: #b8c4d3;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 16px 38px rgba(15, 23, 42, 0.09);
+  }
+
+  .ui-card {
+    box-shadow: var(--shadow-md);
+  }
+
+  .ui-button {
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.02);
+  }
+}
