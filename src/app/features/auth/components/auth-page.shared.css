@@ -76,6 +76,10 @@
   gap: 1.25rem;
 }
 
+.auth-back-link {
+  width: fit-content;
+}
+
 .auth-panel--form h1,
 .auth-panel--form h2,
 .auth-panel--form p {

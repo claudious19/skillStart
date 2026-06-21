@@ -104,6 +104,11 @@
   color: #166534;
 }
 
+.profile-header__actions {
+  display: grid;
+  gap: var(--space-3);
+}
+
 .profile-actions {
   display: flex;
   justify-content: flex-start;
@@ -126,6 +131,12 @@
 
   .profile-header .ui-button {
     width: auto;
+  }
+
+  .profile-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .profile-form {

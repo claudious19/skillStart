@@ -22,8 +22,8 @@
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 14px 34px rgba(15, 23, 42, 0.08);
   background-color: var(--color-background);
   color: var(--color-text);
 }
@@ -161,9 +161,9 @@ select:focus-visible {
 
 @media (min-width: 1024px) {
   :root {
-    --color-border: #b8c4d3;
-    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-    --shadow-md: 0 16px 38px rgba(15, 23, 42, 0.09);
+    --color-border: #afbccd;
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 20px 48px rgba(15, 23, 42, 0.12);
   }
 
   .ui-card {
