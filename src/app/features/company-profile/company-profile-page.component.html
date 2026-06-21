@@ -1,42 +1,51 @@
-<section class="profile-shell">
-  <a routerLink="/company/dashboard" class="back-link">Zurück zum Dashboard</a>
+<main class="profile-page profile-page--company">
+  <header class="profile-header">
+    <div>
+      <p class="profile-kicker">Firmenprofil</p>
+      <h1>Zeig, wofuer eure Firma steht.</h1>
+      <p>
+        Ergaenze die wichtigsten Basisinformationen, damit Kandidatinnen und Kandidaten euch schnell
+        einordnen koennen.
+      </p>
+    </div>
+
+    <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Logout</button>
+  </header>
 
   @if (isLoading()) {
-    <p>Lade Firmenprofil ...</p>
+    <section class="profile-panel" aria-live="polite">
+      <p>Firmenprofil wird geladen...</p>
+    </section>
   } @else {
-    <header class="profile-header">
-      <p class="eyebrow">Company Profil</p>
-      <h1>Firmenprofil bearbeiten</h1>
-      <p class="subtitle">Pflege hier die öffentlichen Basisdaten deiner Firma.</p>
-    </header>
+    <form class="profile-panel profile-form profile-form--compact" [formGroup]="form" (ngSubmit)="save()">
+      @if (errorMessage()) {
+        <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
+      }
 
-    @if (errorMessage()) {
-      <p class="form-message error">{{ errorMessage() }}</p>
-    }
+      @if (successMessage()) {
+        <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
+      }
 
-    @if (successMessage()) {
-      <p class="form-message success">{{ successMessage() }}</p>
-    }
-
-    <form class="profile-form" [formGroup]="form" (ngSubmit)="save()">
-      <label>
+      <label class="profile-field profile-field--wide">
         <span>Beschreibung</span>
         <textarea
-          formControlName="description"
+          class="ui-input"
           rows="5"
-          placeholder="Beschreibe euer Unternehmen, Team und Fokus."
+          formControlName="description"
+          placeholder="Beschreibe euer Unternehmen, euer Team und euren Fokus."
         ></textarea>
       </label>
 
-      <label>
-        <span>Ort</span>
-        <input type="text" formControlName="location" placeholder="Zürich" />
+      <label class="profile-field">
+        <span>Standort</span>
+        <input class="ui-input" type="text" formControlName="location" placeholder="Zuerich" />
       </label>
 
       <div class="profile-actions">
-        <button type="submit" [disabled]="form.invalid">Speichern</button>
-        <button type="button" class="secondary" (click)="logout()">Logout</button>
+        <button class="ui-button ui-button--primary" type="submit">
+          Firmenprofil speichern
+        </button>
       </div>
     </form>
   }
-</section>
+</main>

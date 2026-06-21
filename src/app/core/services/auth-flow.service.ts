@@ -172,7 +172,7 @@ export class AuthFlowService {
       email: input.email,
       role: 'company',
       companyId,
-      CompanyDisplayname: companyId,
+      CompanyDisplayname: input.companyName.trim(),
       displayName,
       firstName: input.contactPersonFirstName.trim(),
       lastName: input.contactPersonLastName.trim(),
