@@ -15,3 +15,4 @@
 - Kandidatenprofil zeigt Pflicht- und optionale Felder direkt im Label und erlaubt leere Nachweisfelder dort, wo es sinnvoll ist
 - `Abschlussjahr` und `Gewünschte Berufsfelder` im Kandidatenprofil sind jetzt wieder Pflichtfelder, damit die Profilbasis eindeutig bleibt
 - Kommagetrennte Felder im Abschnitt `Stärken und Ziele` akzeptieren jetzt leere Eingaben ohne Formatfehler und werden nur bei Inhalt aufgeteilt
+- Kandidatenprofil zeigt nach dem Speichern jetzt eine eigene Erfolgsnachricht, die explizit das Kandidatenprofil nennt

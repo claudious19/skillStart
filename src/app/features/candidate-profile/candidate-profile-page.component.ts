@@ -177,7 +177,7 @@ export class CandidateProfilePageComponent implements OnInit {
             }
           : currentProfile,
       );
-      this.successMessage.set('Dein Profil wurde gespeichert.');
+      this.successMessage.set('Dein Kandidatenprofil wurde gespeichert.');
     } catch {
       this.errorMessage.set('Dein Profil konnte nicht gespeichert werden.');
     } finally {
