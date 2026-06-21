@@ -1,16 +1,24 @@
 <main class="profile-page profile-page--candidate">
   <header class="profile-header">
-    <div>
+    <div class="profile-header__content">
       <p class="profile-kicker">Kandidatenprofil</p>
       <h1>Mach dein Potenzial greifbar.</h1>
       <p>
         Ergänze die wichtigsten Informationen, damit Unternehmen deine Richtung und Stärken schneller verstehen.
       </p>
+
+      <div class="profile-header__meta">
+        @if (getReviewStatusLabel(); as reviewStatusLabel) {
+          <span class="status-badge" [ngClass]="getReviewStatusClass()">{{ reviewStatusLabel }}</span>
+        }
+
+        <span class="profile-meta-chip">Profilaufbau für Bewerbung und Sichtbarkeit</span>
+      </div>
     </div>
 
     <div class="profile-header__actions">
       <a routerLink="/" class="ui-button ui-button--secondary">Zur Startseite</a>
-      <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Logout</button>
+      <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Abmelden</button>
     </div>
   </header>
 
@@ -19,46 +27,174 @@
       <p>Profil wird geladen...</p>
     </section>
   } @else {
-    <form class="profile-panel profile-form" [formGroup]="form" (ngSubmit)="save()">
-      @if (errorMessage()) {
-        <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
-      }
+    <div class="profile-layout">
+      <form class="profile-panel profile-form" [formGroup]="form" (ngSubmit)="save()">
+        @if (errorMessage()) {
+          <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
+        }
 
-      @if (successMessage()) {
-        <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
-      }
+        @if (successMessage()) {
+          <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
+        }
 
-      <label class="profile-field">
-        <span>Lehrberuf</span>
-        <input class="ui-input" type="text" formControlName="apprenticeshipProfession" autocomplete="organization-title" />
-      </label>
+        <section class="profile-section">
+          <div class="profile-section__heading">
+            <h2>Basis</h2>
+            <p>Die wichtigsten Eckdaten für den ersten Eindruck.</p>
+          </div>
 
-      <label class="profile-field">
-        <span>Spezialisierung</span>
-        <input class="ui-input" type="text" formControlName="specialisation" />
-      </label>
+          <div class="profile-grid">
+            <label class="profile-field">
+              <span>Vorname</span>
+              <input class="ui-input" type="text" formControlName="firstName" autocomplete="given-name" />
+              @if (isFieldInvalid('firstName')) {
+                <small class="profile-field__error">Vorname ist erforderlich.</small>
+              }
+            </label>
 
-      <label class="profile-field profile-field--wide">
-        <span>Skills</span>
-        <input class="ui-input" type="text" formControlName="skills" placeholder="Angular, TypeScript, Firebase" />
-        <small>Trenne mehrere Skills mit Kommas.</small>
-      </label>
+            <label class="profile-field">
+              <span>Nachname</span>
+              <input class="ui-input" type="text" formControlName="lastName" autocomplete="family-name" />
+              @if (isFieldInvalid('lastName')) {
+                <small class="profile-field__error">Nachname ist erforderlich.</small>
+              }
+            </label>
 
-      <label class="profile-field">
-        <span>Standort</span>
-        <input class="ui-input" type="text" formControlName="location" autocomplete="address-level2" />
-      </label>
+            <label class="profile-field">
+              <span>Lehrberuf</span>
+              <input class="ui-input" type="text" formControlName="apprenticeshipProfession" autocomplete="organization-title" />
+              @if (isFieldInvalid('apprenticeshipProfession')) {
+                <small class="profile-field__error">Lehrberuf ist erforderlich.</small>
+              }
+            </label>
 
-      <label class="profile-field profile-field--wide">
-        <span>Karriereziele</span>
-        <textarea class="ui-input" rows="5" formControlName="careerGoals"></textarea>
-      </label>
+            <label class="profile-field">
+              <span>Spezialisierung</span>
+              <input class="ui-input" type="text" formControlName="specialisation" />
+              @if (isFieldInvalid('specialisation')) {
+                <small class="profile-field__error">Spezialisierung ist erforderlich.</small>
+              }
+            </label>
 
-      <div class="profile-actions">
-        <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
-          {{ isSaving() ? 'Speichern...' : 'Profil speichern' }}
-        </button>
-      </div>
-    </form>
+            <label class="profile-field">
+              <span>Abschlussjahr</span>
+              <input class="ui-input" type="number" formControlName="graduationYear" min="2000" [max]="currentYear + 1" />
+              @if (isFieldInvalid('graduationYear')) {
+                <small class="profile-field__error">Bitte gib ein gültiges Abschlussjahr an.</small>
+              }
+            </label>
+
+            <label class="profile-field">
+              <span>Standort</span>
+              <input class="ui-input" type="text" formControlName="location" autocomplete="address-level2" />
+              @if (isFieldInvalid('location')) {
+                <small class="profile-field__error">Standort ist erforderlich.</small>
+              }
+            </label>
+          </div>
+        </section>
+
+        <section class="profile-section">
+          <div class="profile-section__heading">
+            <h2>Stärken und Ziele</h2>
+            <p>Was du kannst, wohin du willst und welche Fachbereiche zu dir passen.</p>
+          </div>
+
+          <div class="profile-grid">
+            <label class="profile-field profile-field--wide">
+              <span>Skills</span>
+              <input class="ui-input" type="text" formControlName="skills" placeholder="Angular, TypeScript, Firebase" />
+              <small>Trenne mehrere Skills mit Kommas.</small>
+              @if (isFieldInvalid('skills')) {
+                <small class="profile-field__error">Bitte nenne mindestens einen Skill.</small>
+              }
+            </label>
+
+            <label class="profile-field profile-field--wide">
+              <span>Gewünschte Berufsfelder</span>
+              <input class="ui-input" type="text" formControlName="desiredProfessionalFields" placeholder="Webentwicklung, Produktteams, interne Tools" />
+              <small>Trenne mehrere Bereiche mit Kommas.</small>
+            </label>
+
+            <label class="profile-field profile-field--wide">
+              <span>Karriereziele</span>
+              <textarea class="ui-input" rows="5" formControlName="careerGoals" placeholder="Welche Rolle suchst du und wie möchtest du dich entwickeln?"></textarea>
+              @if (isFieldInvalid('careerGoals')) {
+                <small class="profile-field__error">Karriereziele sind erforderlich.</small>
+              }
+            </label>
+          </div>
+        </section>
+
+        <section class="profile-section">
+          <div class="profile-section__heading">
+            <h2>Nachweise</h2>
+            <p>Projekte, Zertifikate und Links machen dein Profil belastbarer.</p>
+          </div>
+
+          <div class="profile-grid">
+            <label class="profile-field profile-field--wide">
+              <span>IPA-Projekt</span>
+              <textarea class="ui-input" rows="4" formControlName="ipaProject" placeholder="Worum ging es, welche Verantwortung hattest du und was war das Ergebnis?"></textarea>
+            </label>
+
+            <label class="profile-field profile-field--wide">
+              <span>Persönliche Projekte</span>
+              <textarea class="ui-input" rows="4" formControlName="personalProjects" placeholder="Portfolio-Seite, Vereins-App, Automatisierung im Lehrbetrieb" ></textarea>
+              <small>Trenne mehrere Projekte mit Kommas.</small>
+            </label>
+
+            <label class="profile-field profile-field--wide">
+              <span>Zertifikate</span>
+              <textarea class="ui-input" rows="3" formControlName="certificates" placeholder="Scrum, Cisco, Azure Fundamentals" ></textarea>
+              <small>Trenne mehrere Zertifikate mit Kommas.</small>
+            </label>
+
+            <label class="profile-field">
+              <span>GitHub-URL</span>
+              <input class="ui-input" type="url" formControlName="githubUrl" placeholder="https://github.com/deinprofil" />
+              @if (isFieldInvalid('githubUrl')) {
+                <small class="profile-field__error">Bitte gib eine vollständige URL mit `http://` oder `https://` an.</small>
+              }
+            </label>
+
+            <label class="profile-field">
+              <span>Portfolio-URL</span>
+              <input class="ui-input" type="url" formControlName="portfolioUrl" placeholder="https://deinportfolio.ch" />
+              @if (isFieldInvalid('portfolioUrl')) {
+                <small class="profile-field__error">Bitte gib eine vollständige URL mit `http://` oder `https://` an.</small>
+              }
+            </label>
+          </div>
+        </section>
+
+        <div class="profile-actions">
+          <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
+            {{ isSaving() ? 'Speichern...' : 'Profil speichern' }}
+          </button>
+        </div>
+      </form>
+
+      <aside class="profile-sidebar">
+        <section class="profile-panel profile-panel--aside">
+          <p class="profile-panel__eyebrow">Im Profil sichtbar</p>
+          <h2>Was Unternehmen schnell erfassen sollen</h2>
+          <ul class="profile-checklist">
+            <li>dein Lehrberuf und deine Spezialisierung</li>
+            <li>konkrete Skills, Projekte und Zertifikate</li>
+            <li>deine Ziele und passenden Berufsfelder</li>
+            <li>Links zu GitHub oder Portfolio</li>
+          </ul>
+        </section>
+
+        @if (profile()?.reviewComment; as reviewComment) {
+          <section class="profile-panel profile-panel--aside">
+            <p class="profile-panel__eyebrow">Rückmeldung</p>
+            <h2>Hinweis zum Profilstatus</h2>
+            <p>{{ reviewComment }}</p>
+          </section>
+        }
+      </aside>
+    </div>
   }
 </main>

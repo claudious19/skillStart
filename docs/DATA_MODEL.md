@@ -82,21 +82,23 @@ export interface CandidateProfile {
 
 Aktuell in der UI bearbeitbar:
 
+- `firstName`
+- `lastName`
 - `apprenticeshipProfession`
 - `specialisation`
+- `graduationYear`
 - `skills`
 - `location`
 - `careerGoals`
-
-Aktuell im Modell vorhanden, aber nicht ueber die Profilseite bearbeitbar:
-
-- `graduationYear`
 - `ipaProject`
 - `personalProjects`
 - `certificates`
 - `githubUrl`
 - `portfolioUrl`
 - `desiredProfessionalFields`
+
+Aktuell im Modell vorhanden, aber nicht ueber die Profilseite bearbeitbar:
+
 - `reviewStatus`
 - `reviewComment`
 

@@ -6,11 +6,20 @@ import { CandidateProfile, Company } from '../../models';
 import { FirestoreCollectionService } from './firestore-collection.service';
 
 export interface CandidateProfileUpdate {
+  firstName: string;
+  lastName: string;
   careerGoals: string;
   location: string;
   apprenticeshipProfession: string;
+  graduationYear: number;
   skills: string[];
   specialisation: string;
+  ipaProject: string;
+  personalProjects: string[];
+  certificates: string[];
+  githubUrl: string;
+  portfolioUrl: string;
+  desiredProfessionalFields: string[];
 }
 
 export interface CompanyUpdate {

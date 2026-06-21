@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,7 +11,7 @@ import { AppUser, Company } from '../../models';
 @Component({
   selector: 'app-company-profile-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [NgClass, ReactiveFormsModule, RouterLink],
   templateUrl: './company-profile-page.component.html',
   styleUrl: '../candidate-profile/profile-page.shared.css',
 })
@@ -22,6 +23,7 @@ export class CompanyProfilePageComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   readonly isLoading = signal(true);
+  readonly isSaving = signal(false);
   readonly errorMessage = signal('');
   readonly successMessage = signal('');
   readonly currentUser = signal<AppUser | null>(null);
@@ -35,6 +37,40 @@ export class CompanyProfilePageComponent implements OnInit {
   isFieldInvalid(field: 'description' | 'location'): boolean {
     const control = this.form.controls[field];
     return control.invalid && (control.dirty || control.touched);
+  }
+
+  getReviewStatusLabel(): string | null {
+    const reviewStatus = this.company()?.reviewStatus;
+
+    switch (reviewStatus) {
+      case 'draft':
+        return 'Entwurf';
+      case 'pending':
+        return 'Eingereicht';
+      case 'approved':
+        return 'Freigegeben';
+      case 'rejected':
+        return 'Abgelehnt';
+      case 'needs_changes':
+        return 'Anpassungen nötig';
+      default:
+        return null;
+    }
+  }
+
+  getReviewStatusClass(): string {
+    switch (this.company()?.reviewStatus) {
+      case 'pending':
+        return 'status-badge--pending';
+      case 'approved':
+        return 'status-badge--approved';
+      case 'rejected':
+        return 'status-badge--rejected';
+      case 'needs_changes':
+        return 'status-badge--needs-changes';
+      default:
+        return 'status-badge--draft';
+    }
   }
 
   async ngOnInit(): Promise<void> {
@@ -74,7 +110,7 @@ export class CompanyProfilePageComponent implements OnInit {
   }
 
   async save(): Promise<void> {
-    if (this.form.invalid || this.isLoading()) {
+    if (this.form.invalid || this.isLoading() || this.isSaving()) {
       this.form.markAllAsTouched();
       return;
     }
@@ -87,6 +123,7 @@ export class CompanyProfilePageComponent implements OnInit {
 
     this.errorMessage.set('');
     this.successMessage.set('');
+    this.isSaving.set(true);
 
     try {
       const value = this.form.getRawValue();
@@ -96,9 +133,21 @@ export class CompanyProfilePageComponent implements OnInit {
         location: value.location.trim(),
       });
 
+      this.company.update((currentCompany) =>
+        currentCompany
+          ? {
+              ...currentCompany,
+              description: value.description.trim(),
+              location: value.location.trim(),
+            }
+          : currentCompany,
+      );
+
       this.successMessage.set('Dein Firmenprofil wurde gespeichert.');
     } catch {
       this.errorMessage.set('Dein Firmenprofil konnte nicht gespeichert werden.');
+    } finally {
+      this.isSaving.set(false);
     }
   }
 

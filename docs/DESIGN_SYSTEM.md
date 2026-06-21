@@ -57,6 +57,10 @@ Gemeinsame Seitensysteme:
 
 - Auth-Seiten teilen `auth-page.shared.css`
 - Kandidaten- und Firmenprofil teilen `profile-page.shared.css`
+- Profilseiten arbeiten mit einem zweistufigen Layout aus Hauptformular und ergänzender Seitenleiste
+- Profil-Header sind als symmetrische Zwei-Zonen-Komposition aufgebaut: Inhaltsblock links, feste Aktionsspalte rechts
+- Profil-Header halten den Titel bewusst etwas schmaler und die Einleitung mit mehr Luft, damit kein Text optisch kollidiert
+- Formularfelder in den Profilgittern sind top-aligned, damit die Spalten sauber synchron bleiben
 
 ## Landingpage-System
 
@@ -76,6 +80,7 @@ Kennzeichen:
 - grosser Gradient-Hero
 - Karten fuer Rollen und Problemargumente
 - scrollbare Proof-Badges auf kleinen Screens
+- Profil-Header setzen Status und Hinweis-Chips untereinander, damit auf Desktop kein Text kollidiert
 
 ## Formularsystem
 
@@ -83,7 +88,8 @@ Auth- und Profilformulare verwenden:
 
 - klare Einspalten-Layouts auf Mobile
 - Zwei-Spalten-Layouts erst auf groesseren Screens
-- Inline-Fehlerfuehrung vor allem bei der Firmenprofilseite
+- gegliederte Abschnittskarten fuer laengere Profile
+- Inline-Fehlerfuehrung auf Kandidaten- und Firmenprofil
 
 ## Responsive Verhalten
 
@@ -98,6 +104,9 @@ Desktop:
 - breitere Grid-Layouts
 - sichtbarere Kartenkonturen und Schatten
 - Header- und Hero-Aufteilung in Spalten
+- Profil-Header nutzen feste Aktionsbreiten und einen separaten Meta-Bereich, damit Status und Zusatzhinweise nicht in den Fliesstext kippen
+- Profil-Header reduzieren die Titelflaeche auf Desktop zugunsten sauberer vertikaler Abstaende
+- Profil-Felder richten sich im Grid am oberen Rand aus statt sich strecken zu lassen
 
 ## Aktuelle UI-Grenzen
 

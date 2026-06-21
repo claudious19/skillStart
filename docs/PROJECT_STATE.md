@@ -15,12 +15,21 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
 - Login mit Rollen-Redirect
 - Passwort-Reset
 - Guards fuer geschuetzte und oeffentliche Routen
-- Kandidatenprofil mit speicherbaren Feldern:
+- Kandidatenprofil mit speicherbaren Kernfeldern und erweiterten Nachweisfeldern:
+  - `firstName`
+  - `lastName`
   - `apprenticeshipProfession`
   - `specialisation`
+  - `graduationYear`
   - `skills`
   - `location`
   - `careerGoals`
+  - `ipaProject`
+  - `personalProjects`
+  - `certificates`
+  - `githubUrl`
+  - `portfolioUrl`
+  - `desiredProfessionalFields`
 - Firmenprofil mit speicherbaren Feldern:
   - `description`
   - `location`
@@ -33,7 +42,7 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
 - `candidate/dashboard` laedt aktuell dieselbe Seite wie `candidate/profile`
 - `candidate/applications` laedt aktuell ebenfalls dieselbe Kandidatenprofilseite
 - `company/dashboard` laedt aktuell dieselbe Seite wie `company/profile`
-- Das Kandidatenprofil-Modell enthaelt mehr Felder als die aktuelle UI bearbeitbar macht
+- `reviewStatus` und `reviewComment` sind im Kandidatenprofil sichtbar oder ableitbar, aber nicht als frei bearbeitbare Profilfelder gedacht
 - Das Firmenmodell enthaelt `companyName`, aber die Firmenprofilseite erlaubt aktuell nur `description` und `location`
 - Firestore Rules liegen lokal in mehr als einer Variante vor
 

@@ -1,17 +1,27 @@
 <main class="profile-page profile-page--company">
   <header class="profile-header">
-    <div>
+    <div class="profile-header__content">
       <p class="profile-kicker">Firmenprofil</p>
-      <h1>Zeig, wofuer eure Firma steht.</h1>
+      <h1>Zeig, wofür eure Firma steht.</h1>
       <p>
-        Ergaenze die wichtigsten Basisinformationen, damit Kandidatinnen und Kandidaten euch schnell
-        einordnen koennen.
+        Ergänze die wichtigsten Basisinformationen, damit Kandidatinnen und Kandidaten euch schnell
+        einordnen können.
       </p>
+
+      <div class="profile-header__meta">
+        @if (getReviewStatusLabel(); as reviewStatusLabel) {
+          <span class="status-badge" [ngClass]="getReviewStatusClass()">{{ reviewStatusLabel }}</span>
+        }
+
+        @if (company(); as currentCompany) {
+          <span class="profile-meta-chip">{{ currentCompany.companyName }}</span>
+        }
+      </div>
     </div>
 
     <div class="profile-header__actions">
       <a routerLink="/" class="ui-button ui-button--secondary">Zur Startseite</a>
-      <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Logout</button>
+      <button class="ui-button ui-button--secondary" type="button" (click)="logout()">Abmelden</button>
     </div>
   </header>
 
@@ -20,53 +30,84 @@
       <p>Firmenprofil wird geladen...</p>
     </section>
   } @else {
-    <form class="profile-panel profile-form profile-form--compact" [formGroup]="form" (ngSubmit)="save()">
-      @if (errorMessage()) {
-        <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
-      }
-
-      @if (successMessage()) {
-        <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
-      }
-
-      <label class="profile-field profile-field--wide">
-        <span>Beschreibung</span>
-        <textarea
-          class="ui-input"
-          rows="5"
-          formControlName="description"
-          placeholder="Beschreibe euer Unternehmen, euer Team und euren Fokus."
-        ></textarea>
-        @if (isFieldInvalid('description')) {
-          <small class="profile-field__error">
-            @if (form.controls.description.errors?.['required']) {
-              Beschreibung ist erforderlich.
-            } @else if (form.controls.description.errors?.['minlength']) {
-              Bitte schreibe mindestens 20 Zeichen.
-            }
-          </small>
+    <div class="profile-layout">
+      <form class="profile-panel profile-form profile-form--compact" [formGroup]="form" (ngSubmit)="save()">
+        @if (errorMessage()) {
+          <p class="profile-message profile-message--error" role="alert">{{ errorMessage() }}</p>
         }
-      </label>
 
-      <label class="profile-field">
-        <span>Standort</span>
-        <input class="ui-input" type="text" formControlName="location" placeholder="Zuerich" />
-        @if (isFieldInvalid('location')) {
-          <small class="profile-field__error">
-            @if (form.controls.location.errors?.['required']) {
-              Standort ist erforderlich.
-            } @else if (form.controls.location.errors?.['minlength']) {
-              Bitte gib mindestens 2 Zeichen an.
-            }
-          </small>
+        @if (successMessage()) {
+          <p class="profile-message profile-message--success" role="status">{{ successMessage() }}</p>
         }
-      </label>
 
-      <div class="profile-actions">
-        <button class="ui-button ui-button--primary" type="submit">
-          Firmenprofil speichern
-        </button>
-      </div>
-    </form>
+        <section class="profile-section">
+          <div class="profile-section__heading">
+            <h2>Firmenauftritt</h2>
+            <p>Was Kandidatinnen und Kandidaten über euer Unternehmen sofort verstehen sollen.</p>
+          </div>
+
+          <div class="profile-grid">
+            @if (company(); as currentCompany) {
+              <div class="profile-field profile-field--wide">
+                <span>Firmenname</span>
+                <div class="profile-readonly">{{ currentCompany.companyName }}</div>
+                <small>Der Firmenname stammt aus der Registrierung und wird aktuell hier nicht bearbeitet.</small>
+              </div>
+            }
+
+            <label class="profile-field profile-field--wide">
+              <span>Beschreibung</span>
+              <textarea
+                class="ui-input"
+                rows="6"
+                formControlName="description"
+                placeholder="Beschreibe euer Unternehmen, euer Team und euren Fokus."
+              ></textarea>
+              @if (isFieldInvalid('description')) {
+                <small class="profile-field__error">
+                  @if (form.controls.description.errors?.['required']) {
+                    Beschreibung ist erforderlich.
+                  } @else if (form.controls.description.errors?.['minlength']) {
+                    Bitte schreibe mindestens 20 Zeichen.
+                  }
+                </small>
+              }
+            </label>
+
+            <label class="profile-field">
+              <span>Standort</span>
+              <input class="ui-input" type="text" formControlName="location" placeholder="Zürich" />
+              @if (isFieldInvalid('location')) {
+                <small class="profile-field__error">
+                  @if (form.controls.location.errors?.['required']) {
+                    Standort ist erforderlich.
+                  } @else if (form.controls.location.errors?.['minlength']) {
+                    Bitte gib mindestens 2 Zeichen an.
+                  }
+                </small>
+              }
+            </label>
+          </div>
+        </section>
+
+        <div class="profile-actions">
+          <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
+            {{ isSaving() ? 'Speichern...' : 'Firmenprofil speichern' }}
+          </button>
+        </div>
+      </form>
+
+      <aside class="profile-sidebar">
+        <section class="profile-panel profile-panel--aside">
+          <p class="profile-panel__eyebrow">Im Profil sichtbar</p>
+          <h2>Worauf Kandidaten zuerst achten</h2>
+          <ul class="profile-checklist">
+            <li>eine klare Firmenbeschreibung</li>
+            <li>ein nachvollziehbarer Standort</li>
+            <li>ein Auftritt, der Vertrauen und Richtung zeigt</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
   }
 </main>
