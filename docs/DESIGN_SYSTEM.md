@@ -61,6 +61,10 @@ Gemeinsame Seitensysteme:
 - Profil-Header sind als symmetrische Zwei-Zonen-Komposition aufgebaut: Inhaltsblock links, feste Aktionsspalte rechts
 - Profil-Header halten den Titel bewusst etwas schmaler und die Einleitung mit mehr Luft, damit kein Text optisch kollidiert
 - Formularfelder in den Profilgittern sind top-aligned, damit die Spalten sauber synchron bleiben
+- Pflichtfelder und optionale Felder werden im Kandidatenprofil direkt im Label gekennzeichnet
+- `Abschlussjahr` ist im Kandidatenprofil Pflichtfeld
+- `Standort` wird im Kandidatenprofil als `Wohnort` angezeigt
+- Kommagetrennte Felder im Abschnitt `Stärken und Ziele` bleiben leer speicherbar; Kommas werden nur verarbeitet, wenn Inhalte vorhanden sind
 
 ## Landingpage-System
 
@@ -107,6 +111,7 @@ Desktop:
 - Profil-Header nutzen feste Aktionsbreiten und einen separaten Meta-Bereich, damit Status und Zusatzhinweise nicht in den Fliesstext kippen
 - Profil-Header reduzieren die Titelflaeche auf Desktop zugunsten sauberer vertikaler Abstaende
 - Profil-Felder richten sich im Grid am oberen Rand aus statt sich strecken zu lassen
+- Optionale Nachweisfelder bleiben bewusst leer speicherbar, um den Profilaufbau nicht zu blockieren
 
 ## Aktuelle UI-Grenzen
 

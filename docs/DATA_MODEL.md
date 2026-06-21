@@ -88,7 +88,7 @@ Aktuell in der UI bearbeitbar:
 - `specialisation`
 - `graduationYear`
 - `skills`
-- `location`
+- `location` als `Wohnort` im UI
 - `careerGoals`
 - `ipaProject`
 - `personalProjects`
@@ -101,6 +101,29 @@ Aktuell im Modell vorhanden, aber nicht ueber die Profilseite bearbeitbar:
 
 - `reviewStatus`
 - `reviewComment`
+
+Aktuell im Profil optional speicherbar:
+
+- `ipaProject`
+- `personalProjects`
+- `certificates`
+- `githubUrl`
+- `portfolioUrl`
+ 
+Pflichtfelder in der aktuellen UI:
+
+- `firstName`
+- `lastName`
+- `apprenticeshipProfession`
+- `specialisation`
+- `graduationYear`
+- `location`
+- `careerGoals`
+
+Aktuell optional in der UI:
+
+- `skills`
+- `desiredProfessionalFields`
 
 ## Company
 

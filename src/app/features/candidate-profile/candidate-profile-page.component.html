@@ -45,7 +45,7 @@
 
           <div class="profile-grid">
             <label class="profile-field">
-              <span>Vorname</span>
+              <span>Vorname <small class="profile-field__hint">Pflichtfeld</small></span>
               <input class="ui-input" type="text" formControlName="firstName" autocomplete="given-name" />
               @if (isFieldInvalid('firstName')) {
                 <small class="profile-field__error">Vorname ist erforderlich.</small>
@@ -53,7 +53,7 @@
             </label>
 
             <label class="profile-field">
-              <span>Nachname</span>
+              <span>Nachname <small class="profile-field__hint">Pflichtfeld</small></span>
               <input class="ui-input" type="text" formControlName="lastName" autocomplete="family-name" />
               @if (isFieldInvalid('lastName')) {
                 <small class="profile-field__error">Nachname ist erforderlich.</small>
@@ -61,7 +61,7 @@
             </label>
 
             <label class="profile-field">
-              <span>Lehrberuf</span>
+              <span>Lehrberuf <small class="profile-field__hint">Pflichtfeld</small></span>
               <input class="ui-input" type="text" formControlName="apprenticeshipProfession" autocomplete="organization-title" />
               @if (isFieldInvalid('apprenticeshipProfession')) {
                 <small class="profile-field__error">Lehrberuf ist erforderlich.</small>
@@ -69,7 +69,7 @@
             </label>
 
             <label class="profile-field">
-              <span>Spezialisierung</span>
+              <span>Spezialisierung <small class="profile-field__hint">Pflichtfeld</small></span>
               <input class="ui-input" type="text" formControlName="specialisation" />
               @if (isFieldInvalid('specialisation')) {
                 <small class="profile-field__error">Spezialisierung ist erforderlich.</small>
@@ -77,7 +77,7 @@
             </label>
 
             <label class="profile-field">
-              <span>Abschlussjahr</span>
+              <span>Abschlussjahr <small class="profile-field__hint">Pflichtfeld</small></span>
               <input class="ui-input" type="number" formControlName="graduationYear" min="2000" [max]="currentYear + 1" />
               @if (isFieldInvalid('graduationYear')) {
                 <small class="profile-field__error">Bitte gib ein gültiges Abschlussjahr an.</small>
@@ -85,10 +85,10 @@
             </label>
 
             <label class="profile-field">
-              <span>Standort</span>
+              <span>Wohnort <small class="profile-field__hint">Pflichtfeld</small></span>
               <input class="ui-input" type="text" formControlName="location" autocomplete="address-level2" />
               @if (isFieldInvalid('location')) {
-                <small class="profile-field__error">Standort ist erforderlich.</small>
+                <small class="profile-field__error">Wohnort ist erforderlich.</small>
               }
             </label>
           </div>
@@ -102,22 +102,19 @@
 
           <div class="profile-grid">
             <label class="profile-field profile-field--wide">
-              <span>Skills</span>
+              <span>Skills <small class="profile-field__hint">Kann leer bleiben</small></span>
               <input class="ui-input" type="text" formControlName="skills" placeholder="Angular, TypeScript, Firebase" />
-              <small>Trenne mehrere Skills mit Kommas.</small>
-              @if (isFieldInvalid('skills')) {
-                <small class="profile-field__error">Bitte nenne mindestens einen Skill.</small>
-              }
+              <small>Wenn du mehrere Skills angibst, trenne sie mit Kommas.</small>
             </label>
 
             <label class="profile-field profile-field--wide">
-              <span>Gewünschte Berufsfelder</span>
+              <span>Gewünschte Berufsfelder <small class="profile-field__hint">Kann leer bleiben</small></span>
               <input class="ui-input" type="text" formControlName="desiredProfessionalFields" placeholder="Webentwicklung, Produktteams, interne Tools" />
-              <small>Trenne mehrere Bereiche mit Kommas.</small>
+              <small>Wenn du mehrere Bereiche angibst, trenne sie mit Kommas.</small>
             </label>
 
             <label class="profile-field profile-field--wide">
-              <span>Karriereziele</span>
+              <span>Karriereziele <small class="profile-field__hint">Pflichtfeld</small></span>
               <textarea class="ui-input" rows="5" formControlName="careerGoals" placeholder="Welche Rolle suchst du und wie möchtest du dich entwickeln?"></textarea>
               @if (isFieldInvalid('careerGoals')) {
                 <small class="profile-field__error">Karriereziele sind erforderlich.</small>
@@ -134,24 +131,24 @@
 
           <div class="profile-grid">
             <label class="profile-field profile-field--wide">
-              <span>IPA-Projekt</span>
+              <span>IPA-Projekt <small class="profile-field__hint">Kann leer bleiben</small></span>
               <textarea class="ui-input" rows="4" formControlName="ipaProject" placeholder="Worum ging es, welche Verantwortung hattest du und was war das Ergebnis?"></textarea>
             </label>
 
             <label class="profile-field profile-field--wide">
-              <span>Persönliche Projekte</span>
+              <span>Persönliche Projekte <small class="profile-field__hint">Kann leer bleiben</small></span>
               <textarea class="ui-input" rows="4" formControlName="personalProjects" placeholder="Portfolio-Seite, Vereins-App, Automatisierung im Lehrbetrieb" ></textarea>
               <small>Trenne mehrere Projekte mit Kommas.</small>
             </label>
 
             <label class="profile-field profile-field--wide">
-              <span>Zertifikate</span>
+              <span>Zertifikate <small class="profile-field__hint">Kann leer bleiben</small></span>
               <textarea class="ui-input" rows="3" formControlName="certificates" placeholder="Scrum, Cisco, Azure Fundamentals" ></textarea>
               <small>Trenne mehrere Zertifikate mit Kommas.</small>
             </label>
 
             <label class="profile-field">
-              <span>GitHub-URL</span>
+              <span>GitHub-URL <small class="profile-field__hint">Kann leer bleiben</small></span>
               <input class="ui-input" type="url" formControlName="githubUrl" placeholder="https://github.com/deinprofil" />
               @if (isFieldInvalid('githubUrl')) {
                 <small class="profile-field__error">Bitte gib eine vollständige URL mit `http://` oder `https://` an.</small>
@@ -159,7 +156,7 @@
             </label>
 
             <label class="profile-field">
-              <span>Portfolio-URL</span>
+              <span>Portfolio-URL <small class="profile-field__hint">Kann leer bleiben</small></span>
               <input class="ui-input" type="url" formControlName="portfolioUrl" placeholder="https://deinportfolio.ch" />
               @if (isFieldInvalid('portfolioUrl')) {
                 <small class="profile-field__error">Bitte gib eine vollständige URL mit `http://` oder `https://` an.</small>

@@ -148,6 +148,14 @@
   font-weight: 700;
 }
 
+.profile-field__hint {
+  display: inline-block;
+  margin-left: 0.45rem;
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 .profile-field small {
   color: var(--color-text-secondary);
   line-height: 1.5;

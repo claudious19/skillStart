@@ -22,7 +22,7 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
   - `specialisation`
   - `graduationYear`
   - `skills`
-  - `location`
+  - `location` als `Wohnort` im UI
   - `careerGoals`
   - `ipaProject`
   - `personalProjects`
@@ -34,6 +34,9 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
   - `description`
   - `location`
 - Landingpage, Register-Auswahl und Auth-UI mit responsive Layout
+- Kandidatenprofil markiert Pflicht- und optionale Felder direkt im Formular
+- `Abschlussjahr` bleibt im Kandidatenprofil Pflichtfeld
+- `Skills` und `Gewünschte Berufsfelder` im Abschnitt `Stärken und Ziele` koennen leer bleiben und werden nur bei vorhandenen Eintraegen per Komma aufgeteilt
 - GitHub-Pages-Workflow
 - PWA-Basis mit Manifest und Service Worker
 
