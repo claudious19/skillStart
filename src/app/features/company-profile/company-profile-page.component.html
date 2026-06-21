@@ -34,11 +34,29 @@
           formControlName="description"
           placeholder="Beschreibe euer Unternehmen, euer Team und euren Fokus."
         ></textarea>
+        @if (isFieldInvalid('description')) {
+          <small class="profile-field__error">
+            @if (form.controls.description.errors?.['required']) {
+              Beschreibung ist erforderlich.
+            } @else if (form.controls.description.errors?.['minlength']) {
+              Bitte schreibe mindestens 20 Zeichen.
+            }
+          </small>
+        }
       </label>
 
       <label class="profile-field">
         <span>Standort</span>
         <input class="ui-input" type="text" formControlName="location" placeholder="Zuerich" />
+        @if (isFieldInvalid('location')) {
+          <small class="profile-field__error">
+            @if (form.controls.location.errors?.['required']) {
+              Standort ist erforderlich.
+            } @else if (form.controls.location.errors?.['minlength']) {
+              Bitte gib mindestens 2 Zeichen an.
+            }
+          </small>
+        }
       </label>
 
       <div class="profile-actions">

@@ -73,6 +73,14 @@
   line-height: 1.5;
 }
 
+.profile-field__error {
+  color: #b91c1c;
+}
+
+.profile-field .ui-input.ng-invalid.ng-touched {
+  border-color: rgba(185, 28, 28, 0.45);
+}
+
 .profile-field textarea {
   min-height: 9rem;
   resize: vertical;

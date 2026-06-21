@@ -27,6 +27,12 @@ service cloud.firestore {
         && request.auth.token.email == email;
     }
 
+    function belongsToCompany(companyId) {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.companyId == companyId;
+    }
+
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
 
@@ -73,23 +79,32 @@ service cloud.firestore {
         && resource.data.reviewStatus == 'draft';
     }
 
-    match /companyProfiles/{uid} {
-      allow read: if isOwner(uid) || isAdmin();
+    match /companies/{companyId} {
+      allow read: if belongsToCompany(companyId) || isAdmin();
 
-      allow create: if isOwner(uid)
+      allow create: if isSignedIn()
         && isAnonymousProvider()
-        && request.resource.data.ownerId == uid
+        && request.resource.data.companyId == companyId
+        && request.resource.data.createdBy == request.auth.uid
         && request.resource.data.reviewStatus == 'draft'
         && request.resource.data.createdAt is timestamp
         && request.resource.data.updatedAt is timestamp;
 
-      allow update: if isOwner(uid)
-        && resource.data.ownerId == uid
-        && request.resource.data.ownerId == uid
-        && request.resource.data.reviewStatus == resource.data.reviewStatus;
+      allow update: if belongsToCompany(companyId)
+        && resource.data.companyId == companyId
+        && request.resource.data.companyId == companyId
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.reviewStatus == resource.data.reviewStatus
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'description',
+          'location',
+          'updatedAt'
+        ]);
 
-      allow delete: if isOwner(uid)
-        && resource.data.ownerId == uid
+      allow delete: if belongsToCompany(companyId)
+        && resource.data.companyId == companyId
         && resource.data.reviewStatus == 'draft';
     }
 

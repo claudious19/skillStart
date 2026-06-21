@@ -32,6 +32,11 @@ export class CompanyProfilePageComponent implements OnInit {
     location: ['', [Validators.required, Validators.minLength(2)]],
   });
 
+  isFieldInvalid(field: 'description' | 'location'): boolean {
+    const control = this.form.controls[field];
+    return control.invalid && (control.dirty || control.touched);
+  }
+
   async ngOnInit(): Promise<void> {
     try {
       const authUser = await this.authService.waitForAuthState();
