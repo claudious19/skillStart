@@ -72,3 +72,25 @@ Konsequenz:
 
 - Der Projektzustand bleibt fuer Weiterentwicklung klar sichtbar.
 - Doku muss diese Bereiche als vorbereitet, aber nicht fertig markieren.
+
+## 2026-06-22: Job-Posts speichern Firmenname als Snapshot
+
+Entscheidung:
+
+- `jobPosts/{jobPostId}` enthaelt `companyDisplayNameSnapshot` zusaetzlich zu `companyId`.
+
+Konsequenz:
+
+- Kandidatenfeeds und Listen koennen den Firmennamen spaeter ohne zusaetzlichen `companies/{companyId}`-Read anzeigen.
+- Der Snapshot kann veralten, wenn sich ein Firmenname spaeter aendert. Das ist fuer Feed-Performance bewusst akzeptiert und muss bei einer spaeteren Firmenname-Bearbeitung neu bewertet werden.
+
+## 2026-06-22: Company-Job-Posts bleiben owner-scoped
+
+Entscheidung:
+
+- Die Company-UI laedt und bearbeitet Inserate ueber `currentUser.companyId`; `companyId` wird nicht im Formular bearbeitet.
+
+Konsequenz:
+
+- Mehrere Company-User koennen spaeter dieselbe Firma verwalten, solange sie dieselbe `companyId` im User-Dokument tragen.
+- Firestore Rules muessen weiterhin sicherstellen, dass fremde `companyId`-Dokumente nicht geschrieben werden koennen.

@@ -21,6 +21,7 @@ Davon werden aktuell im Frontend effektiv verwendet:
 - `users`
 - `companies`
 - `candidateProfiles`
+- `jobPosts`
 
 ## AppUser
 
@@ -176,6 +177,69 @@ export interface JobApplication {
 Hinweis:
 
 - Das Modell existiert, aber es gibt aktuell keine aktive UI oder Datenlogik fuer Bewerbungen.
+- Die neue `jobPosts`-Struktur speichert `jobPostId` und `companyId`, damit spaetere Bewerbungen darauf referenzieren koennen.
+
+## JobPost
+
+Quelle:
+
+- [`src/app/models/job-post.model.ts`](C:\Users\claudio\Documents\SkillStart\src\app\models\job-post.model.ts)
+
+```ts
+export interface JobPost {
+  jobPostId: string;
+  companyId: string;
+  companyDisplayNameSnapshot: string;
+  title: string;
+  description: string;
+  location: string;
+  employmentType: 'full_time' | 'part_time' | 'internship' | 'temporary' | 'other';
+  apprenticeshipProfessions: string[];
+  requiredSkills: string[];
+  desiredSkills: string[];
+  salaryMin: number;
+  salaryMax: number;
+  status: 'draft' | 'published' | 'archived';
+  createdBy: string;
+  createdAt: AppTimestamp;
+  updatedAt: AppTimestamp;
+  publishedAt: AppTimestamp | null;
+  expiresAt: AppTimestamp;
+}
+```
+
+Aktuell im Company-UI bearbeitbar:
+
+- `title`
+- `description`
+- `location`
+- `employmentType`
+- `apprenticeshipProfessions`
+- `requiredSkills`
+- `desiredSkills`
+- `salaryMin`
+- `salaryMax`
+- `expiresAt`
+
+Automatisch aus dem eingeloggten User-Dokument gesetzt:
+
+- `companyId`
+- `companyDisplayNameSnapshot`
+- `createdBy`
+
+Automatisch durch die App gesetzt:
+
+- `jobPostId`
+- `status`
+- `createdAt`
+- `updatedAt`
+- `publishedAt`
+
+Feed- und Pagination-Vorbereitung:
+
+- `status` trennt Entwurf, sichtbare Inserate und archivierte Inserate.
+- `publishedAt` und `expiresAt` bereiten eine spaetere Kandidaten-Feed-Sortierung und Ablaufpruefung vor.
+- `companyDisplayNameSnapshot` wird bewusst redundant gespeichert, damit Feed-Karten den Firmennamen ohne zusaetzlichen Company-Read anzeigen koennen.
 
 ## Registrierungsdaten, die aktuell geschrieben werden
 

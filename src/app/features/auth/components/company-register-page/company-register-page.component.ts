@@ -31,6 +31,7 @@ export class CompanyRegisterPageComponent implements OnInit {
     try {
       await this.authFlowService.prepareRegistrationSession();
     } catch (error) {
+      console.error('Company registration session preparation failed:', error);
       this.errorMessage.set(this.getErrorMessage(error));
     }
   }
@@ -48,6 +49,7 @@ export class CompanyRegisterPageComponent implements OnInit {
       await this.authFlowService.registerCompany(this.form.getRawValue());
       await this.router.navigateByUrl('/company/profile');
     } catch (error) {
+      console.error('Company registration failed:', error);
       this.errorMessage.set(this.getErrorMessage(error));
     } finally {
       this.isSubmitting.set(false);
@@ -61,14 +63,17 @@ export class CompanyRegisterPageComponent implements OnInit {
         case 'auth/credential-already-in-use':
           return 'Mit dieser E-Mail existiert bereits ein Konto.';
         case 'auth/invalid-email':
-          return 'Bitte gib eine gueltige E-Mail-Adresse ein.';
+          return 'Bitte gib eine gültige E-Mail-Adresse ein.';
         case 'auth/operation-not-allowed':
-          return 'Anonymous Auth und Email/Password muessen in Firebase aktiviert sein.';
+          return 'Anonymous Auth und Email/Password müssen in Firebase aktiviert sein.';
         case 'auth/weak-password':
           return 'Das Passwort ist zu schwach. Bitte verwende mindestens 8 Zeichen.';
+        case 'permission-denied':
+        case 'firestore/permission-denied':
+          return 'Die Registrierung wurde von den Firestore-Regeln blockiert. Prüfe companyId, CompanyDisplayname, companyName und accountStatus.';
       }
     }
 
-    return 'Die Registrierung konnte nicht abgeschlossen werden. Bitte versuche es erneut.';
+    return 'Die Registrierung konnte nicht abgeschlossen werden. Öffne die Browser-Konsole für den technischen Fehler.';
   }
 }

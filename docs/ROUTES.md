@@ -52,13 +52,15 @@ Aktuelle Unterrouten:
 | --- | --- |
 | `/company/dashboard` | Firmenprofilseite |
 | `/company/profile` | Firmenprofilseite |
-| `/company/job-posts` | Platzhalterseite |
-| `/company/job-posts/new` | Platzhalterseite |
+| `/company/job-posts` | Listenansicht fuer eigene Stelleninserate |
+| `/company/job-posts/new` | Formular fuer neues Stelleninserat |
+| `/company/job-posts/:jobPostId/edit` | Formular zum Bearbeiten eines eigenen Stelleninserats |
 | `/company/applications` | Platzhalterseite |
 
 Hinweis:
 
 - `dashboard` und `profile` sind aktuell identisch.
+- Das Firmenprofil verlinkt direkt auf die Inseratsverwaltung.
 
 ## Admin-Bereich
 

@@ -1,5 +1,15 @@
 # CHANGELOG_INTERNAL
 
+## 2026-06-22
+
+- `JobPost`-Modell fuer `jobPosts/{jobPostId}` ergaenzt
+- `JobPostService` fuer Company-Listen, Erstellen, Bearbeiten, Veröffentlichen und Archivieren eingefuehrt
+- Company-Job-Post-Routen durch echte Listen- und Formularseiten ersetzt
+- Firmenprofil-Navigation um direkten Einstieg zur Inseratsverwaltung erweitert
+- Job-Post-UI mit mobile-first Listen-Cards, Inline-Validierung und Pflichtfeldhinweisen gebaut
+- `companyDisplayNameSnapshot` wird beim Erstellen redundant aus dem User-Dokument gespeichert
+- Dokumentation zu Datenmodell, Routen, Firebase, Architektur, Designsystem, Entscheidungen, Status und TODOs aktualisiert
+
 ## 2026-06-21
 
 - repo-basierte Dokumentationsstruktur eingefuehrt

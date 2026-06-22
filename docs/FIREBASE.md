@@ -73,12 +73,21 @@ Aktive Dokumentpfade:
 - `users/{uid}`
 - `candidateProfiles/{uid}`
 - `companies/{companyId}`
+- `jobPosts/{jobPostId}`
 
 Aktive Lese- und Schreibstellen:
 
 - Registrierung in `AuthFlowService`
 - User-Dokumente in `UserDocumentService`
 - Profile in `ProfileService`
+- Stelleninserate in `JobPostService`
+
+Job-Post-Hinweise:
+
+- `companyId` wird aus dem eingeloggten `users/{uid}`-Dokument uebernommen.
+- `companyDisplayNameSnapshot` wird bewusst redundant am Inserat gespeichert.
+- `publishedAt` ist bei Entwuerfen `null` und wird beim Veröffentlichen gesetzt.
+- `expiresAt`, `status` und `publishedAt` bereiten spaetere Feed- und Pagination-Abfragen vor.
 
 ## Rules-Dateien im Repository
 

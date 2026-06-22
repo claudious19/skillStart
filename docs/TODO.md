@@ -3,10 +3,9 @@
 ## Produkt und Features
 
 - echte Kandidaten-Jobliste fuer `/candidate/jobs` bauen
-- Firmen-Job-Post-Verwaltung fuer `/company/job-posts` umsetzen
-- Formular fuer neue Job-Posts unter `/company/job-posts/new` bauen
 - Bewerbungsansichten fuer Kandidaten und Unternehmen implementieren
 - Admin-Ansichten funktional ausbauen
+- Pagination oder Endless Feed fuer Kandidaten-Jobliste produktiv anbinden
 
 ## Profile und Datenmodell
 
@@ -18,6 +17,7 @@
 
 - lokalen Repo-Stand der Firestore Rules mit dem echten Console-Stand abgleichen
 - dokumentieren, welche Rules-Datei die gueltige Quelle sein soll
+- Firestore Rules fuer `jobPosts` mit Erstellen, Bearbeiten, Veröffentlichen und Archivieren pruefen
 - Admin-Setup und erwartete User-Dokumente dokumentieren, sobald vorhanden
 
 ## UX und Navigation

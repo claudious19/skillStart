@@ -157,7 +157,7 @@ export class AuthFlowService {
     await batch.commit();
   }
 
-  private async createCompanyDraft(
+    private async createCompanyDraft(
     user: User,
     companyId: string,
     input: CompanyRegistrationInput,
@@ -165,25 +165,28 @@ export class AuthFlowService {
     const now = Timestamp.now();
     const accountStatus: AccountStatus = 'pending';
     const reviewStatus: ReviewStatus = 'draft';
-    const displayName = `${input.contactPersonFirstName.trim()} ${input.contactPersonLastName.trim()}`.trim();
+    const companyName = input.companyName.trim();
+    const firstName = input.contactPersonFirstName.trim();
+    const lastName = input.contactPersonLastName.trim();
+    const displayName = `${firstName} ${lastName}`.trim();
 
     const userDocument: AppUser = {
-      uid: user.uid,
-      email: input.email,
-      role: 'company',
-      companyId,
-      CompanyDisplayname: input.companyName.trim(),
-      displayName,
-      firstName: input.contactPersonFirstName.trim(),
-      lastName: input.contactPersonLastName.trim(),
-      accountStatus,
-      createdAt: now,
-      updatedAt: now,
-    };
+    uid: user.uid,
+    email: input.email.trim(),
+    role: 'company',
+    companyId,
+    CompanyDisplayname: companyName,
+    displayName,
+    firstName,
+    lastName,
+    accountStatus,
+    createdAt: now,
+    updatedAt: now,
+  };
 
     const company: Company = {
       companyId,
-      companyName: input.companyName,
+      companyName,
       description: '',
       location: '',
       reviewStatus,

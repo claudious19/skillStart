@@ -1,0 +1,124 @@
+<main class="jobs-page">
+  <header class="jobs-header">
+    <div class="jobs-header__content">
+      <p class="jobs-kicker">Stelleninserate</p>
+      <h1>Inserate verwalten</h1>
+      <p>
+        Erstelle Stellen, halte Entwürfe bereit und veröffentliche Angebote, sobald sie sichtbar
+        werden sollen.
+      </p>
+    </div>
+
+    <nav class="jobs-header__actions" aria-label="Firmenbereich">
+      <a routerLink="/company/profile" class="ui-button ui-button--secondary">Firmenprofil</a>
+      <a routerLink="/company/job-posts/new" class="ui-button ui-button--primary">Neues Inserat</a>
+    </nav>
+  </header>
+
+  @if (isLoading()) {
+    <section class="jobs-panel" aria-live="polite">
+      <p>Inserate werden geladen...</p>
+    </section>
+  } @else {
+    <section class="jobs-panel jobs-toolbar" aria-label="Inserate Übersicht">
+      <div>
+        <p class="jobs-panel__eyebrow">Übersicht</p>
+        <h2>{{ jobPosts().length }} Inserate</h2>
+      </div>
+      <p>
+        Behalte Entwürfe, veröffentlichte Stellen und archivierte Inserate an einem Ort im Blick.
+      </p>
+    </section>
+
+    @if (errorMessage()) {
+      <p class="jobs-message jobs-message--error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="jobs-message jobs-message--success" role="status">{{ successMessage() }}</p>
+    }
+
+    @if (jobPosts().length === 0) {
+      <section class="jobs-panel jobs-empty">
+        <h2>Noch keine Inserate</h2>
+        <p>Lege dein erstes Inserat an und speichere es zuerst als Entwurf.</p>
+        <a routerLink="/company/job-posts/new" class="ui-button ui-button--primary">
+          Erstes Inserat erstellen
+        </a>
+      </section>
+    } @else {
+      <section class="job-list" aria-label="Eigene Stelleninserate">
+        @for (jobPost of jobPosts(); track jobPost.jobPostId) {
+          <article class="job-card">
+            <div class="job-card__body">
+              <div class="job-card__title-row">
+                <div>
+                  <p class="job-card__company">{{ jobPost.companyDisplayNameSnapshot }}</p>
+                  <h2>{{ jobPost.title }}</h2>
+                </div>
+                <span class="status-badge" [ngClass]="getStatusClass(jobPost.status)">
+                  {{ getStatusLabel(jobPost.status) }}
+                </span>
+              </div>
+
+              <p class="job-card__description">{{ jobPost.description }}</p>
+
+              <dl class="job-card__meta">
+                <div>
+                  <dt>Ort</dt>
+                  <dd>{{ jobPost.location }}</dd>
+                </div>
+                <div>
+                  <dt>Lohnband</dt>
+                  <dd>
+                    {{ jobPost.salaryMin | currency: 'CHF' : 'symbol' : '1.0-0' }} -
+                    {{ jobPost.salaryMax | currency: 'CHF' : 'symbol' : '1.0-0' }}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Läuft ab</dt>
+                  <dd>{{ toDate(jobPost.expiresAt) | date: 'dd.MM.yyyy' }}</dd>
+                </div>
+              </dl>
+
+              <div class="job-card__tags" aria-label="Lehrberufe">
+                @for (profession of jobPost.apprenticeshipProfessions; track profession) {
+                  <span>{{ profession }}</span>
+                }
+              </div>
+            </div>
+
+            <div class="job-card__actions">
+              <a
+                [routerLink]="['/company/job-posts', jobPost.jobPostId, 'edit']"
+                class="ui-button ui-button--secondary"
+              >
+                Bearbeiten
+              </a>
+              @if (jobPost.status !== 'published') {
+                <button
+                  class="ui-button ui-button--primary"
+                  type="button"
+                  [disabled]="actionJobPostId() === jobPost.jobPostId"
+                  (click)="publish(jobPost)"
+                >
+                  {{ actionJobPostId() === jobPost.jobPostId ? 'Speichert...' : 'Veröffentlichen' }}
+                </button>
+              }
+              @if (jobPost.status !== 'archived') {
+                <button
+                  class="ui-button ui-button--secondary"
+                  type="button"
+                  [disabled]="actionJobPostId() === jobPost.jobPostId"
+                  (click)="archive(jobPost)"
+                >
+                  {{ actionJobPostId() === jobPost.jobPostId ? 'Speichert...' : 'Archivieren' }}
+                </button>
+              }
+            </div>
+          </article>
+        }
+      </section>
+    }
+  }
+</main>

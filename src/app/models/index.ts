@@ -4,5 +4,6 @@ export * from './app-user.model';
 export * from './candidate-profile.model';
 export * from './company.model';
 export * from './job-application.model';
+export * from './job-post.model';
 export * from './review-status.type';
 export * from './user-role.type';

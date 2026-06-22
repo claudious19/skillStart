@@ -65,6 +65,7 @@ Gemeinsame Seitensysteme:
 - `Abschlussjahr` ist im Kandidatenprofil Pflichtfeld
 - `Standort` wird im Kandidatenprofil als `Wohnort` angezeigt
 - Kommagetrennte Felder im Abschnitt `Stärken und Ziele` bleiben leer speicherbar; Kommas werden nur verarbeitet, wenn Inhalte vorhanden sind
+- Stelleninserate verwenden eine eigene ruhige Verwaltungsoberflaeche mit Listen-Cards, klaren Status-Badges und separatem Formularfluss
 
 ## Landingpage-System
 
@@ -94,6 +95,8 @@ Auth- und Profilformulare verwenden:
 - Zwei-Spalten-Layouts erst auf groesseren Screens
 - gegliederte Abschnittskarten fuer laengere Profile
 - Inline-Fehlerfuehrung auf Kandidaten- und Firmenprofil
+- Inline-Fehlerfuehrung und sichtbare Pflichtfeldhinweise im Stelleninserat-Formular
+- Kommagetrennte Inseratsfelder werden als Listen erfasst und gegen leere Eintraege validiert
 
 ## Responsive Verhalten
 
@@ -112,6 +115,7 @@ Desktop:
 - Profil-Header reduzieren die Titelflaeche auf Desktop zugunsten sauberer vertikaler Abstaende
 - Profil-Felder richten sich im Grid am oberen Rand aus statt sich strecken zu lassen
 - Optionale Nachweisfelder bleiben bewusst leer speicherbar, um den Profilaufbau nicht zu blockieren
+- Inseratslisten wechseln von gestapelten Karten auf Mobile zu zweigeteilten Karten mit Aktionsspalte auf groesseren Screens
 
 ## Aktuelle UI-Grenzen
 

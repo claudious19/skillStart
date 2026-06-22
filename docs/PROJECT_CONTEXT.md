@@ -33,12 +33,13 @@ Produktseitig werden vor allem zwei Hauptgruppen angesprochen:
 - Login, Logout und Passwort-Reset
 - Geschuetzte Bereiche fuer `candidate`, `company` und `admin`
 - Bearbeitbare Kandidaten- und Firmenprofile
+- Firmen koennen eigene Stelleninserate als Entwurf erstellen, bearbeiten, veröffentlichen und archivieren
 - GitHub-Pages-geeignete Angular-Konfiguration mit Hash-Routing
 - PWA-Grundlagen mit Manifest und Angular Service Worker
 
 ## Was aktuell noch nicht vollstaendig umgesetzt ist
 
-- Job-Post-Erstellung und Job-Post-Listen sind nur vorbereitet
+- Kandidaten-Feed fuer freigegebene Job-Posts ist nur vorbereitet
 - Bewerbungsansichten sind nur vorbereitet
 - Admin-Bereiche sind nur vorbereitet
 - Es gibt noch keine sichtbare Kandidaten- oder Firmen-Suche

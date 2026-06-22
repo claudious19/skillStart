@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Stand dieser Datei: 2026-06-21
+Stand dieser Datei: 2026-06-22
 
 ## Zusammenfassung
 
@@ -33,6 +33,11 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
 - Firmenprofil mit speicherbaren Feldern:
   - `description`
   - `location`
+- Firmen koennen eigene Stelleninserate verwalten:
+  - Listenansicht unter `/company/job-posts`
+  - Erstellung als Entwurf unter `/company/job-posts/new`
+  - Bearbeitung unter `/company/job-posts/:jobPostId/edit`
+  - Veröffentlichen und Archivieren aus der Listenansicht
 - Landingpage, Register-Auswahl und Auth-UI mit responsive Layout
 - Kandidatenprofil markiert Pflicht- und optionale Felder direkt im Formular
 - `Abschlussjahr` bleibt im Kandidatenprofil Pflichtfeld
@@ -44,7 +49,7 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
 
 - `candidate/dashboard` laedt aktuell dieselbe Seite wie `candidate/profile`
 - `candidate/applications` laedt aktuell ebenfalls dieselbe Kandidatenprofilseite
-- `company/dashboard` laedt aktuell dieselbe Seite wie `company/profile`
+- `company/dashboard` laedt aktuell dieselbe Seite wie `company/profile`, verlinkt aber auf die Inseratsverwaltung
 - `reviewStatus` und `reviewComment` sind im Kandidatenprofil sichtbar oder ableitbar, aber nicht als frei bearbeitbare Profilfelder gedacht
 - Das Firmenmodell enthaelt `companyName`, aber die Firmenprofilseite erlaubt aktuell nur `description` und `location`
 - Firestore Rules liegen lokal in mehr als einer Variante vor
@@ -52,8 +57,6 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
 ## Nur vorbereitet oder Platzhalter
 
 - `candidate/jobs`
-- `company/job-posts`
-- `company/job-posts/new`
 - `company/applications`
 - `admin/dashboard`
 - `admin/candidates`

@@ -1,0 +1,159 @@
+<main class="jobs-page">
+  <header class="jobs-header">
+    <div class="jobs-header__content">
+      <p class="jobs-kicker">Stelleninserat</p>
+      <h1>{{ isEditMode() ? 'Inserat bearbeiten' : 'Neues Inserat' }}</h1>
+      <p>
+        Beschreibe Aufgabe, Rahmen und Anforderungen so konkret, dass passende Berufseinsteiger
+        schnell einschätzen können, ob die Stelle zu ihnen passt.
+      </p>
+    </div>
+
+    <nav class="jobs-header__actions" aria-label="Inseratsnavigation">
+      <a routerLink="/company/job-posts" class="ui-button ui-button--secondary">Zur Übersicht</a>
+      <a routerLink="/company/profile" class="ui-button ui-button--secondary">Firmenprofil</a>
+    </nav>
+  </header>
+
+  @if (isLoading()) {
+    <section class="jobs-panel" aria-live="polite">
+      <p>Inserat wird geladen...</p>
+    </section>
+  } @else {
+    <form class="jobs-panel job-form" [formGroup]="form" (ngSubmit)="save()">
+      @if (errorMessage()) {
+        <p class="jobs-message jobs-message--error" role="alert">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="jobs-message jobs-message--success" role="status">{{ successMessage() }}</p>
+      }
+
+      <section class="job-form__section">
+        <div class="job-form__heading">
+          <h2>Grunddaten</h2>
+          <p>Titel, Ort und Arbeitsform bestimmen, wo das Inserat später gefunden wird.</p>
+        </div>
+
+        <div class="job-form__grid">
+          <label class="job-field job-field--wide">
+            <span>Titel <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="text" formControlName="title" placeholder="Junior Applikationsentwickler/in" />
+            @if (isFieldInvalid('title')) {
+              <small class="job-field__error">Bitte gib einen klaren Titel mit mindestens 4 Zeichen an.</small>
+            }
+          </label>
+
+          <label class="job-field">
+            <span>Arbeitsort <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="text" formControlName="location" placeholder="Zürich" />
+            @if (isFieldInvalid('location')) {
+              <small class="job-field__error">Arbeitsort ist erforderlich.</small>
+            }
+          </label>
+
+          <label class="job-field">
+            <span>Anstellungsart <small>Pflichtfeld</small></span>
+            <select class="ui-input" formControlName="employmentType">
+              @for (employmentType of employmentTypes; track employmentType.value) {
+                <option [value]="employmentType.value">{{ employmentType.label }}</option>
+              }
+            </select>
+          </label>
+
+          <label class="job-field">
+            <span>Lohn von <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="number" formControlName="salaryMin" min="0" step="1000" />
+            @if (isFieldInvalid('salaryMin')) {
+              <small class="job-field__error">Bitte gib einen Mindestlohn an.</small>
+            }
+          </label>
+
+          <label class="job-field">
+            <span>Lohn bis <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="number" formControlName="salaryMax" min="0" step="1000" />
+            @if (isFieldInvalid('salaryMax') || hasSalaryRangeError()) {
+              <small class="job-field__error">Der Maximalwert muss mindestens so hoch sein wie der Mindestwert.</small>
+            }
+          </label>
+
+          <label class="job-field">
+            <span>Ablaufdatum <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="date" formControlName="expiresAt" />
+            @if (isFieldInvalid('expiresAt')) {
+              <small class="job-field__error">Bitte gib ein Ablaufdatum an.</small>
+            }
+          </label>
+        </div>
+      </section>
+
+      <section class="job-form__section">
+        <div class="job-form__heading">
+          <h2>Inhalt</h2>
+          <p>Der Text soll Erwartungen, Aufgaben und Entwicklungspotenzial verständlich machen.</p>
+        </div>
+
+        <label class="job-field">
+          <span>Beschreibung <small>Pflichtfeld</small></span>
+          <textarea
+            class="ui-input"
+            rows="8"
+            formControlName="description"
+            placeholder="Beschreibe Aufgaben, Team, Lernchancen und Verantwortung."
+          ></textarea>
+          @if (isFieldInvalid('description')) {
+            <small class="job-field__error">Bitte beschreibe die Stelle mit mindestens 30 Zeichen.</small>
+          }
+        </label>
+      </section>
+
+      <section class="job-form__section">
+        <div class="job-form__heading">
+          <h2>Profil</h2>
+          <p>Hilf passenden Kandidatinnen und Kandidaten, die Stelle schnell einzuordnen.</p>
+        </div>
+
+        <div class="job-form__grid">
+          <label class="job-field job-field--wide">
+            <span>Passende Lehrberufe <small>Pflichtfeld</small></span>
+            <input
+              class="ui-input"
+              type="text"
+              formControlName="apprenticeshipProfessions"
+              placeholder="Informatiker/in EFZ Applikationsentwicklung, ICT-Fachmann/-frau EFZ"
+            />
+            <small>Mehrere Lehrberufe mit Kommas trennen.</small>
+            @if (isFieldInvalid('apprenticeshipProfessions')) {
+              <small class="job-field__error">Bitte nenne mindestens einen passenden Lehrberuf.</small>
+            }
+          </label>
+
+          <label class="job-field job-field--wide">
+            <span>Erforderliche Skills <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="text" formControlName="requiredSkills" placeholder="TypeScript, SQL, Git" />
+            <small>Mehrere Skills mit Kommas trennen.</small>
+            @if (isFieldInvalid('requiredSkills')) {
+              <small class="job-field__error">Bitte nenne mindestens einen erforderlichen Skill.</small>
+            }
+          </label>
+
+          <label class="job-field job-field--wide">
+            <span>Gewünschte Skills <small>Pflichtfeld</small></span>
+            <input class="ui-input" type="text" formControlName="desiredSkills" placeholder="Angular, Firebase, Testing" />
+            <small>Mehrere Skills mit Kommas trennen.</small>
+            @if (isFieldInvalid('desiredSkills')) {
+              <small class="job-field__error">Bitte nenne mindestens einen gewünschten Skill.</small>
+            }
+          </label>
+        </div>
+      </section>
+
+      <div class="job-form__actions">
+        <button class="ui-button ui-button--primary" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Speichern...' : isEditMode() ? 'Inserat speichern' : 'Entwurf erstellen' }}
+        </button>
+        <a routerLink="/company/job-posts" class="ui-button ui-button--secondary">Abbrechen</a>
+      </div>
+    </form>
+  }
+</main>

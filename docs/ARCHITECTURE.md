@@ -76,6 +76,10 @@ src/app/
   - Validierung gemappter Userdaten
 - `ProfileService`
   - Lesen und Schreiben von Kandidaten- und Firmenprofilen
+- `JobPostService`
+  - Lesen, Erstellen und Aktualisieren von `jobPosts`
+  - Statuswechsel fuer Veröffentlichen und Archivieren
+  - Company-Zuordnung ueber `users/{uid}.companyId`
 - `RoleRedirectService`
   - zentrale Ziel-URL pro Rolle
 - `FirestoreCollectionService`
@@ -100,6 +104,7 @@ Relevante Dateien:
 - Landingpage mit eigener Feature-CSS
 - Auth-Seiten mit geteilter CSS-Datei
 - Kandidaten- und Firmenprofil teilen sich eine gemeinsame Profil-CSS-Datei
+- Company-Job-Posts nutzen eigene Listen- und Formular-Komponenten mit geteilter Job-Post-CSS
 
 ## Architekturgrenzen
 
