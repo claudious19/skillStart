@@ -47,7 +47,7 @@ export class CompanyRegisterPageComponent implements OnInit {
 
     try {
       await this.authFlowService.registerCompany(this.form.getRawValue());
-      await this.router.navigateByUrl('/company/profile');
+      await this.router.navigateByUrl('/company/job-posts');
     } catch (error) {
       console.error('Company registration failed:', error);
       this.errorMessage.set(this.getErrorMessage(error));
@@ -70,7 +70,7 @@ export class CompanyRegisterPageComponent implements OnInit {
           return 'Das Passwort ist zu schwach. Bitte verwende mindestens 8 Zeichen.';
         case 'permission-denied':
         case 'firestore/permission-denied':
-          return 'Die Registrierung wurde von den Firestore-Regeln blockiert. Prüfe companyId, CompanyDisplayname, companyName und accountStatus.';
+          return 'Die Registrierung wurde angelegt, konnte aber nicht vollständig aktiviert werden. Prüfe die Browser-Konsole und das users-Update in den Firestore-Regeln.';
       }
     }
 

@@ -49,11 +49,12 @@ export class AuthFlowService {
 
   async registerCandidate(input: CandidateRegistrationInput): Promise<void> {
     const anonymousUser = await this.requireAnonymousUser();
+    const email = input.email.trim();
 
     try {
-      await this.createCandidateDraft(anonymousUser, input);
-      await this.linkAnonymousUser(anonymousUser, input.email, input.password);
-      await this.activateUserDocument(anonymousUser.uid, input.email);
+      await this.createCandidateDraft(anonymousUser, { ...input, email });
+      await this.linkAnonymousUser(anonymousUser, email, input.password);
+      await this.activateUserDocument(anonymousUser.uid);
     } catch (error) {
       await this.cleanupFailedRegistration(anonymousUser, error);
     }
@@ -62,11 +63,21 @@ export class AuthFlowService {
   async registerCompany(input: CompanyRegistrationInput): Promise<void> {
     const anonymousUser = await this.requireAnonymousUser();
     const companyId = this.createCompanyId();
+    const email = input.email.trim();
+    const companyName = input.companyName.trim();
+    const contactPersonFirstName = input.contactPersonFirstName.trim();
+    const contactPersonLastName = input.contactPersonLastName.trim();
 
     try {
-      await this.createCompanyDraft(anonymousUser, companyId, input);
-      await this.linkAnonymousUser(anonymousUser, input.email, input.password);
-      await this.activateUserDocument(anonymousUser.uid, input.email);
+      await this.createCompanyDraft(anonymousUser, companyId, {
+        ...input,
+        email,
+        companyName,
+        contactPersonFirstName,
+        contactPersonLastName,
+      });
+      await this.linkAnonymousUser(anonymousUser, email, input.password);
+      await this.activateUserDocument(anonymousUser.uid);
     } catch (error) {
       await this.cleanupFailedRegistration(anonymousUser, error, companyId);
     }
@@ -77,7 +88,7 @@ export class AuthFlowService {
     password: string,
     redirectTo?: string | null,
   ): Promise<string> {
-    const user = await this.authService.login(email, password);
+    const user = await this.authService.login(email.trim(), password);
     return this.resolveRedirectForUser(user.uid, redirectTo);
   }
 
@@ -96,7 +107,7 @@ export class AuthFlowService {
   }
 
   async resetPassword(email: string): Promise<void> {
-    await this.authService.resetPassword(email);
+    await this.authService.resetPassword(email.trim());
   }
 
   private async requireAnonymousUser(): Promise<User> {
@@ -113,17 +124,19 @@ export class AuthFlowService {
     const now = Timestamp.now();
     const accountStatus: AccountStatus = 'pending';
     const reviewStatus: ReviewStatus = 'draft';
-    const displayName = `${input.firstName.trim()} ${input.lastName.trim()}`.trim();
+    const firstName = input.firstName.trim();
+    const lastName = input.lastName.trim();
+    const displayName = `${firstName} ${lastName}`.trim();
 
     const userDocument: AppUser = {
       uid: user.uid,
-      email: input.email,
+      email: input.email.trim(),
       role: 'candidate',
       companyId: null,
       CompanyDisplayname: null,
       displayName,
-      firstName: input.firstName.trim(),
-      lastName: input.lastName.trim(),
+      firstName,
+      lastName,
       accountStatus,
       createdAt: now,
       updatedAt: now,
@@ -131,8 +144,8 @@ export class AuthFlowService {
 
     const candidateProfile: CandidateProfile = {
       ownerId: user.uid,
-      firstName: input.firstName,
-      lastName: input.lastName,
+      firstName,
+      lastName,
       apprenticeshipProfession: '',
       specialisation: '',
       graduationYear: new Date().getFullYear(),
@@ -157,7 +170,7 @@ export class AuthFlowService {
     await batch.commit();
   }
 
-    private async createCompanyDraft(
+  private async createCompanyDraft(
     user: User,
     companyId: string,
     input: CompanyRegistrationInput,
@@ -171,18 +184,18 @@ export class AuthFlowService {
     const displayName = `${firstName} ${lastName}`.trim();
 
     const userDocument: AppUser = {
-    uid: user.uid,
-    email: input.email.trim(),
-    role: 'company',
-    companyId,
-    CompanyDisplayname: companyName,
-    displayName,
-    firstName,
-    lastName,
-    accountStatus,
-    createdAt: now,
-    updatedAt: now,
-  };
+      uid: user.uid,
+      email: input.email.trim(),
+      role: 'company',
+      companyId,
+      CompanyDisplayname: companyName,
+      displayName,
+      firstName,
+      lastName,
+      accountStatus,
+      createdAt: now,
+      updatedAt: now,
+    };
 
     const company: Company = {
       companyId,
@@ -210,21 +223,20 @@ export class AuthFlowService {
   }
 
   private async linkAnonymousUser(user: User, email: string, password: string): Promise<void> {
-    const credential = EmailAuthProvider.credential(email, password);
+    const credential = EmailAuthProvider.credential(email.trim(), password);
     const linkedCredential = await linkWithCredential(user, credential);
 
     await linkedCredential.user.getIdToken(true);
   }
 
-  private async activateUserDocument(uid: string, email: string): Promise<void> {
+  private async activateUserDocument(uid: string): Promise<void> {
     const now = Timestamp.now();
 
     const batch = writeBatch(this.firestoreCollections.firestore);
     batch.update(this.firestoreCollections.doc<AppUser>(FIRESTORE_COLLECTIONS.users, uid), {
-      email,
       accountStatus: 'active',
       updatedAt: now,
-    } satisfies Pick<AppUser, 'email' | 'accountStatus' | 'updatedAt'>);
+    } satisfies Pick<AppUser, 'accountStatus' | 'updatedAt'>);
 
     await batch.commit();
   }
