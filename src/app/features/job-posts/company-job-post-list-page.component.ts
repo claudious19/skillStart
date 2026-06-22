@@ -93,8 +93,9 @@ export class CompanyJobPostListPageComponent implements OnInit {
       this.jobPosts.set(
         await this.jobPostService.listCompanyJobPosts(userDoc.companyId, { pageSize: 30 }),
       );
-    } catch {
-      this.errorMessage.set('Die Inserate konnten im Moment nicht geladen werden.');
+    } catch (error) {
+      console.error('Job posts loading failed:', error);
+      this.errorMessage.set('Die Inserate konnten im Moment nicht geladen werden. Prüfe Firestore Rules oder den benötigten Index in der Browser-Konsole.');
     } finally {
       this.isLoading.set(false);
     }
@@ -139,8 +140,9 @@ export class CompanyJobPostListPageComponent implements OnInit {
           ? 'Das Inserat wurde veröffentlicht.'
           : 'Das Inserat wurde archiviert.',
       );
-    } catch {
-      this.errorMessage.set('Die Statusänderung konnte nicht gespeichert werden.');
+    } catch (error) {
+      console.error('Job post status update failed:', error);
+      this.errorMessage.set('Die Statusänderung konnte nicht gespeichert werden. Prüfe die Browser-Konsole für Details.');
     } finally {
       this.actionJobPostId.set(null);
     }

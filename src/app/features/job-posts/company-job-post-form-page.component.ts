@@ -127,8 +127,9 @@ export class CompanyJobPostFormPageComponent implements OnInit {
           expiresAt: this.toDateInputValue(jobPost.expiresAt),
         });
       }
-    } catch {
-      this.errorMessage.set('Das Inserat konnte im Moment nicht geladen werden.');
+    } catch (error) {
+      console.error('Job post form loading failed:', error);
+      this.errorMessage.set('Das Inserat konnte im Moment nicht geladen werden. Prüfe die Browser-Konsole für Details.');
     } finally {
       this.isLoading.set(false);
     }
@@ -174,8 +175,9 @@ export class CompanyJobPostFormPageComponent implements OnInit {
           queryParams: { created: '1' },
         });
       }
-    } catch {
-      this.errorMessage.set('Das Inserat konnte nicht gespeichert werden.');
+    } catch (error) {
+      console.error('Job post save failed:', error);
+      this.errorMessage.set('Das Inserat konnte nicht gespeichert werden. Prüfe die Browser-Konsole für Details.');
     } finally {
       this.isSaving.set(false);
     }
