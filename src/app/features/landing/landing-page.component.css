@@ -163,7 +163,6 @@ h1 {
 }
 
 .profile-panel h2 {
-  color: var(--color-surface);
   font-size: clamp(1.35rem, 6vw, 2.2rem);
   line-height: 1.08;
 }
@@ -189,7 +188,6 @@ h1 {
 
 .proof-list dd {
   margin: 0;
-  color: var(--color-surface);
   line-height: 1.5;
 }
 
@@ -328,7 +326,6 @@ h3 {
 
 .final-cta h2 {
   max-width: 14ch;
-  color: var(--color-surface);
 }
 
 .site-footer {
@@ -369,21 +366,17 @@ h3 {
     gap: 2rem;
     padding: 2.5rem 0;
   }
-
   .section__copy {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .problem-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .step-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     border-block: 0;
     border-top: 1px solid var(--color-border);
   }
-
   .step-list li {
     padding: 1.15rem 1rem 0 0;
     border-top: 0;
@@ -431,20 +424,17 @@ h3 {
     justify-self: end;
     padding: 1.25rem;
   }
-
   .section {
     grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
     gap: 4rem;
     padding: 3rem 0;
   }
-
   .role-card {
     min-height: 15rem;
     padding: 1.35rem;
     align-content: start;
   }
 }
-
 @media (min-width: 1280px) {
   .landing {
     width: min(100%, 84rem);
