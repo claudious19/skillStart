@@ -24,6 +24,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'candidate/jobs',
+    loadChildren: () =>
+      import('./features/job-posts/job-posts.routes').then(
+        (module) => module.CANDIDATE_JOB_POST_ROUTES,
+      ),
+  },
+  {
     path: 'candidate',
     canActivate: [authGuard, roleGuard(['candidate'])],
     children: [
@@ -46,13 +53,6 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/candidate-profile/candidate-profile.routes').then(
             (module) => module.CANDIDATE_APPLICATION_ROUTES,
-          ),
-      },
-      {
-        path: 'jobs',
-        loadChildren: () =>
-          import('./features/job-posts/job-posts.routes').then(
-            (module) => module.CANDIDATE_JOB_POST_ROUTES,
           ),
       },
       {

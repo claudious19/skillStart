@@ -124,10 +124,7 @@ h1 {
   line-height: 1.65;
 }
 
-.hero .ui-button--secondary {
-  background: var(--color-surface);
-  color: var(--color-text);
-}
+.hero .ui-button--secondary { background: var(--color-surface); color: var(--color-text); }
 
 .profile-panel {
   display: grid;
@@ -325,19 +322,9 @@ h3 {
   gap: 0.85rem;
 }
 
-.final-cta {
-  display: grid;
-  gap: 1rem;
-  align-items: center;
-  padding: 1.25rem;
-  border-radius: var(--radius-md);
-  background: var(--color-text);
-  color: var(--color-surface);
-}
+.final-cta { display: grid; gap: 1rem; align-items: center; padding: 1.25rem; border-radius: var(--radius-md); background: var(--color-text); color: var(--color-surface); }
 
-.final-cta .section__label {
-  color: rgba(255, 255, 255, 0.72);
-}
+.final-cta .section__label { color: rgba(255, 255, 255, 0.72); }
 
 .final-cta h2 {
   max-width: 14ch;
@@ -350,11 +337,7 @@ h3 {
   padding: 0.5rem 0.1rem 1rem;
 }
 
-.site-footer__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
+.site-footer__links { display: flex; flex-wrap: wrap; gap: 1rem; }
 
 @media (min-width: 700px) {
   .landing {
@@ -418,6 +401,11 @@ h3 {
   .final-cta {
     grid-template-columns: 1fr auto;
     padding: 1.5rem;
+  }
+
+  .final-cta__actions {
+    grid-auto-flow: column;
+    align-items: center;
   }
 
   .site-footer {

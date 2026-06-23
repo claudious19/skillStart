@@ -2,6 +2,9 @@
 
 ## 2026-06-23
 
+- Inserat-Karten visuell zurück auf neutralere Flächen und klarere Border-Kontraste gesetzt, nachdem die farbigen Tints zu stark wirkten
+- `candidate/jobs` auf eine öffentliche Stellenansicht ohne Login umgestellt und von der Startseite aus verlinkt
+- Sortierung nach `Läuft bald ab` aus dem Stellenfeed entfernt
 - `/candidate/jobs` von Platzhalter auf echten Feed fuer veröffentlichte Stelleninserate umgestellt
 - Candidate-Feed mit Suche, Filtern fuer Ort, Anstellungsart und Lehrberuf sowie Sortierung nach Neuheit, Lohnband und Ablauf erweitert
 - `JobPostService` um Query fuer veröffentlichte und nicht abgelaufene Inserate ergaenzt

@@ -1,7 +1,7 @@
-<main class="jobs-page jobs-page--candidate">
+<main class="jobs-page jobs-page--public">
   <header class="jobs-header">
     <div class="jobs-header__content">
-      <p class="jobs-kicker">Offene Stellen</p>
+      <p class="jobs-kicker">Offene Stellen ohne Login</p>
       <h1>Veröffentlichte Inserate entdecken</h1>
       <p>
         Finde Einstiegsrollen, die zu deinem Lehrberuf, deinen Skills und deinem gewünschten
@@ -9,9 +9,10 @@
       </p>
     </div>
 
-    <nav class="jobs-header__actions" aria-label="Kandidatenbereich">
-      <a routerLink="/candidate/profile" class="ui-button ui-button--secondary">Zum Profil</a>
-      <a routerLink="/candidate/dashboard" class="ui-button ui-button--secondary">Dashboard</a>
+    <nav class="jobs-header__actions" aria-label="Stellenbereich">
+      <a routerLink="/" class="ui-button ui-button--secondary">Startseite</a>
+      <a routerLink="/auth/login" class="ui-button ui-button--secondary">Login</a>
+      <a routerLink="/auth/register" class="ui-button ui-button--primary">Jetzt starten</a>
     </nav>
   </header>
 
@@ -99,7 +100,6 @@
             (change)="updateSortBy($any($event.target).value)"
           >
             <option value="newest">Neueste zuerst</option>
-            <option value="expiring">Läuft bald ab</option>
             <option value="salary_high">Lohn hoch nach tief</option>
             <option value="salary_low">Lohn tief nach hoch</option>
           </select>

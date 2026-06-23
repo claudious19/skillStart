@@ -28,6 +28,7 @@
       </p>
       <div class="hero__actions" aria-label="Registrierung">
         <a routerLink="/auth/register" class="ui-button ui-button--primary">Rolle auswählen</a>
+        <a routerLink="/candidate/jobs" class="ui-button ui-button--secondary">Stellen ansehen</a>
         <a routerLink="/auth/login" class="ui-button ui-button--secondary">Einloggen</a>
       </div>
     </div>
@@ -136,7 +137,10 @@
       <p class="section__label">Start</p>
       <h2 id="final-title">Zeig, was du kannst. Finde, wo du wachsen kannst.</h2>
     </div>
-    <a routerLink="/auth/register" class="ui-button ui-button--primary">Jetzt starten</a>
+    <div class="hero__actions final-cta__actions">
+      <a routerLink="/candidate/jobs" class="ui-button ui-button--secondary">Offene Stellen</a>
+      <a routerLink="/auth/register" class="ui-button ui-button--primary">Jetzt starten</a>
+    </div>
   </section>
 
   <footer class="site-footer">

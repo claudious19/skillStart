@@ -1,12 +1,11 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
-import { AuthService } from '../../core/services/auth.service';
 import { JobPostService } from '../../core/services/job-post.service';
 import { EmploymentType, JobPost } from '../../models';
 
-type CandidateJobSort = 'newest' | 'salary_high' | 'salary_low' | 'expiring';
+type CandidateJobSort = 'newest' | 'salary_high' | 'salary_low';
 
 @Component({
   selector: 'app-candidate-job-post-list-page',
@@ -16,9 +15,7 @@ type CandidateJobSort = 'newest' | 'salary_high' | 'salary_low' | 'expiring';
   styleUrl: './job-posts-page.shared.css',
 })
 export class CandidateJobPostListPageComponent implements OnInit {
-  private readonly authService = inject(AuthService);
   private readonly jobPostService = inject(JobPostService);
-  private readonly router = inject(Router);
 
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
@@ -166,13 +163,6 @@ export class CandidateJobPostListPageComponent implements OnInit {
 
   private async loadPublishedJobPosts(): Promise<void> {
     try {
-      const authUser = await this.authService.waitForAuthState();
-
-      if (!authUser) {
-        await this.router.navigateByUrl('/auth/login');
-        return;
-      }
-
       this.jobPosts.set(await this.jobPostService.listPublishedJobPosts({ pageSize: 60 }));
     } catch {
       this.errorMessage.set(
@@ -189,8 +179,6 @@ export class CandidateJobPostListPageComponent implements OnInit {
         return right.salaryMax - left.salaryMax;
       case 'salary_low':
         return left.salaryMin - right.salaryMin;
-      case 'expiring':
-        return this.getTimeValue(left.expiresAt) - this.getTimeValue(right.expiresAt);
       default:
         return this.getTimeValue(right.publishedAt) - this.getTimeValue(left.publishedAt);
     }

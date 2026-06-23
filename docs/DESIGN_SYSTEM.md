@@ -67,6 +67,7 @@ Gemeinsame Seitensysteme:
 - Kommagetrennte Felder im Abschnitt `Stärken und Ziele` bleiben leer speicherbar; Kommas werden nur verarbeitet, wenn Inhalte vorhanden sind
 - Stelleninserate verwenden eine eigene ruhige Verwaltungsoberflaeche mit Listen-Cards, klaren Status-Badges und separatem Formularfluss
 - Die Kandidaten-Stellenliste nutzt dieselbe visuelle Basis, erweitert sie aber um eine kompakte Filterleiste und lesefokussierte Feed-Karten
+- Die öffentliche Stellenansicht auf `/candidate/jobs` verwendet dieselbe Feed-Optik ohne Login-Abhaengigkeit und mit Startseiten-CTAs fuer Einstieg oder Rückkehr
 
 ## Landingpage-System
 
@@ -87,6 +88,7 @@ Kennzeichen:
 - Karten fuer Rollen und Problemargumente
 - scrollbare Proof-Badges auf kleinen Screens
 - Profil-Header setzen Status und Hinweis-Chips untereinander, damit auf Desktop kein Text kollidiert
+- die Final-CTA kombiniert auf Mobile gestapelte und auf Desktop horizontale Aktionen fuer Stellenansicht und Registrierung
 
 ## Formularsystem
 
@@ -119,6 +121,7 @@ Desktop:
 - Optionale Nachweisfelder bleiben bewusst leer speicherbar, um den Profilaufbau nicht zu blockieren
 - Inseratslisten wechseln von gestapelten Karten auf Mobile zu zweigeteilten Karten mit Aktionsspalte auf groesseren Screens
 - Candidate-Job-Cards bleiben auch auf grossen Screens einspaltig, damit Beschreibung, Lehrberufe und Skills ruhig lesbar bleiben
+- Public-Job-Header richtet die drei Aktionen auf Desktop horizontal aus und stapelt sie auf Mobile
 
 ## Aktuelle UI-Grenzen
 

@@ -17,6 +17,7 @@
 | `/auth/register/company` | Unternehmens-Registrierung | `publicOnlyGuard` |
 | `/auth/reset-password` | Passwort-Reset | `publicOnlyGuard` |
 | `/account-error` | Fehlerseite fuer ungueltige oder unvollstaendige Accounts | offen |
+| `/candidate/jobs` | Oeffentliche Listenansicht fuer veröffentlichte Stelleninserate | offen |
 
 ## Candidate-Bereich
 
@@ -32,12 +33,12 @@ Aktuelle Unterrouten:
 | `/candidate/dashboard` | Kandidatenprofilseite |
 | `/candidate/profile` | Kandidatenprofilseite |
 | `/candidate/applications` | Kandidatenprofilseite |
-| `/candidate/jobs` | Listenansicht fuer veröffentlichte Stelleninserate mit Filtern und Sortierung |
 
 Hinweis:
 
 - `dashboard` und `profile` sind aktuell identisch.
 - `applications` ist noch nicht umgesetzt und zeigt derzeit ebenfalls die Profilseite.
+- `candidate/jobs` ist bewusst öffentlich, damit die Stellen direkt von der Startseite aus erreichbar sind.
 
 ## Company-Bereich
 

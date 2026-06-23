@@ -19,6 +19,11 @@
   box-shadow: var(--shadow-sm);
 }
 
+.jobs-page--public .jobs-panel,
+.jobs-page--candidate .jobs-panel {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(255, 255, 255, 0)), var(--color-surface);
+}
+
 .jobs-header {
   display: grid;
   gap: var(--space-4);
@@ -145,6 +150,12 @@
   display: grid;
   gap: var(--space-4);
   padding: clamp(1rem, 3vw, 1.5rem);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.92), #ffffff);
+}
+
+.jobs-page--public .job-card,
+.jobs-page--candidate .job-card {
+  border-color: rgba(148, 163, 184, 0.38);
 }
 
 .job-card__body {
@@ -203,10 +214,10 @@
 
 .job-card__tags span {
   padding: 0.35rem 0.6rem;
-  border: 1px solid rgba(20, 184, 166, 0.24);
+  border: 1px solid rgba(148, 163, 184, 0.35);
   border-radius: 999px;
-  background: rgba(20, 184, 166, 0.08);
-  color: var(--color-text);
+  background: rgba(248, 250, 252, 0.96);
+  color: #0f172a;
   font-size: 0.86rem;
   font-weight: 600;
 }
@@ -223,13 +234,15 @@
 }
 
 .job-card__tags--required span {
-  border-color: rgba(79, 70, 229, 0.18);
-  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(99, 102, 241, 0.25);
+  background: rgba(238, 242, 255, 0.95);
+  color: #312e81;
 }
 
 .job-card__tags--desired span {
-  border-color: rgba(148, 163, 184, 0.26);
-  background: rgba(148, 163, 184, 0.08);
+  border-color: rgba(148, 163, 184, 0.35);
+  background: rgba(241, 245, 249, 0.95);
+  color: #334155;
 }
 
 .job-form {
@@ -302,6 +315,16 @@
     column-gap: clamp(1.75rem, 3vw, 2.75rem);
   }
 
+  .jobs-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .jobs-header__actions .ui-button {
+    width: auto;
+  }
+
   .jobs-toolbar {
     grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 0.66fr);
     align-items: center;
@@ -349,5 +372,10 @@
   .jobs-panel,
   .job-card {
     box-shadow: var(--shadow-md);
+  }
+
+  .jobs-page--public .job-card,
+  .jobs-page--candidate .job-card {
+    border-color: rgba(148, 163, 184, 0.34);
   }
 }
