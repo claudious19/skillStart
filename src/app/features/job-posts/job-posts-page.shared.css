@@ -121,6 +121,22 @@
   justify-items: start;
 }
 
+.jobs-filters {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.jobs-filters__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.jobs-filters__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
 .job-list {
   gap: var(--space-4);
 }
@@ -153,6 +169,10 @@
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.job-card--candidate .job-card__description {
+  -webkit-line-clamp: 4;
 }
 
 .job-card__meta {
@@ -189,6 +209,27 @@
   color: var(--color-text);
   font-size: 0.86rem;
   font-weight: 600;
+}
+
+.job-card__section {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.job-card__section h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.job-card__tags--required span {
+  border-color: rgba(79, 70, 229, 0.18);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.job-card__tags--desired span {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(148, 163, 184, 0.08);
 }
 
 .job-form {
@@ -266,6 +307,10 @@
     align-items: center;
   }
 
+  .jobs-filters__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .job-card {
     grid-template-columns: minmax(0, 1fr) minmax(11rem, 13rem);
     align-items: start;
@@ -278,6 +323,10 @@
   .job-card__meta,
   .job-form__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .job-card--candidate {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .job-field--wide,

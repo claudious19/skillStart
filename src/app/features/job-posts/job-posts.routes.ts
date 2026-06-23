@@ -1,20 +1,12 @@
 import { Routes } from '@angular/router';
 
-const loadPlaceholder = () =>
-  import('../../shared/components/feature-placeholder-page/feature-placeholder-page.component').then(
-    (module) => module.FeaturePlaceholderPageComponent,
-  );
-
 export const CANDIDATE_JOB_POST_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: loadPlaceholder,
-    data: {
-      section: 'Job Posts',
-      title: 'Offene Stellen',
-      description:
-        'Die Kandidatenansicht fuer freigegebene Stellen ist vorbereitet. Filter, Cards und lokale Demo-Abfragen folgen spaeter.',
-    },
+    loadComponent: () =>
+      import('./candidate-job-post-list-page.component').then(
+        (module) => module.CandidateJobPostListPageComponent,
+      ),
   },
 ];
 

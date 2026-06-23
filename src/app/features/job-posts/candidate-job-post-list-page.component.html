@@ -1,0 +1,197 @@
+<main class="jobs-page jobs-page--candidate">
+  <header class="jobs-header">
+    <div class="jobs-header__content">
+      <p class="jobs-kicker">Offene Stellen</p>
+      <h1>Veröffentlichte Inserate entdecken</h1>
+      <p>
+        Finde Einstiegsrollen, die zu deinem Lehrberuf, deinen Skills und deinem gewünschten
+        Arbeitsort passen.
+      </p>
+    </div>
+
+    <nav class="jobs-header__actions" aria-label="Kandidatenbereich">
+      <a routerLink="/candidate/profile" class="ui-button ui-button--secondary">Zum Profil</a>
+      <a routerLink="/candidate/dashboard" class="ui-button ui-button--secondary">Dashboard</a>
+    </nav>
+  </header>
+
+  @if (isLoading()) {
+    <section class="jobs-panel" aria-live="polite">
+      <p>Inserate werden geladen...</p>
+    </section>
+  } @else {
+    <section class="jobs-panel jobs-toolbar jobs-toolbar--candidate" aria-label="Filterstatus">
+      <div>
+        <p class="jobs-panel__eyebrow">Feed</p>
+        <h2>{{ filteredJobPosts().length }} passende Inserate</h2>
+      </div>
+      <p>
+        {{ activeFilterCount() > 0 ? activeFilterCount() + ' aktive Filter gesetzt.' : 'Alle aktiven veröffentlichten Inserate werden gezeigt.' }}
+      </p>
+    </section>
+
+    @if (errorMessage()) {
+      <p class="jobs-message jobs-message--error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <section class="jobs-panel jobs-filters" aria-label="Stellen filtern">
+      <div class="jobs-filters__grid">
+        <label class="job-field job-field--wide">
+          <span>Suche</span>
+          <input
+            class="ui-input"
+            type="search"
+            [value]="searchTerm()"
+            placeholder="Titel, Firma, Ort oder Skills"
+            (input)="updateSearchTerm($any($event.target).value)"
+          />
+        </label>
+
+        <label class="job-field">
+          <span>Ort</span>
+          <select
+            class="ui-input"
+            [value]="locationFilter()"
+            (change)="updateLocationFilter($any($event.target).value)"
+          >
+            <option value="all">Alle Orte</option>
+            @for (location of locationOptions(); track location) {
+              <option [value]="location">{{ location }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="job-field">
+          <span>Anstellungsart</span>
+          <select
+            class="ui-input"
+            [value]="employmentTypeFilter()"
+            (change)="updateEmploymentTypeFilter($any($event.target).value)"
+          >
+            <option value="all">Alle Formen</option>
+            <option value="full_time">Vollzeit</option>
+            <option value="part_time">Teilzeit</option>
+            <option value="internship">Praktikum</option>
+            <option value="temporary">Befristet</option>
+            <option value="other">Andere Form</option>
+          </select>
+        </label>
+
+        <label class="job-field">
+          <span>Lehrberuf</span>
+          <select
+            class="ui-input"
+            [value]="apprenticeshipProfessionFilter()"
+            (change)="updateApprenticeshipProfessionFilter($any($event.target).value)"
+          >
+            <option value="all">Alle Lehrberufe</option>
+            @for (profession of apprenticeshipProfessionOptions(); track profession) {
+              <option [value]="profession">{{ profession }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="job-field">
+          <span>Sortieren</span>
+          <select
+            class="ui-input"
+            [value]="sortBy()"
+            (change)="updateSortBy($any($event.target).value)"
+          >
+            <option value="newest">Neueste zuerst</option>
+            <option value="expiring">Läuft bald ab</option>
+            <option value="salary_high">Lohn hoch nach tief</option>
+            <option value="salary_low">Lohn tief nach hoch</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="jobs-filters__actions">
+        <button class="ui-button ui-button--secondary" type="button" (click)="resetFilters()">
+          Filter zurücksetzen
+        </button>
+      </div>
+    </section>
+
+    @if (filteredJobPosts().length === 0) {
+      <section class="jobs-panel jobs-empty">
+        <h2>Keine passenden Inserate</h2>
+        <p>Probiere andere Filter oder suche allgemeiner nach Titel, Ort oder Lehrberuf.</p>
+        <button class="ui-button ui-button--secondary" type="button" (click)="resetFilters()">
+          Alle Filter entfernen
+        </button>
+      </section>
+    } @else {
+      <section class="job-list" aria-label="Veröffentlichte Stellen">
+        @for (jobPost of filteredJobPosts(); track jobPost.jobPostId) {
+          <article class="job-card job-card--candidate">
+            <div class="job-card__body">
+              <div class="job-card__title-row">
+                <div>
+                  <p class="job-card__company">{{ jobPost.companyDisplayNameSnapshot }}</p>
+                  <h2>{{ jobPost.title }}</h2>
+                </div>
+                <span class="status-badge status-badge--approved">Veröffentlicht</span>
+              </div>
+
+              <p class="job-card__description">{{ jobPost.description }}</p>
+
+              <dl class="job-card__meta">
+                <div>
+                  <dt>Ort</dt>
+                  <dd>{{ jobPost.location }}</dd>
+                </div>
+                <div>
+                  <dt>Form</dt>
+                  <dd>{{ getEmploymentTypeLabel(jobPost.employmentType) }}</dd>
+                </div>
+                <div>
+                  <dt>Lohnband</dt>
+                  <dd>
+                    {{ jobPost.salaryMin | currency: 'CHF' : 'symbol' : '1.0-0' }} -
+                    {{ jobPost.salaryMax | currency: 'CHF' : 'symbol' : '1.0-0' }}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Publiziert</dt>
+                  <dd>{{ toDate(jobPost.publishedAt) | date: 'dd.MM.yyyy' }}</dd>
+                </div>
+                <div>
+                  <dt>Läuft ab</dt>
+                  <dd>{{ toDate(jobPost.expiresAt) | date: 'dd.MM.yyyy' }}</dd>
+                </div>
+              </dl>
+
+              <div class="job-card__section">
+                <h3>Passende Lehrberufe</h3>
+                <div class="job-card__tags">
+                  @for (profession of jobPost.apprenticeshipProfessions; track profession) {
+                    <span>{{ profession }}</span>
+                  }
+                </div>
+              </div>
+
+              <div class="job-card__section">
+                <h3>Erforderliche Skills</h3>
+                <div class="job-card__tags job-card__tags--required">
+                  @for (skill of jobPost.requiredSkills; track skill) {
+                    <span>{{ skill }}</span>
+                  }
+                </div>
+              </div>
+
+              <div class="job-card__section">
+                <h3>Zusätzlich hilfreich</h3>
+                <div class="job-card__tags job-card__tags--desired">
+                  @for (skill of jobPost.desiredSkills; track skill) {
+                    <span>{{ skill }}</span>
+                  }
+                </div>
+              </div>
+            </div>
+          </article>
+        }
+      </section>
+    }
+  }
+</main>

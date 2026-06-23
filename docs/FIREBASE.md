@@ -88,6 +88,7 @@ Job-Post-Hinweise:
 - `companyDisplayNameSnapshot` wird bewusst redundant am Inserat gespeichert.
 - `publishedAt` ist bei Entwuerfen `null` und wird beim Veröffentlichen gesetzt.
 - `expiresAt`, `status` und `publishedAt` bereiten spaetere Feed- und Pagination-Abfragen vor.
+- Der Candidate-Feed liest nur `status == 'published'` und blendet abgelaufene Inserate im Frontend aus.
 
 ## Rules-Dateien im Repository
 

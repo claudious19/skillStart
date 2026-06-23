@@ -2,10 +2,10 @@
 
 ## Produkt und Features
 
-- echte Kandidaten-Jobliste fuer `/candidate/jobs` bauen
 - Bewerbungsansichten fuer Kandidaten und Unternehmen implementieren
 - Admin-Ansichten funktional ausbauen
 - Pagination oder Endless Feed fuer Kandidaten-Jobliste produktiv anbinden
+- Detailansicht oder Bewerbungsstart aus der Kandidaten-Jobliste heraus definieren und bauen
 
 ## Profile und Datenmodell
 

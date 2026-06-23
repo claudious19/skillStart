@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Stand dieser Datei: 2026-06-22
+Stand dieser Datei: 2026-06-23
 
 ## Zusammenfassung
 
@@ -38,6 +38,9 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
   - Erstellung als Entwurf unter `/company/job-posts/new`
   - Bearbeitung unter `/company/job-posts/:jobPostId/edit`
   - Veröffentlichen und Archivieren aus der Listenansicht
+- Kandidaten sehen unter `/candidate/jobs` veröffentlichte und nicht abgelaufene Inserate aller Firmen
+- `/candidate/jobs` bietet Suche, Filter fuer Ort, Anstellungsart und Lehrberuf sowie Sortierung nach Neuheit, Lohnband und Ablauf
+- Das Kandidatenprofil verlinkt direkt auf `/candidate/jobs`
 - Landingpage, Register-Auswahl und Auth-UI mit responsive Layout
 - Kandidatenprofil markiert Pflicht- und optionale Felder direkt im Formular
 - `Abschlussjahr` bleibt im Kandidatenprofil Pflichtfeld
@@ -56,7 +59,6 @@ Das Repository ist ein funktionierender MVP-Zwischenstand mit echter Landingpage
 
 ## Nur vorbereitet oder Platzhalter
 
-- `candidate/jobs`
 - `company/applications`
 - `admin/dashboard`
 - `admin/candidates`

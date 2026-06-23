@@ -33,6 +33,10 @@ export interface CompanyJobPostQueryOptions {
   pageSize?: number;
 }
 
+export interface PublishedJobPostQueryOptions {
+  pageSize?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class JobPostService {
   private readonly firestoreCollections = inject(FirestoreCollectionService);
@@ -68,6 +72,21 @@ export class JobPostService {
 
     const jobPost = snapshot.data() as JobPost;
     return jobPost.companyId === companyId ? jobPost : null;
+  }
+
+  async listPublishedJobPosts(options: PublishedJobPostQueryOptions = {}): Promise<JobPost[]> {
+    const pageSize = options.pageSize ?? 60;
+    const snapshot = await getDocs(
+      query(
+        this.firestoreCollections.collection<JobPost & DocumentData>(FIRESTORE_COLLECTIONS.jobPosts),
+        where('status', '==', 'published'),
+        limit(pageSize),
+      ),
+    );
+
+    return snapshot.docs
+      .map((document) => document.data() as JobPost)
+      .filter((jobPost) => !this.isExpired(jobPost.expiresAt));
   }
 
   async createJobPost(user: AppUser, value: JobPostFormValue): Promise<string> {
@@ -182,5 +201,16 @@ export class JobPostService {
 
   private getCompanyDisplayName(user: AppUser): string {
     return user.CompanyDisplayname?.trim() || user.displayName || user.email;
+  }
+
+  private isExpired(value: unknown): boolean {
+    const date =
+      value instanceof Date
+        ? value
+        : typeof value === 'object' && value !== null && 'toDate' in value
+          ? (value as { toDate: () => Date }).toDate()
+          : null;
+
+    return date ? date.getTime() < Date.now() : false;
   }
 }

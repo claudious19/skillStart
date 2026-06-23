@@ -2,91 +2,140 @@
 
 ## Purpose
 
-SkillStart ist eine Angular- und Firebase-Plattform fuer den Berufseinstieg nach der Lehre. Die Arbeit in diesem Repository muss sich am echten Codezustand orientieren, nicht an Wunscharchitektur oder Annahmen.
+SkillStart is an Angular 20 and Firebase frontend-only platform for apprentices and junior professionals after graduation. Work must reflect the real repository state, not assumptions or desired architecture.
 
-## Required Reading Before Non-Trivial Work
+## Operating Principle
 
-Vor jeder nicht-trivialen Aufgabe zuerst die relevanten Dateien lesen:
+Be autonomous by default. Inspect relevant files, make the smallest correct change, update affected documentation, run verification, and report the result. Ask only when blocked by missing credentials, destructive ambiguity, or conflicting requirements.
 
-- [`README.md`](C:\Users\claudio\Documents\SkillStart\README.md)
-- [`docs/PROJECT_CONTEXT.md`](C:\Users\claudio\Documents\SkillStart\docs\PROJECT_CONTEXT.md)
-- [`docs/PROJECT_STATE.md`](C:\Users\claudio\Documents\SkillStart\docs\PROJECT_STATE.md)
-- [`docs/ARCHITECTURE.md`](C:\Users\claudio\Documents\SkillStart\docs\ARCHITECTURE.md)
-- [`docs/ROUTES.md`](C:\Users\claudio\Documents\SkillStart\docs\ROUTES.md) bei Routing-Aenderungen
-- [`docs/DATA_MODEL.md`](C:\Users\claudio\Documents\SkillStart\docs\DATA_MODEL.md) bei Modell-, Rollen- oder Firestore-Aenderungen
-- [`docs/FIREBASE.md`](C:\Users\claudio\Documents\SkillStart\docs\FIREBASE.md) bei Auth-, Firestore-, Rules- oder Deployment-Aenderungen
-- [`docs/DESIGN_SYSTEM.md`](C:\Users\claudio\Documents\SkillStart\docs\DESIGN_SYSTEM.md) bei UI-Arbeit
-- [`docs/DECISIONS.md`](C:\Users\claudio\Documents\SkillStart\docs\DECISIONS.md) bei Struktur- oder Architekturfragen
-- [`docs/TODO.md`](C:\Users\claudio\Documents\SkillStart\docs\TODO.md) fuer bekannte Luecken und Risiken
+When writing texts in German never use oe ue ae as replacements for ä ö ü
 
-## Core Behaviour
+## Required Context
 
-- Code immer vor Aenderungen inspizieren.
-- Nur dokumentieren oder implementieren, was im Repository wirklich existiert.
-- Bestehende Platzhalter, Teilimplementierungen und Risiken klar benennen.
-- Dokumentation ist Teil der Implementierung, kein optionaler Nachtrag.
-- Keine Secrets committen.
-- Keine Backend- oder Serverlogik einfuehren, ausser sie wird explizit verlangt.
-- `pnpm` fuer Install, Build und Scripts verwenden.
-- Normale Git-Befehle verwenden. Kein GitHub CLI, ausser der User verlangt es explizit.
+Always read first:
+
+* `AGENTS.md`
+* `docs/CODEX_CONTEXT.md` if present
+
+Read additional docs only when their topic is affected:
+
+* `docs/PROJECT_CONTEXT.md` for product direction or target-group questions
+* `docs/PROJECT_STATE.md` for implemented/partial/missing feature status
+* `docs/ARCHITECTURE.md` for structure, services, guards, providers, routing, or app architecture
+* `docs/ROUTES.md` for route changes
+* `docs/DATA_MODEL.md` for models, roles, Firestore collections, profile fields, job posts, or permissions
+* `docs/FIREBASE.md` for Auth, Firestore, rules, environments, Firebase config, or deployment
+* `docs/DESIGN_SYSTEM.md` for UI, layout, responsive behaviour, visual tokens, or component styling
+* `docs/DECISIONS.md` for architecture or product decisions
+* `docs/TODO.md` for known gaps and risks
+* `docs/linux-compatible-commands.md` only when command compatibility matters
+
+Do not bulk-read documentation that is unrelated to the task.
+
+## Core Rules
+
+* Inspect existing code before editing.
+* Do not invent architecture, files, services, routes, roles, or backend behaviour.
+* Do not add backend/server logic unless explicitly requested.
+* Do not commit secrets.
+* Use `pnpm` for install, build, test, and scripts.
+* Use normal `git` commands. Do not use GitHub CLI unless explicitly requested.
+* Prefer `rg` for search.
+* Keep changes scoped to the requested task.
+* Preserve existing local changes. Never discard or overwrite them silently.
+* Mention placeholders, partial implementations, and risks when relevant.
 
 ## Branch Workflow
 
-- Fuer jede neue Aufgabe einen neuen Branch erstellen.
-- Vor dem Arbeiten `git status` pruefen.
-- Bestehende lokale Aenderungen nie stillschweigend verwerfen.
-- Nicht direkt in einen fremden oder unklaren Branch hineinfixen, ohne den aktuellen Zustand zu verstehen.
+* Before work: run `git status`.
+* For every new implementation task: create a new branch.
+* Branch name format: `codex/<short-task-name>`.
+* Do not work directly on `master` unless the user explicitly requests it.
+* Do not merge branches.
+* Do not push unless requested.
 
-## Documentation Update Rules
+## Documentation Rules
 
-Diese Dateien muessen aktualisiert werden, wenn ihr Thema betroffen ist:
+Update documentation only when the task changes the documented subject.
 
-- `docs/PROJECT_STATE.md` bei Statusaenderungen, neuen Features, entfallenen Features oder neuen Risiken
-- `docs/ARCHITECTURE.md` bei Struktur-, Service-, Guard-, Routing- oder Provider-Aenderungen
-- `docs/ROUTES.md` bei neuen, geaenderten oder umgeleiteten Routen
-- `docs/DATA_MODEL.md` bei Feld-, Collection-, Rollen- oder Firestore-Modellaenderungen
-- `docs/FIREBASE.md` bei Auth-, Firestore-, Environment-, Rules- oder Hosting-Aenderungen
-- `docs/DESIGN_SYSTEM.md` bei relevanten UI-System-, Token-, Layout- oder Komponenten-Aenderungen
-- `docs/DECISIONS.md` wenn eine neue technische oder produktrelevante Leitentscheidung getroffen wird
-- `docs/TODO.md` wenn neue offene Punkte entstehen oder erledigt wurden
-- `docs/CHANGELOG_INTERNAL.md` nach jeder abgeschlossenen Aufgabe
+Update:
 
-Pflicht zur Doku-Aktualisierung besteht insbesondere bei Aenderungen an:
+* `docs/PROJECT_STATE.md` for feature status, new behaviour, removed behaviour, or new risks
+* `docs/ARCHITECTURE.md` for structure, services, guards, providers, routing, or project layout
+* `docs/ROUTES.md` for route additions, removals, redirects, guards, or page mapping
+* `docs/DATA_MODEL.md` for fields, collections, roles, Firestore documents, permissions, or validation
+* `docs/FIREBASE.md` for Auth, Firestore, rules, environments, deployment, Firebase config, or hosting
+* `docs/DESIGN_SYSTEM.md` for UI system, tokens, layout rules, reusable styles, or responsive patterns
+* `docs/DECISIONS.md` for new technical or product decisions
+* `docs/TODO.md` when known gaps are created, changed, or closed
+* `docs/CHANGELOG_INTERNAL.md` after completed implementation work
 
-- Routen
-- Datenmodell
-- Firebase
-- Auth
-- Rollenlogik
-- UI-System
-- Deployment
-- Business-Logik
-- Projektstruktur
+Do not update every documentation file by default.
 
 ## UI Work
 
-Bei UI-, Layout-, Responsive- oder UX-Aufgaben zuerst passende Skills verwenden:
+For UI, layout, responsive, or UX tasks, use the relevant installed skills when available:
 
-- `cleanui` fuer saubere, nicht-generische UI-Entscheidungen
-- `ui-ux-pro-max` fuer staerkere visuelle Richtung und UX-Verfeinerung
-- `build-web-apps:frontend-app-builder` fuer groessere Frontend-Umsetzungen oder Redesigns
-- `build-web-apps:frontend-testing-debugging` und `Browser` fuer visuelle Pruefung und Regressionstests
+* `cleanui` for clean, non-generic UI decisions
+* `ui-ux-pro-max` for stronger visual direction and UX refinement
+* `build-web-apps:frontend-app-builder` for larger frontend implementations or redesigns
+* `build-web-apps:frontend-testing-debugging` and browser inspection for visual checks and regressions
 
-UI-Aenderungen muessen das mobile Verhalten und groessere Screens mitdenken.
+UI changes must consider mobile and larger screens.
+
+## Firebase and Security
+
+* Firebase is used directly from Angular.
+* The repository is frontend-only.
+* Do not introduce Cloud Functions, backend APIs, or server-side assumptions unless requested.
+* Treat Firestore rules as security-critical.
+* If multiple rules files exist or the live console state may differ, state the risk clearly.
+* Never expose private credentials.
+* Public Firebase web config is not a secret; security must be enforced by Firebase Auth and Firestore Rules.
+
+## Angular Rules
+
+* Use Angular standalone patterns.
+* Respect strict TypeScript and strict Angular template checking.
+* Prefer typed services and models over loose object access.
+* Keep feature code inside the existing feature/core/shared structure.
+* Do not add global state libraries unless explicitly requested.
+* Do not add SSR unless explicitly requested.
 
 ## Command Rules
 
-- Bevor PowerShell-spezifische Alternativen fuer einfache Datei- oder Textinspektion genutzt werden, pruefen, ob ein Linux-artiger Befehl aus [`docs/linux-compatible-commands.md`](C:\Users\claudio\Documents\SkillStart\docs\linux-compatible-commands.md) geeignet ist.
-- Fuer Text- und Dateisuche `rg` bevorzugen.
-- Git-Operationen mit normalen Git-Befehlen durchfuehren.
+Use Linux-compatible commands where possible, even on Windows shells. Prefer:
 
-## Final Response Requirements
+* `rg` for search
+* `git status`
+* `git checkout -b`
+* `pnpm install`
+* `pnpm run build`
+* `pnpm run test`
+* `pnpm run verify` if available
 
-Die Abschlussantwort nach einer Aufgabe muss enthalten:
+Do not use PowerShell-specific alternatives unless necessary.
 
-- aktuellen Branch
-- geaenderte Code-Dateien
-- geaenderte Doku-Dateien
-- Verhaltensaenderungen
-- Build-Ergebnis
-- Risiken oder Follow-up
+## Verification
+
+After code changes, run the smallest useful verification:
+
+* Type/model/service changes: typecheck or build
+* UI/template changes: build
+* test-related changes: relevant tests
+* deployment changes: build and inspect workflow impact
+* documentation-only changes: no build required unless linked to code behaviour
+
+If verification cannot run, explain why.
+
+## Final Response
+
+Keep the final response short and factual:
+
+* Branch
+* Changed code files
+* Changed documentation files
+* Verification result
+* Remaining risks or follow-up
+
+Do not include long explanations unless the task requires them.

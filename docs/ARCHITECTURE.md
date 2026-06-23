@@ -80,6 +80,7 @@ src/app/
   - Lesen, Erstellen und Aktualisieren von `jobPosts`
   - Statuswechsel fuer Veröffentlichen und Archivieren
   - Company-Zuordnung ueber `users/{uid}.companyId`
+  - Candidate-Feed fuer veröffentlichte und nicht abgelaufene Inserate
 - `RoleRedirectService`
   - zentrale Ziel-URL pro Rolle
 - `FirestoreCollectionService`
@@ -105,6 +106,7 @@ Relevante Dateien:
 - Auth-Seiten mit geteilter CSS-Datei
 - Kandidaten- und Firmenprofil teilen sich eine gemeinsame Profil-CSS-Datei
 - Company-Job-Posts nutzen eigene Listen- und Formular-Komponenten mit geteilter Job-Post-CSS
+- Candidate-Job-Posts nutzen dieselbe Job-Post-CSS mit eigener Feed- und Filteroberflaeche
 
 ## Architekturgrenzen
 

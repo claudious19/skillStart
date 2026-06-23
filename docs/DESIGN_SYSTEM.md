@@ -66,6 +66,7 @@ Gemeinsame Seitensysteme:
 - `Standort` wird im Kandidatenprofil als `Wohnort` angezeigt
 - Kommagetrennte Felder im Abschnitt `Stärken und Ziele` bleiben leer speicherbar; Kommas werden nur verarbeitet, wenn Inhalte vorhanden sind
 - Stelleninserate verwenden eine eigene ruhige Verwaltungsoberflaeche mit Listen-Cards, klaren Status-Badges und separatem Formularfluss
+- Die Kandidaten-Stellenliste nutzt dieselbe visuelle Basis, erweitert sie aber um eine kompakte Filterleiste und lesefokussierte Feed-Karten
 
 ## Landingpage-System
 
@@ -97,6 +98,7 @@ Auth- und Profilformulare verwenden:
 - Inline-Fehlerfuehrung auf Kandidaten- und Firmenprofil
 - Inline-Fehlerfuehrung und sichtbare Pflichtfeldhinweise im Stelleninserat-Formular
 - Kommagetrennte Inseratsfelder werden als Listen erfasst und gegen leere Eintraege validiert
+- Candidate-Filter fuer Stellen werden als sichtbare Controls oberhalb des Feeds gebuendelt statt in Sidebars oder Modals versteckt
 
 ## Responsive Verhalten
 
@@ -116,6 +118,7 @@ Desktop:
 - Profil-Felder richten sich im Grid am oberen Rand aus statt sich strecken zu lassen
 - Optionale Nachweisfelder bleiben bewusst leer speicherbar, um den Profilaufbau nicht zu blockieren
 - Inseratslisten wechseln von gestapelten Karten auf Mobile zu zweigeteilten Karten mit Aktionsspalte auf groesseren Screens
+- Candidate-Job-Cards bleiben auch auf grossen Screens einspaltig, damit Beschreibung, Lehrberufe und Skills ruhig lesbar bleiben
 
 ## Aktuelle UI-Grenzen
 

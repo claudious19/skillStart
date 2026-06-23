@@ -241,6 +241,14 @@ Feed- und Pagination-Vorbereitung:
 - `publishedAt` und `expiresAt` bereiten eine spaetere Kandidaten-Feed-Sortierung und Ablaufpruefung vor.
 - `companyDisplayNameSnapshot` wird bewusst redundant gespeichert, damit Feed-Karten den Firmennamen ohne zusaetzlichen Company-Read anzeigen koennen.
 
+Aktuell im Candidate-UI genutzt:
+
+- nur `status: 'published'`
+- nur nicht abgelaufene Inserate
+- Filter nach `location`, `employmentType` und `apprenticeshipProfessions`
+- Freitextsuche ueber `title`, `companyDisplayNameSnapshot`, `location`, `description`, `apprenticeshipProfessions`, `requiredSkills` und `desiredSkills`
+- Sortierung nach `publishedAt`, `expiresAt`, `salaryMin` und `salaryMax`
+
 ## Registrierungsdaten, die aktuell geschrieben werden
 
 ### Candidate

@@ -1,5 +1,13 @@
 # CHANGELOG_INTERNAL
 
+## 2026-06-23
+
+- `/candidate/jobs` von Platzhalter auf echten Feed fuer veröffentlichte Stelleninserate umgestellt
+- Candidate-Feed mit Suche, Filtern fuer Ort, Anstellungsart und Lehrberuf sowie Sortierung nach Neuheit, Lohnband und Ablauf erweitert
+- `JobPostService` um Query fuer veröffentlichte und nicht abgelaufene Inserate ergaenzt
+- Kandidatenprofil verlinkt jetzt direkt auf den Job-Feed
+- Design-, Routing-, Datenmodell-, Firebase-, Status- und TODO-Dokumentation fuer den Candidate-Stellenfeed aktualisiert
+
 ## 2026-06-22
 
 - `JobPost`-Modell fuer `jobPosts/{jobPostId}` ergaenzt

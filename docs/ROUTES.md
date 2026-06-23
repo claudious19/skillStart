@@ -32,7 +32,7 @@ Aktuelle Unterrouten:
 | `/candidate/dashboard` | Kandidatenprofilseite |
 | `/candidate/profile` | Kandidatenprofilseite |
 | `/candidate/applications` | Kandidatenprofilseite |
-| `/candidate/jobs` | Platzhalterseite |
+| `/candidate/jobs` | Listenansicht fuer veröffentlichte Stelleninserate mit Filtern und Sortierung |
 
 Hinweis:
 
